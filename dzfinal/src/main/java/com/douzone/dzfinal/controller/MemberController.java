@@ -1,5 +1,7 @@
 package com.douzone.dzfinal.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,6 @@ import com.douzone.dzfinal.dto.LoginRequest;
 import com.douzone.dzfinal.dto.RegisterRequest;
 import com.douzone.dzfinal.entity.Member;
 import com.douzone.dzfinal.service.MemberService;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/member")
