@@ -1,7 +1,7 @@
 package com.douzone.dzfinal.service;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.douzone.dzfinal.dto.LoginRequest;
@@ -13,11 +13,11 @@ import com.douzone.dzfinal.repository.MemberRepository;
 public class MemberService {
 	
 	private final MemberRepository memberRepository;
-	private PasswordEncoder passwordEncoder;
+//	private PasswordEncoder passwordEncoder;
 	
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
-		this.passwordEncoder = new BCryptPasswordEncoder();
+//		this.passwordEncoder = new BCryptPasswordEncoder();
 	}
 	
 	public boolean register(RegisterRequest registerRequest) {
@@ -26,7 +26,7 @@ public class MemberService {
 	
 	public Member login(LoginRequest loginRequest) {
 		Member member = memberRepository.findOneById(loginRequest.getId());
-		if (member == null || !passwordEncoder.matches(loginRequest.getPwd(), member.getPwd())) throw new IllegalArgumentException();
+//		if (member == null || !passwordEncoder.matches(loginRequest.getPwd(), member.getPwd())) throw new IllegalArgumentException();
 		return member;
 	}
 }
