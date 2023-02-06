@@ -13,6 +13,7 @@ public class EchoController {
 	
 	@PostMapping("/echo")
 	public Map<String, Object> echo(@RequestBody Map<String, Object> map) {
+		map.put("hi", "bye");
 		return map;
 	}
 }
