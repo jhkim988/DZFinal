@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.service;
 
+import org.springframework.cache.annotation.Cacheable;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import com.douzone.dzfinal.repository.MemberRepository;
 
 @Service
 public class MemberService {
-	
 	private final MemberRepository memberRepository;
 //	private PasswordEncoder passwordEncoder;
 	
@@ -28,5 +28,11 @@ public class MemberService {
 		Member member = memberRepository.findOneById(loginRequest.getId());
 //		if (member == null || !passwordEncoder.matches(loginRequest.getPwd(), member.getPwd())) throw new IllegalArgumentException();
 		return member;
+	}
+	
+	@Cacheable(key = "#id", value = "cacheTest")
+	public Member cacheTest(String id) {
+		System.out.println("cacheTest");
+		return new Member(id, "pwd");
 	}
 }
