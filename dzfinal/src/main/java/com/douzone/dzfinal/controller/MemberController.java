@@ -18,6 +18,8 @@ import com.douzone.dzfinal.dto.RegisterRequest;
 import com.douzone.dzfinal.entity.Member;
 import com.douzone.dzfinal.service.MemberService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/member")
 public class MemberController {
@@ -25,7 +27,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@PostMapping("/register")
+	@ApiOperation("dd")
+	@PostMapping("/register/")
 	public ResponseEntity<Object> register(@RequestBody RegisterRequest registerRequest, Errors errors) {
 		boolean result = memberService.register(registerRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
