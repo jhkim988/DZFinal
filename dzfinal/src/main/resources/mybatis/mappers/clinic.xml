@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.douzone.dzfinal.repository.ClinicRepository">
+	<select id="test" resultType="Clinic">
+		select * from Clinic
+	</select>
+	
+	<insert id="test1">
+		insert into Clinic(`reception_id`, `symptom`, `treatment`, `clinic_request`, `creator`, `updator`) values (1, "1", TRUE, TRUE, "1", "1")
+	</insert>
+</mapper>
