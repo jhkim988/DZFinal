@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.ReservationResponse;
+import com.douzone.dzfinal.entity.Reservation;
 import com.douzone.dzfinal.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Service
 public class ReservationService {
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
     public ReservationService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
@@ -24,5 +25,9 @@ public class ReservationService {
 
     public List<ReservationResponse.Day> dayList(String target) {
         return reservationRepository.dayList(target);
+    }
+
+    public Reservation details(int reservation_id) {
+        return reservationRepository.findOneById(reservation_id).orElseThrow(IllegalArgumentException::new);
     }
 }
