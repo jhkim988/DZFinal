@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ReservationRepository">
     <select id="monthList" resultType="com.douzone.dzfinal.dto.ReservationResponse$Month">
-        select `patient_name`, `doctor`, count(*) as `count`, `wish_date`, `treatment_reason`
+        select `reservation_id`, `patient_name`, `doctor`, count(*) as `count`, `wish_date`, `treatment_reason`
         from Reservation
             where wish_date between #{start} and #{end} and state in ('예약중', '완료')
         group by `wish_date`, `doctor`;
     </select>
     <select id="weekList" resultType="com.douzone.dzfinal.dto.ReservationResponse$Week">
-        select `patient_name`, `doctor`, `hour_code`, count(*) as `count`, `wish_date`, `treatment_reason`
+        select `reservation_id`, `patient_name`, `doctor`, `hour_code`, count(*) as `count`, `wish_date`, `treatment_reason`
         from Reservation
         join Reservation_Time_Code
             on Reservation.`time_code` = Reservation_Time_Code.`id`
@@ -16,10 +16,18 @@
         group by `wish_date`, `hour_code`, `doctor`
     </select>
     <select id="dayList" resultType="com.douzone.dzfinal.dto.ReservationResponse$Day">
-        select `patient_name`, Reservation_Time_Code.`time`, `doctor`, `treatment_reason`
+        select `reservation_id`, `patient_name`, Reservation_Time_Code.`time`, `doctor`, `treatment_reason`
         from Reservation
         join Reservation_Time_Code
             on Reservation.`time_code` = Reservation_Time_Code.`id`
         where Reservation.wish_date=#{target} and state in ('예약중', '완료')
+    </select>
+    <select id="findOneById" resultType="com.douzone.dzfinal.entity.Reservation">
+        select `reservation_id`, `patient_id`, `patient_name`, `phone_number1`, `phone_number2`, `phone_number3`,
+        `wish_date`, Reservation_Time_Code.`time` as time, `treatment_reason`, `state`, `employee_name`
+        from Reservation
+        join Reservation_Time_Code on Reservation.time_code = Reservation_Time_Code.id
+        join Employee on Reservation.doctor = Employee.employ_id
+        where reservation_id = #{reservation_id}
     </select>
 </mapper>
