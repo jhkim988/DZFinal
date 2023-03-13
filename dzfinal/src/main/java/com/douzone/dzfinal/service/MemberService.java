@@ -12,13 +12,13 @@ import com.douzone.dzfinal.repository.MemberRepository;
 
 @Service
 public class MemberService {
-	private final MemberRepository memberRepository;
+	private MemberRepository memberRepository = null;
 //	private PasswordEncoder passwordEncoder;
 	
-	public MemberService(MemberRepository memberRepository) {
-		this.memberRepository = memberRepository;
+//	public MemberService(MemberRepository memberRepository) {
+//		this.memberRepository = memberRepository;
 //		this.passwordEncoder = new BCryptPasswordEncoder();
-	}
+//	}
 	
 	public boolean register(RegisterRequest registerRequest) {
 		return memberRepository.insert(registerRequest);
