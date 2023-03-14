@@ -17,7 +17,13 @@ public class ReceiptService {
 		return receiptRepository.test();
 	}
 	
+<<<<<<< HEAD
 	public void test1() {
 		receiptRepository.test1();
 	}
+=======
+//	public void test1() {
+//		receiptRepository.test1();
+//	}
+>>>>>>> receipt
 }

@@ -9,5 +9,9 @@ import com.douzone.dzfinal.entity.Receipt;
 @Mapper
 public interface ReceiptRepository {
 	Receipt test();
+<<<<<<< HEAD
 	void test1();
+=======
+//	void test1();
+>>>>>>> receipt
 }

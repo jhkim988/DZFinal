@@ -19,8 +19,15 @@ public class ReceiptController {
 		System.out.println(receiptService.test());
 	}
 	
+<<<<<<< HEAD
 	@GetMapping(value = "/asd")
 	public void test1() {
 		receiptService.test1();
 	}
+=======
+//	@GetMapping(value = "/asd")
+//	public void test1() {
+//		receiptService.test1();
+//	}
+>>>>>>> receipt
 }
