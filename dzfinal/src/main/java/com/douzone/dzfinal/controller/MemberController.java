@@ -28,7 +28,7 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@ApiOperation("dd")
-	@PostMapping("/register/")
+	@PostMapping("/register")
 	public ResponseEntity<Object> register(@RequestBody RegisterRequest registerRequest, Errors errors) {
 		boolean result = memberService.register(registerRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
