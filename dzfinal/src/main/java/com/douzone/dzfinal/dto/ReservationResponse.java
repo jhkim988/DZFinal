@@ -13,7 +13,7 @@ public class ReservationResponse {
         private String patient_name;
         private String doctor;
         private int count;
-        private Date wish_date;
+        private String wish_date;
         private String treatment_reason;
     }
 
@@ -24,7 +24,7 @@ public class ReservationResponse {
         private String doctor;
         private int hour_code;
         private int count;
-        private Date wish_date;
+        private String wish_date;
         private String treatment_reason;
     }
 
