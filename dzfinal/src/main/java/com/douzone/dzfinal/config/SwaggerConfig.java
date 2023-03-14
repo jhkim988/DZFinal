@@ -43,38 +43,38 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 public class SwaggerConfig {
 
-    private final String version = "V1";
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("dzfinal API")
-                .description("Swagger 소개!!")
-                .build();
-    }
-
-    @Bean
-    public Docket commonApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(version)
-                .apiInfo(this.apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.douzone.dzfinal"))
-                .paths(PathSelectors.ant("/api/**"))
-                .apis(RequestHandlerSelectors.any())
-                .build();
-    }
-    
-    @Bean
-    public Docket commonApi2() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("V2")
-                .apiInfo(this.apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.douzone.dzfinal"))
-                .paths(PathSelectors.ant("/api/**"))
-                .apis(RequestHandlerSelectors.any())
-                .build();
-    }
+//    private final String version = "V1";
+//
+//    private ApiInfo apiInfo() {
+//        return new ApiInfoBuilder()
+//                .title("dzfinal API")
+//                .description("Swagger 소개!!")
+//                .build();
+//    }
+//
+//    @Bean
+//    public Docket commonApi() {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .groupName(version)
+//                .apiInfo(this.apiInfo())
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.douzone.dzfinal"))
+//                .paths(PathSelectors.ant("/api/**"))
+//                .apis(RequestHandlerSelectors.any())
+//                .build();
+//    }
+//    
+//    @Bean
+//    public Docket commonApi2() {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .groupName("V2")
+//                .apiInfo(this.apiInfo())
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.douzone.dzfinal"))
+//                .paths(PathSelectors.ant("/api/**"))
+//                .apis(RequestHandlerSelectors.any())
+//                .build();
+//    }
 }
 
 
