@@ -27,7 +27,6 @@ public class ReservationController {
 
     @GetMapping("/month")
     public List<ReservationResponse.Month> monthList(@RequestParam String start, @RequestParam String end) {
-        System.out.println(start + ", " + end);
         return reservationService.monthList(start, end);
     }
 
