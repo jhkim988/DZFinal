@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.douzone.dzfinal.repository.PatientRepository">
+
+	<insert id="insertPatient" parameterType="com.douzone.dzfinal.entity.Patient">
+		  INSERT INTO Patient (
+			    patient_name,
+			    phone_number1,
+			    phone_number2,
+			    phone_number3,
+			    front_registration_number,
+			    back_registration_number,
+			    gender,
+			    zip_code,
+			    address,
+			    detail_address,
+			    insurance
+		  ) VALUES (
+			    #{patient_name},
+			    #{phone_number1},
+			    #{phone_number2},
+			    #{phone_number3},
+			    #{front_registration_number},
+			    #{back_registration_number},
+			    #{gender},
+			    #{zip_code},
+			    #{address},
+			    #{detail_address},
+			    #{insurance}
+		  )
+	</insert>
+	
+</mapper>
