@@ -1,10 +1,15 @@
 package com.douzone.dzfinal.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.service.ReceiptService;
 
 @RestController
@@ -12,22 +17,24 @@ import com.douzone.dzfinal.service.ReceiptService;
 public class ReceiptController {
 
 	@Autowired
-	ReceiptService receiptService;
+	private ReceiptService receiptService;
 	
 	@GetMapping
 	public void test() {
 		System.out.println(receiptService.test());
 	}
 	
-<<<<<<< HEAD
-	@GetMapping(value = "/asd")
-	public void test1() {
-		receiptService.test1();
+	@PostMapping(value = "/insertReceipt")
+	public void insertReceipt() {
+		receiptService.insertReceipt();
 	}
-=======
-//	@GetMapping(value = "/asd")
-//	public void test1() {
-//		receiptService.test1();
-//	}
->>>>>>> receipt
+	
+	@GetMapping("/list")
+	public List<Receipt> receiptList() {
+		System.out.println(receiptService.receiptList());
+		return receiptService.receiptList();
+	}
+	
+
+
 }

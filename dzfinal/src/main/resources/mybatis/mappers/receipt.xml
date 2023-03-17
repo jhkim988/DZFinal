@@ -5,13 +5,56 @@
 		select * from Receipt
 	</select>
 	
-<<<<<<< HEAD
-	<insert id="test1">
-		insert into Receipt(`reception_id`, `ratio`, `total_amount`, `card_name`, `card_number`, `mode`, `creator`) values (1, 1.1, 3, "신한카드", "110447464796", "카드", "nurse")
+	<insert id="insertReceipt">
+		insert into Receipt(
+								reception_id, 
+								ratio, 
+								total_amount, 
+								card_name, 
+								card_number, 
+								mode, 
+								creator
+								)
+			values(
+					1, 
+					#{ratio}, 
+					#{total_amount}, 
+					#{card_name}, 
+					#{card_number}, 
+					#{mode}, 
+					1
+					)
+	
+	
+	
+<!-- 		insert into Receipt
+			(`reception_id`, `ratio`, `total_amount`, `card_name`, `card_number`, `mode`, `creator`) 
+		values 
+			(1, 1.1, 3, "신한카드", "110447464796", "카드", 1) -->
 	</insert>
-=======
-	<!-- <insert id="test1">
-		insert into Receipt(`reception_id`, `ratio`, `total_amount`, `card_name`, `card_number`, `mode`, `creator`) values (1, 1.1, 3, "신한카드", "110447464796", "카드", "nurse")
-	</insert> -->
->>>>>>> receipt
+		
+
+	
+	<select id="receiptList" resultType="Receipt">
+		SELECT
+			r.receipt_id,
+			r.reception_id,
+			r.ratio,
+			r.total_amount,
+			r.card_name,
+			r.card_number,
+			r.mode,
+			r.creator,
+			r.created_at,
+			r2.patient_id,
+			p.patient_id ,
+			p.insurance ,
+			c.treatment,
+			c.clinic_request 
+		FROM Receipt r , Reception r2, Patient p , Clinic c 
+		WHERE r.reception_id = r2.reception_id 
+			AND r.reception_id = c.reception_id
+			AND r2.patient_id = p.patient_id;
+	</select>
+
 </mapper>

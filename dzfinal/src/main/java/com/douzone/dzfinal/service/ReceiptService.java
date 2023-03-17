@@ -1,5 +1,7 @@
 package com.douzone.dzfinal.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.douzone.dzfinal.entity.Receipt;
@@ -12,18 +14,19 @@ public class ReceiptService {
 	public ReceiptService(ReceiptRepository receiptRepository) {
 		this.receiptRepository = receiptRepository;
 	}
-	
+
 	public Receipt test() {
 		return receiptRepository.test();
 	}
 	
-<<<<<<< HEAD
-	public void test1() {
-		receiptRepository.test1();
+	public void insertReceipt() {
+		receiptRepository.insertReceipt();
 	}
-=======
-//	public void test1() {
-//		receiptRepository.test1();
-//	}
->>>>>>> receipt
+
+	public List<Receipt> receiptList() {
+		return receiptRepository.receiptList();
+	}
+
+
+
 }
