@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ClinicRepository">
-	<select id="getPatient" resultType="Patient">
-		SELECT p.patient_id, p.patient_name, p.front_registration_number, p.back_registration_number
-		FROM Patient p INNER JOIN Reception r ON r.patient_id = p.patient_id
-		WHERE p.patient_id = #{reception_id}
+	<select id="getClinic" resultType="com.douzone.dzfinal.dto.ClinicResponse$Clinic">
+	    SELECT r.reception_id reception_id, p.patient_id patient_id, p.patient_name patient_name,
+	    	p.front_registration_number front_registration_number,
+	    	p.back_registration_number back_registration_number,
+	    	r.systolic systolic, r.diastolic diastolic,
+	    	r.blood_sugar blood_sugar, r.height height, r.weight weight, r.bmi bmi
+	    FROM Reception r inner join Patient p on r.patient_id = p.patient_id
+	    WHERE reception_id = #{reception_id}
 	</select>
 	
-	<select id="getUnderlyingList" resultType="java.util.HashMap">
-		SELECT d.disease_code, d.disease_name
-		FROM Patient p INNER JOIN Underlying u ON p.patient_id = u.patient_id
-			INNER JOIN Disease d ON d.disease_code = u.disease_code
-		WHERE p.patient_id = #{reception_id}
-	</select>
-	
-	<select id="getDrug_TakingList" resultType="java.util.HashMap">
-		SELECT d.drug_code, d.drug_name
-		FROM Patient p INNER JOIN Drug_Taking dt ON p.patient_id = dt.patient_id
+	<select id="getDrugList" resultType="Drug">
+	    SELECT d.drug_code, d.drug_name
+		FROM Drug_Taking dt
 			INNER JOIN Drug d ON dt.drug_id = d.drug_id
-		WHERE dt.patient_id = #{reception_id}
+			INNER JOIN Patient p ON p.patient_id = dt.patient_id
+			INNER JOIN Reception r ON dt.patient_id = r.patient_id
+		WHERE r.reception_id = #{reception_id};
+	</select>
+	
+	<select id="getDiseaseList" resultType="Disease">
+	    SELECT d.disease_code, d.disease_name
+		FROM Disease d
+			INNER JOIN Underlying u ON d.disease_code = u.disease_code
+			INNER JOIN Patient p ON p.patient_id = u.patient_id
+			INNER JOIN Reception r ON u.patient_id = r.patient_id
+		WHERE r.reception_id = #{reception_id};
 	</select>
 </mapper>

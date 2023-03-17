@@ -1,17 +1,19 @@
 package com.douzone.dzfinal.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.douzone.dzfinal.dto.ClinicResponse;
 import com.douzone.dzfinal.service.ClinicService;
 
+@Validated
 @RestController
 @RequestMapping("/api/clinic")
 public class ClinicController {
@@ -19,16 +21,8 @@ public class ClinicController {
 	@Autowired
 	ClinicService clinicService;
 	
-	@GetMapping("/loadpatient")
-	public Map<String, Object> getUnderlyingList(@RequestParam String id) {
-		Map<String, Object> resultMap = new HashMap<>();
-		
-		int reception_id = Integer.parseInt(id);
-		
-		resultMap.put("patient", clinicService.getPatient(reception_id));
-		resultMap.put("underlying", clinicService.getUnderlyingList(reception_id));
-		resultMap.put("drug_taking", clinicService.getDrug_TakingList(reception_id));
-		
-		return resultMap;
+	@GetMapping("/{reception_id}")
+	public ClinicResponse.Clinic getUnderlyingList(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {		
+		return clinicService.getClinic(reception_id);
 	}
 }
