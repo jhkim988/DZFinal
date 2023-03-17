@@ -6,21 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.sql.Time;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Builder
 public class Reservation {
     private int reservation_id;
     private int patient_id;
     private String patient_name;
-    private String phone_number1;
-    private String phone_number2;
-    private String phone_number3;
-    private Date with_date;
-    private String time;
+    private String phone1;
+    private String phone2;
+    private String phone3;
+    private Date wish_date;
+    private Time with_time;
     private String treatment_reason;
     private String state;
-    private String employee_name;
+    private int doctor;
 }

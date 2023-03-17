@@ -1,14 +1,17 @@
 package com.douzone.dzfinal.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.sql.Time;
 
-public class ReservationResponse {
+public class ReservationDTO {
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
+    @Data
     public static class Month {
         private String patient_name;
         private String doctor;
@@ -18,7 +21,8 @@ public class ReservationResponse {
     }
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
+    @Data
     public static class Week {
         private String patient_name;
         private String doctor;
@@ -29,7 +33,8 @@ public class ReservationResponse {
     }
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
+    @Data
     public static class Day {
         private String patient_name;
         private String doctor;
