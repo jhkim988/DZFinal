@@ -3,13 +3,14 @@ package com.douzone.dzfinal.dto;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class ClinicResponse {
 	@NoArgsConstructor
 	@AllArgsConstructor
-	@Getter
+	@Data
 	public static class Clinic {
 		private int reception_id;
 		private int patient_id;
@@ -22,20 +23,20 @@ public class ClinicResponse {
 		private double height;
 		private double weight;
 		private double bmi;
-		private List<DrugList> drug_takingList;
-		private List<DiseaseList> underlyingList;
+		private List<DrugTaking> drug_takingList;
+		private List<Underlying> underlyingList;
 	}
 	
 	@AllArgsConstructor
-	@Getter
-	public static class DrugList {
+	@Data
+	public static class DrugTaking {
 		private String drug_code;
 		private String drug_name;
 	}
 	
 	@AllArgsConstructor
-	@Getter
-	public static class DiseaseList {
+	@Data
+	public static class Underlying {
 		private String disease_code;
 		private String disease_name;
 	}
