@@ -2,9 +2,6 @@ package com.douzone.dzfinal.dto;
 
 import java.util.List;
 
-import com.douzone.dzfinal.entity.Disease;
-import com.douzone.dzfinal.entity.Drug;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +22,21 @@ public class ClinicResponse {
 		private double height;
 		private double weight;
 		private double bmi;
-		private List<Drug> drugList;
-		private List<Disease> diseaseList;
+		private List<DrugList> drug_takingList;
+		private List<DiseaseList> underlyingList;
+	}
+	
+	@AllArgsConstructor
+	@Getter
+	public static class DrugList {
+		private String drug_code;
+		private String drug_name;
+	}
+	
+	@AllArgsConstructor
+	@Getter
+	public static class DiseaseList {
+		private String disease_code;
+		private String disease_name;
 	}
 }

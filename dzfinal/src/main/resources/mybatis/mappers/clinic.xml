@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ClinicRepository">
-	<select id="getClinic" resultType="com.douzone.dzfinal.dto.ClinicResponse$Clinic">
+	<resultMap id="Clinic" type="com.douzone.dzfinal.dto.ClinicResponse$Clinic">
+		<id property="reception_id" column="reception_id"/>
+		<result property="patient_id" column="p.patient_id"/>
+		<result property="patient_name" column="patient_name"/>
+		<result property="front_registration_number" column="front_registration_number"/>
+		<result property="back_registration_number" column="back_registration_number"/>
+		<result property="systolic" column="systolic"/>
+		<result property="diastolic" column="diastolic"/>
+		<result property="blood_sugar" column="blood_sugar"/>
+		<result property="height" column="height"/>
+		<result property="weight" column="weight"/>
+		<result property="bmi" column="bmi"/>
+		<collection property="drug_takingList" column="patient_id=patient_id" javaType="List" ofType="drugList" select="getDrug_TakingList"/>
+		<collection property="underlyingList" column="patient_id=patient_id" javaType="List" ofType="diseaseList" select="getUnderlyingList"/>
+	</resultMap>
+	
+	<select id="getClinic" resultMap="Clinic">
+		SELECT reception_id, p.patient_id, patient_name, front_registration_number, back_registration_number,
+			systolic, diastolic, blood_sugar, height, weight, bmi
+		FROM Patient p INNER JOIN Reception r ON p.patient_id = r.patient_id
+		WHERE reception_id = #{reception_id}
+	</select>
+	
+	<select id="getDrug_TakingList" resultType="com.douzone.dzfinal.dto.ClinicResponse$DrugList">
+	    SELECT drug_code, drug_name
+		FROM Drug_Taking dt
+			INNER JOIN Drug d ON dt.drug_id = d.drug_id
+		WHERE patient_id = #{patient_id};
+	</select>
+	
+	<select id="getUnderlyingList" resultType="com.douzone.dzfinal.dto.ClinicResponse$DiseaseList">
+	    SELECT disease_code, disease_name
+		FROM Underlying u
+			INNER JOIN Disease d ON u.disease_id = d.disease_id
+		WHERE patient_id = #{patient_id};
+	</select>
+	
+	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
+	
+	<!-- <select id="getClinic" resultType="com.douzone.dzfinal.dto.ClinicResponse$Clinic">
 	    SELECT r.reception_id reception_id, p.patient_id patient_id, p.patient_name patient_name,
 	    	p.front_registration_number front_registration_number,
 	    	p.back_registration_number back_registration_number,
@@ -9,7 +49,7 @@
 	    	r.blood_sugar blood_sugar, r.height height, r.weight weight, r.bmi bmi
 	    FROM Reception r inner join Patient p on r.patient_id = p.patient_id
 	    WHERE reception_id = #{reception_id}
-	</select>
+	</select> -->
 	
 	<select id="getDrugList" resultType="Drug">
 	    SELECT d.drug_code, d.drug_name

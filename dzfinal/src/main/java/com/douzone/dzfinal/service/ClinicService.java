@@ -1,8 +1,5 @@
 package com.douzone.dzfinal.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
 import com.douzone.dzfinal.dto.ClinicResponse;

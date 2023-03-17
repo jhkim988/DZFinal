@@ -30,13 +30,13 @@ public interface ClinicRepository {
 		@Result(property = "bmi", column = "bmi"),
 		@Result(property = "drugList",
 				column = "d.drug_code",
-				many = @Many(select="com.douzone.dzfinal.repository.ClinicRepository.getDrugList")),
+				many = @Many(select="com.douzone.dzfinal.repository.ClinicRepository.getDrug_TakingList")),
 		@Result(property = "diseaseList",
 				column = "d.disease_code",
-				many = @Many(select="com.douzone.dzfinal.repository.ClinicRepository.getDiseaseList")),
+				many = @Many(select="com.douzone.dzfinal.repository.ClinicRepository.getUnderlyingList")),
 	})
 	Optional<ClinicResponse.Clinic> getClinic(int reception_id);
 	
-	List<Drug> getDrugList(int reception_id);
-	List<Disease> getDiseaseList(int reception_id);
+	List<Drug> getDrug_TakingList(int reception_id);
+	List<Disease> getUnderlyingList(int reception_id);
 }
