@@ -23,11 +23,14 @@ public class ReceiptController {
 	public void test() {
 		System.out.println(receiptService.test());
 	}
+
+	// 수납
+	@PostMapping("/insertReceipt")
+    public Receipt insertReceipt(@RequestBody Receipt receipt) {
+        return receiptService.insertReceipt(receipt);
+    }
 	
-	@PostMapping(value = "/insertReceipt")
-	public void insertReceipt() {
-		receiptService.insertReceipt();
-	}
+
 	
 	@GetMapping("/list")
 	public List<Receipt> receiptList() {

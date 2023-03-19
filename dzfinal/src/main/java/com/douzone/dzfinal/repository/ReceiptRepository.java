@@ -10,13 +10,14 @@ import com.douzone.dzfinal.entity.Receipt;
 @Repository
 @Mapper
 public interface ReceiptRepository {
-	Receipt createRecept();
 	
 	Receipt test();
 	
-	void insertReceipt();
+	// 수납
+	public Receipt insertReceipt(Receipt receipt);
 	
 	public List<Receipt> receiptList();
+
 	
 	
 }

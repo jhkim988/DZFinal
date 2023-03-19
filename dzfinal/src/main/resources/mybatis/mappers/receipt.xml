@@ -5,7 +5,7 @@
 		select * from Receipt
 	</select>
 	
-	<insert id="insertReceipt">
+	<select id="insertReceipt" parameterType="Receipt" resultType="hashmap">
 		insert into Receipt(
 								reception_id, 
 								ratio, 
@@ -31,7 +31,7 @@
 			(`reception_id`, `ratio`, `total_amount`, `card_name`, `card_number`, `mode`, `creator`) 
 		values 
 			(1, 1.1, 3, "신한카드", "110447464796", "카드", 1) -->
-	</insert>
+	</select>
 		
 
 	

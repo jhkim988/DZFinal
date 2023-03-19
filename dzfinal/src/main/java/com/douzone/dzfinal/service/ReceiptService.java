@@ -19,13 +19,19 @@ public class ReceiptService {
 		return receiptRepository.test();
 	}
 	
-	public void insertReceipt() {
-		receiptRepository.insertReceipt();
+	// 수납
+	public Receipt insertReceipt(Receipt receipt) {
+		return receiptRepository.insertReceipt(receipt);
 	}
 
 	public List<Receipt> receiptList() {
 		return receiptRepository.receiptList();
 	}
+
+
+
+
+
 
 
 
