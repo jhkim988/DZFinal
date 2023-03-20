@@ -26,20 +26,55 @@
 		SELECT
 			d.drug_id drug_id,
 			d.drug_code drug_code,
-			d.drug_name drug_name,
-			dt.patient_id patient_id
+			d.drug_name drug_name
 		FROM Drug_Taking dt
 			inner join Drug d on dt.drug_id = d.drug_id
 		WHERE dt.patient_id = #{patient_id}
+		ORDER BY d.drug_code
 	</select>
 	
 	<select id="getDiseaseList" resultType="com.douzone.dzfinal.dto.ClinicResponse$Underlying">
 		SELECT
+			d.disease_id disease_id,
 			d.disease_code disease_code,
-			d.disease_name disease_name,
-			u.patient_id patient_id
+			d.disease_name disease_name
 		FROM Underlying u
 			inner join Disease d on u.disease_id = d.disease_id
-		WHERE u.patient_id = #{patient_id};
+		WHERE u.patient_id = #{patient_id}
+		ORDER BY d.disease_code
 	</select>
+	
+	<select id="getDrugTaking" resultType="com.douzone.dzfinal.dto.ClinicResponse$DrugTaking">
+		SELECT drug_id, drug_code, drug_name
+		FROM Drug
+		WHERE
+		<if test='type == "1"'>
+			drug_code LIKE CONCAT(#{keyword}, '%')
+		</if>
+		<if test='type == "2"'>
+			drug_name LIKE CONCAT(#{keyword}, '%')
+		</if>
+		LIMIT 10
+	</select>
+	
+	<select id="getUnderlying" resultType="com.douzone.dzfinal.dto.ClinicResponse$Underlying">
+		SELECT disease_id, disease_code, disease_name
+		FROM Disease
+		WHERE
+		<if test='type == "1"'>
+			disease_code LIKE CONCAT(#{keyword}, '%')
+		</if>
+		<if test='type == "2"'>
+			disease_name LIKE CONCAT(#{keyword}, '%')
+		</if>
+		LIMIT 10
+	</select>
+
+	<insert id="insertUnderlying">
+		INSERT INTO Underlying(patient_id, disease_id) VALUES (CAST(#{patient_id} AS UNSIGNED), CAST(#{disease_id} AS UNSIGNED))
+	</insert>
+	
+	<delete id="deleteUnderlying">
+		DELETE FROM Underlying WHERE patient_id = #{patient_id} AND disease_id = #{disease_id}
+	</delete>
 </mapper>

@@ -1,5 +1,7 @@
 package com.douzone.dzfinal.controller;
 
+import java.util.List;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +28,26 @@ public class ClinicController {
 	@GetMapping("/{reception_id}")
 	public ClinicResponse.Clinic getUnderlyingList(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {		
 		return clinicService.getClinic(reception_id);
+	}
+	
+	@GetMapping("/drugtaking/{type}/{keyword}")
+	public List<ClinicResponse.DrugTaking> getDrugTaking(@PathVariable("type") String type, @PathVariable("keyword") String keyword) {
+		return clinicService.getDrugTaking(type, keyword);
+	}
+	
+	@GetMapping("/underlying/{type}/{keyword}")
+	public List<ClinicResponse.Underlying> getUnderlying(@PathVariable("type") String type, @PathVariable("keyword") String keyword) {
+		return clinicService.getUnderlying(type, keyword);
+	}
+	
+	@PostMapping("/insertUnderlying")
+	public void insertUnderlying(@RequestBody ClinicResponse.UnderlyingInsert paramData) {
+		clinicService.insertUnderlying(paramData);
+
+	}
+	
+	@PostMapping("/deleteUnderlying")
+	public void deleteUnderlying(@RequestBody ClinicResponse.UnderlyingInsert paramData) {
+		clinicService.deleteUnderlying(paramData);
 	}
 }

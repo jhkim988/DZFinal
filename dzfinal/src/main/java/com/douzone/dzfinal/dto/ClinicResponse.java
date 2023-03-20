@@ -29,6 +29,7 @@ public class ClinicResponse {
 	@AllArgsConstructor
 	@Data
 	public static class DrugTaking {
+		private int drug_id;
 		private String drug_code;
 		private String drug_name;
 	}
@@ -36,7 +37,16 @@ public class ClinicResponse {
 	@AllArgsConstructor
 	@Data
 	public static class Underlying {
+		private int disease_id;
 		private String disease_code;
 		private String disease_name;
+	}
+	
+	@AllArgsConstructor
+	@NoArgsConstructor
+	@Data
+	public static class UnderlyingInsert {
+		private int patient_id;
+		private int disease_id;
 	}
 }
