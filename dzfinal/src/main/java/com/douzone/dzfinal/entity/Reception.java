@@ -29,4 +29,7 @@ public class Reception {
 	private double weight;
 	private double bmi;
 	private int is_deleted;
+	
+	private Patient patient;
+	private Clinic clinic;
 }

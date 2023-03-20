@@ -24,10 +24,10 @@ public class Patient {
 	private String zip_code;
 	private Timestamp address;
 	private Timestamp detail_address;
-	private int insurance;
+	private boolean insurance;
 	private int creator;
 	private int updator;
 	private Timestamp created_at;
 	private Timestamp updated_at;
-	private int is_deleted;
+	private boolean is_deleted;
 }

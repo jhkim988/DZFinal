@@ -16,8 +16,8 @@ public class Clinic {
 	private int clinic_id;
 	private int reception_id;
 	private String symptom;
-	private int treatment;
-	private int clinic_request;
+	private boolean treatment;
+	private boolean clinic_request;
 	private int creator;
 	private int updator;
 	private Timestamp created_at;
