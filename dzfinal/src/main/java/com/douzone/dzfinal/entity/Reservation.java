@@ -1,8 +1,7 @@
 package com.douzone.dzfinal.entity;
 
 import java.sql.Date;
-
-import org.apache.ibatis.type.Alias;
+import java.sql.Time;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,17 +15,26 @@ import lombok.NoArgsConstructor;
 public class Reservation {
 	private int reservation_id;
 	private int patient_id;
-	private String pateint_name;
+	private String patient_name;
 	private String phone_number1;
 	private String phone_number2;
 	private String phone_number3;
 	private Date wish_date;
-	private int time_code;
+	private Time wish_time;
 	private String treatment_reason;
 	private String state;
 	private int doctor;
 	private int creator;
 	private int updator;
+	
+	private String employee_name;
+	
+	private String front_registration_number;
+	private String back_registration_number;
+	private String zip_code; 
+	private String address; 
+	private String detail_address;
+	private String gender;
 	
 	
 }

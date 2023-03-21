@@ -12,4 +12,6 @@ import com.douzone.dzfinal.entity.Reception;
 public interface ReceptionRepository {
 	
 	public List<Reception> receptionList();
+	
+	public int insertReception(Reception reception);
 }
