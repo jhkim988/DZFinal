@@ -36,12 +36,13 @@ public class ReceiptController {
         return receiptService.insertReceipt(receipt);
     }
 	
+	
+	
 	// DTO-수납할 사람들 정보 가져오기
 	@GetMapping("/{reception_id}")
 	public ReceiptDTO.ReceptionInfo getReceipt(@PathVariable("reception_id") int reception_id) {
 		return receiptService.getReceipt(reception_id);
 	}
-	
 	// MAP-수납할 사람들 정보 가져오기
 	@GetMapping("/selectReceiptDetail")
 	public Map<String, Object> selectReceiptDetail(String reception_id) throws Exception {
@@ -49,19 +50,18 @@ public class ReceiptController {
 		return receiptService.selectReceiptDetail(reception_id);
 	}
 	
-
 	
 	
-	
-	
-
-	
-	@GetMapping("/list")
-	public List<Receipt> receiptList() {
-		System.out.println(receiptService.receiptList());
-		return receiptService.receiptList();
+	// DTO-처방전 출력 정보 가져오기
+	@GetMapping("/getTreatmentAndClinicRequestInfo/{reception_id}")
+	public ReceiptDTO.TreatmentAndClinicRequestInfo getTreatmentAndClinicRequestInfo(@PathVariable("reception_id") int reception_id) {
+		return receiptService.getTreatmentAndClinicRequestInfo(reception_id);
 	}
-	
-
+	// MAP-수납할 사람들 정보 가져오기
+	@GetMapping("/getTreatmentAndClinicRequest")
+	public Map<String, Object> getTreatmentAndClinicRequest(String reception_id) throws Exception {
+		System.out.println(receiptService.getTreatmentAndClinicRequest(reception_id));
+		return receiptService.getTreatmentAndClinicRequest(reception_id);
+	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.dto.ReceiptDTO;
+import com.douzone.dzfinal.dto.ReceiptDTO.ReceptionInfo;
 
 
 @Repository
@@ -20,11 +21,23 @@ public interface ReceiptRepository {
 	// 수납
 	public Receipt insertReceipt(Receipt receipt);
 	
+	
+	
+	
 	// DTO-수납할 사람들 정보 가져오
 	public Optional<ReceiptDTO.ReceptionInfo> findOneByReception(int reception_id);
-	
 	// MAP-수납할 사람들 정보 가져오기
 	public Map<String, Object> selectReceiptDetail(String reception_id);
+	
+	
+	
+	
+	// DTO-처방전 출력 정보 가져오기
+	public Optional<ReceiptDTO.TreatmentAndClinicRequestInfo> getTreatmentAndClinicRequestInfo(int reception_id);
+	// MAP-처방전 출력 정보 가져오기
+	public Map<String, Object> getTreatmentAndClinicRequest(String reception_id);
+
+	
 	
 //	Optional<ReceiptResponse.Receipt> getReceipt(int receiption_id);
 //	List<ReceiptResponse.Patient> getPatient(@Param("patient_id") int patient_id);
@@ -32,12 +45,9 @@ public interface ReceiptRepository {
 //	List<ReceiptResponse.Reception> getReception(@Param("reception_id") int reception_id);
 	// 수납할 사람들 정보 가져오기
 //	Object getReceipt(int reception_id);
+
 	
-	
-	
-	
-	public List<Receipt> receiptList();
-	
+
 
 	
 	

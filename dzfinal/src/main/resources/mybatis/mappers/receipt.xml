@@ -51,7 +51,7 @@
 	</resultMap>
 	
 	
-	
+	<!-- 수납할 사람 데이터 가져오기 -->
  	<select id="findOneByReception" resultType="com.douzone.dzfinal.dto.ReceiptDTO$ReceptionInfo">
 		 SELECT
 	               r.reception_id       reception_id,
@@ -69,7 +69,7 @@
 	     WHERE       	r.reception_id = #{reception_id};
 	</select>
 	
-		<select id="selectReceiptDetail" resultType="hashmap">
+	<select id="selectReceiptDetail" resultType="hashmap">
 		SELECT
 	               r.reception_id       reception_id,
 	               p.patient_id       	patient_id,
@@ -79,15 +79,18 @@
 	               c.clinic_request    	clinic_request,
 	               		(SELECT IF (COUNT(*) > 0, 1, 0) 
 	               		FROM 	Prescription pr
-	               		WHERE 	pr.reception_id = 2) has_prescription
+	               		WHERE 	pr.reception_id = 3) has_prescription
 	     FROM       	Reception r 
 	     INNER JOIN    Patient p ON r.patient_id = p.patient_id
 	     INNER JOIN    Clinic c  ON r.reception_id = c.reception_id
-	     WHERE       	r.reception_id = 2;
+	     WHERE       	r.reception_id = 3;
 	</select>
 	
 	
 	
+	
+	
+	<!-- 수납완료! -->
 	<select id="insertReceipt" parameterType="Receipt" resultType="hashmap">
 		insert into Receipt(
 								reception_id, 
@@ -111,28 +114,65 @@
 	
 
 
-	
-	<select id="receiptList" resultType="Receipt">
-		SELECT
-			r.receipt_id,
-			r.reception_id,
-			r.ratio,
-			r.total_amount,
-			r.card_name,
-			r.card_number,
-			r.mode,
-			r.creator,
-			r.created_at,
-			r2.patient_id,
-			p.patient_id ,
-			p.insurance ,
-			c.treatment,
-			c.clinic_request 
-		FROM Receipt r , Reception r2, Patient p , Clinic c 
-		WHERE r.reception_id = r2.reception_id 
-			AND r.reception_id = c.reception_id
-			AND r2.patient_id = p.patient_id;
+
+
+	<!-- 처방전&진료의뢰서 정보 가져오기! -->
+	<select id="getTreatmentAndClinicRequestInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$TreatmentAndClinicRequestInfo">
+		 SELECT 
+			r.reception_id       			reception_id,
+			r.doctor						doctor,
+			
+			p.patient_id       				patient_id,
+			p.patient_name      			patient_name,	
+			p.front_registration_number 	front_registration_number,
+			p.back_registration_number 		back_registration_number,
+			p.gender 						gender,
+			p.address 						address,
+			p.detail_address 				detail_address,
+			
+			ds.disease_code 				disease_code,
+			ds.disease_name 				disease_name,
+			
+			dr.drug_code 					drug_code,
+			dr.drug_name 					drug_name
+		FROM 		Reception r
+		 LEFT JOIN 	Patient p 		  ON r.patient_id = p.patient_id
+		 LEFT JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		 LEFT JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id
+		 LEFT JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
+		 LEFT JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
+		WHERE 		r.reception_id = #{reception_id};
 	</select>
+	
+	
+	<select id="getTreatmentAndClinicRequest" resultType="hashmap">
+		 SELECT 
+			r.reception_id       			reception_id,
+			r.doctor						doctor,
+			
+			p.patient_id       				patient_id,
+			p.patient_name      			patient_name,	
+			p.front_registration_number 	front_registration_number,
+			p.back_registration_number 		back_registration_number,
+			p.gender 						gender,
+			p.address 						address,
+			p.detail_address 				detail_address,
+			
+			ds.disease_code 				disease_code,
+			ds.disease_name 				disease_name,
+			
+			dr.drug_code 					drug_code,
+			dr.drug_name 					drug_name
+		FROM 		Reception r
+		 LEFT JOIN 	Patient p 		  ON r.patient_id = p.patient_id
+		 LEFT JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		 LEFT JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id
+		 LEFT JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
+		 LEFT JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
+		WHERE 		r.reception_id = 3;
+	</select>
+
+
 	
 
 

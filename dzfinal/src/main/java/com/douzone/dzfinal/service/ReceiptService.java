@@ -44,13 +44,20 @@ public class ReceiptService {
 	public ReceiptDTO.ReceptionInfo getReceipt(int reception_id) {
 		return receiptRepository.findOneByReception(reception_id).orElseThrow(IllegalArgumentException::new);
 	}
-	
 	// MAP-수납할 사람들 정보 가져오기
 	public Map<String, Object> selectReceiptDetail(String reception_id) throws Exception {
 		return receiptRepository.selectReceiptDetail(reception_id);
 	}
 	
 	
+	// DTO-처방전&진료의뢰서 출력 정보 가져오기
+	public ReceiptDTO.TreatmentAndClinicRequestInfo getTreatmentAndClinicRequestInfo(int reception_id) {
+		return receiptRepository.getTreatmentAndClinicRequestInfo(reception_id).orElseThrow(IllegalArgumentException::new);
+	}
+	// DTO-처방전&진료의뢰서 출력 정보 가져오기
+	public Map<String, Object> getTreatmentAndClinicRequest(String reception_id) throws Exception {
+		return receiptRepository.getTreatmentAndClinicRequest(reception_id);
+	}
 	
 	
 
@@ -58,21 +65,6 @@ public class ReceiptService {
 		return receiptRepository.test();
 	}
 	
-
-
-	public List<Receipt> receiptList() {
-		return receiptRepository.receiptList();
-	}
-
-
-
-
-
-
-
-
-
-
 
 
 }
