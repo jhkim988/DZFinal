@@ -35,7 +35,7 @@ public class ReceiptDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Builder
-	public static class TreatmentAndClinicRequestInfo {
+	public static class TreatmentInfo {
 		// (Reception)접수
 		private int reception_id;
 		private int doctor;
@@ -66,29 +66,28 @@ public class ReceiptDTO {
 	public static class ClinicRequestInfo {
 		// (Reception)접수
 		private int reception_id;
+		private int doctor;
+		
+		// (Receipt)수납
+//		private Timestamp created_at;
 		
 		// (Patient)환자
 		private int patient_id;
 		private String patient_name;
 		private boolean insurance;
-		private String gender;
 		private String front_registration_number;
 		private String back_registration_number;
+		private String gender;
 		private String address;
 		private String detail_address;
 		
-		// (Clinic)진료
-		private boolean treatment;
-		private boolean clinic_request;
-		private int doctor;
-		
-		// (Diagnosis)진단
-		private int diagnosis_id;
-		private int disease_id;
 		// (Disease)질병
 		private String disease_code;
 		private String disease_name;
 		
+		// (Drug)약품
+		private String drug_code;
+		private String drug_name;
 	}
 
 }

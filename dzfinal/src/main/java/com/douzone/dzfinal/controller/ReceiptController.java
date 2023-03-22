@@ -53,15 +53,31 @@ public class ReceiptController {
 	
 	
 	// DTO-처방전 출력 정보 가져오기
-	@GetMapping("/getTreatmentAndClinicRequestInfo/{reception_id}")
-	public ReceiptDTO.TreatmentAndClinicRequestInfo getTreatmentAndClinicRequestInfo(@PathVariable("reception_id") int reception_id) {
-		return receiptService.getTreatmentAndClinicRequestInfo(reception_id);
+	@GetMapping("/getTreatmentInfo/{reception_id}")
+	public ReceiptDTO.TreatmentInfo getTreatmentInfo(@PathVariable("reception_id") int reception_id) {
+		return receiptService.getTreatmentInfo(reception_id);
 	}
-	// MAP-수납할 사람들 정보 가져오기
-	@GetMapping("/getTreatmentAndClinicRequest")
-	public Map<String, Object> getTreatmentAndClinicRequest(String reception_id) throws Exception {
-		System.out.println(receiptService.getTreatmentAndClinicRequest(reception_id));
-		return receiptService.getTreatmentAndClinicRequest(reception_id);
+	// MAP-처방전 사람들 정보 가져오기
+	@GetMapping("/getTreatment")
+	public Map<String, Object> getTreatment(String reception_id) throws Exception {
+		System.out.println(receiptService.getTreatment(reception_id));
+		return receiptService.getTreatment(reception_id);
+	}
+	
+	
+	
+	
+	
+	// DTO-진료의뢰서 출력 정보 가져오기
+	@GetMapping("/getClinicRequestInfo/{patient_id}")
+	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(@PathVariable("patient_id") int patient_id) {
+		return receiptService.getClinicRequestInfo(patient_id);
+	}
+	// MAP-진료의뢰서 사람들 정보 가져오기
+	@GetMapping("/getClinicRequest/")
+	public List<Map<String, Object>> getClinicRequest(String patient_id) throws Exception {
+		System.out.println(receiptService.getClinicRequest(patient_id));
+		return receiptService.getClinicRequest(patient_id);
 	}
 
 }

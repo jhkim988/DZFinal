@@ -116,8 +116,8 @@
 
 
 
-	<!-- 처방전&진료의뢰서 정보 가져오기! -->
-	<select id="getTreatmentAndClinicRequestInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$TreatmentAndClinicRequestInfo">
+	<!-- 처방전 정보 가져오기! -->
+	<select id="getTreatmentInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$TreatmentInfo">
 		 SELECT 
 			r.reception_id       			reception_id,
 			r.doctor						doctor,
@@ -145,7 +145,7 @@
 	</select>
 	
 	
-	<select id="getTreatmentAndClinicRequest" resultType="hashmap">
+	<select id="getTreatment" resultType="hashmap">
 		 SELECT 
 			r.reception_id       			reception_id,
 			r.doctor						doctor,
@@ -170,6 +170,71 @@
 		 LEFT JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		 LEFT JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
 		WHERE 		r.reception_id = 3;
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 진료의뢰서 정보 가져오기! -->
+	<select id="getClinicRequestInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$ClinicRequestInfo">
+		SELECT 
+			r.reception_id       			reception_id,
+			r.doctor 						doctor,
+			
+			p.patient_id       				patient_id,
+			p.patient_name      			patient_name,	
+			p.front_registration_number 	front_registration_number,
+			p.back_registration_number 		back_registration_number,
+			p.gender 						gender,
+			p.address 						address,
+			p.detail_address 				detail_address,
+			
+			ds.disease_code 				disease_code,
+			ds.disease_name 				disease_name,
+			
+			dr.drug_code 					drug_code,
+			dr.drug_name 					drug_name
+			
+			<!-- rt.created_at 					created_at  -->
+		FROM 		Reception r
+		 LEFT JOIN 	Patient p 		  ON r.patient_id = p.patient_id
+		 LEFT JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		 LEFT JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id
+		 LEFT JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
+		 LEFT JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
+		 <!-- LEFT JOIN  Receipt rt 		  ON r.reception_id = rt.reception_id -->
+		WHERE 		r.patient_id = 1;
+	</select>
+	
+	
+	<select id="getClinicRequest" resultType="hashmap">
+		 SELECT 
+			r.reception_id       			reception_id,
+			r.doctor 						doctor,
+			p.patient_id       				patient_id,
+			p.patient_name      			patient_name,	
+			p.front_registration_number 	front_registration_number,
+			p.back_registration_number 		back_registration_number,
+			p.gender 						gender,
+			p.address 						address,
+			p.detail_address 				detail_address,
+			ds.disease_code 				disease_code,
+			ds.disease_name 				disease_name,
+			dr.drug_code 					drug_code,
+			dr.drug_name 					drug_name
+			<!-- rt.created_at 					created_at  -->
+		FROM 		Reception r
+		 LEFT JOIN 	Patient p 		  ON r.patient_id = p.patient_id
+		 LEFT JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		 LEFT JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id
+		 LEFT JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
+		 LEFT JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
+		 <!-- LEFT JOIN  Receipt rt 		  ON r.reception_id = rt.reception_id -->
+		WHERE 		r.patient_id = 2;
 	</select>
 
 

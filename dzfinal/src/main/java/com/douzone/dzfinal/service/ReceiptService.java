@@ -40,6 +40,8 @@ public class ReceiptService {
 		return receiptRepository.insertReceipt(receipt);
 	}
 	
+	
+	
 	// DTO-수납할 사람들 정보 가져오기
 	public ReceiptDTO.ReceptionInfo getReceipt(int reception_id) {
 		return receiptRepository.findOneByReception(reception_id).orElseThrow(IllegalArgumentException::new);
@@ -50,14 +52,30 @@ public class ReceiptService {
 	}
 	
 	
-	// DTO-처방전&진료의뢰서 출력 정보 가져오기
-	public ReceiptDTO.TreatmentAndClinicRequestInfo getTreatmentAndClinicRequestInfo(int reception_id) {
-		return receiptRepository.getTreatmentAndClinicRequestInfo(reception_id).orElseThrow(IllegalArgumentException::new);
+	
+	
+	// DTO-처방전 출력 정보 가져오기
+	public ReceiptDTO.TreatmentInfo getTreatmentInfo(int reception_id) {
+		return receiptRepository.getTreatmentInfo(reception_id).orElseThrow(IllegalArgumentException::new);
 	}
-	// DTO-처방전&진료의뢰서 출력 정보 가져오기
-	public Map<String, Object> getTreatmentAndClinicRequest(String reception_id) throws Exception {
-		return receiptRepository.getTreatmentAndClinicRequest(reception_id);
+	// MAP-처방전 출력 정보 가져오기
+	public Map<String, Object> getTreatment(String reception_id) throws Exception {
+		return receiptRepository.getTreatment(reception_id);
 	}
+	
+	
+	// DTO-진료의뢰서 출력 정보 가져오기
+	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(int patient_id) {
+		return receiptRepository.getClinicRequestInfo(patient_id);
+	}
+	// MAP-진료의뢰서 출력 정보 가져오기
+	public List<Map<String, Object>> getClinicRequest(String patient_id) throws Exception {
+		return receiptRepository.getClinicRequest(patient_id);
+	}
+	
+	
+	
+	
 	
 	
 
