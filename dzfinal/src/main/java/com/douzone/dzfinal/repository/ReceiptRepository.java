@@ -43,15 +43,12 @@ public interface ReceiptRepository {
 	// DTO-진료의뢰서 출력 정보 가져오기
 	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(int patient_id);
 	// MAP-진료의뢰서 출력 정보 가져오기
-	public List<Map<String, Object>> getClinicRequest(String patient_id);
+	public List<Map<String, Object>> getClinicRequest(String patient_id);	
 	
 	
-	
-	
-	// DTO-수납완료된 리스트
-//	public List<ReceiptDTO.getReceiptList> getReceiptList(int patient_id);
-//	// MAP-수납완료된 리스트
-//	public List<Map<String, Object>> getReceipt(String patient_id);
 
-
+	// DTO-수납완료내역
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(int patient_id);
+	// MAP-수납완료내역
+	public List<Map<String, Object>> getReceipt(String patient_id);	
 }

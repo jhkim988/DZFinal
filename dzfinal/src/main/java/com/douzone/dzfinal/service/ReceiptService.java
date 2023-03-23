@@ -65,15 +65,14 @@ public class ReceiptService {
 	}
 	
 	
-	// DTO-수납완료된 리스트
-//	public List<ReceiptDTO.getReceiptList> getReceiptList(int patient_id) {
-//		return receiptRepository.getReceiptList(patient_id);
-//	}
-//	// MAP-수납완료된 리스트
-//	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
-//		return receiptRepository.getReceipt(patient_id);
-//	}
-//	
+	// DTO-수납완료내역
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(int patient_id) {
+		return receiptRepository.getReceiptList(patient_id);
+	}
+	// MAP-수납완료내역
+	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
+		return receiptRepository.getReceipt(patient_id);
+	}
 	
 	
 

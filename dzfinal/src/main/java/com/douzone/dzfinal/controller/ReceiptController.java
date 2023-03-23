@@ -79,6 +79,21 @@ public class ReceiptController {
 		System.out.println(receiptService.getClinicRequest(patient_id));
 		return receiptService.getClinicRequest(patient_id);
 	}
+	
+	
+	
+	
+	// DTO-수납완료내역
+	@GetMapping("/getReceiptList/{patient_id}")
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(@PathVariable("patient_id") int patient_id) {
+		return receiptService.getReceiptList(patient_id);
+	}
+	// MAP-수납완료내역
+	@GetMapping("/getReceipt")
+	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
+		System.out.println(receiptService.getReceipt(patient_id));
+		return receiptService.getReceipt(patient_id);
+	}
 
 	
 	
