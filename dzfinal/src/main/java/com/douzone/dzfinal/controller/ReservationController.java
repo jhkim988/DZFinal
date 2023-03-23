@@ -40,11 +40,28 @@ public class ReservationController {
 
     @GetMapping("/{reservation_id}")
     public Reservation detail(@PathVariable("reservation_id") @Digits(integer = 8, fraction = 0) @Min(0) int reservation_id) {
-        return reservationService.details(reservation_id);
+        Reservation reservation = reservationService.details(reservation_id);
+        System.out.println(reservation);
+        return reservation;
     }
 
     @PostMapping
-    public void save(Reservation reservation) {
+    public void save(@RequestBody Reservation reservation) {
         reservationService.save(reservation);
+    }
+
+    @PutMapping
+    public void update(@RequestBody Reservation reservation) {
+        reservationService.update(reservation);
+    }
+
+    @GetMapping("/impossible/day")
+    public List<String> impossibleDay(@RequestParam int doctor, @RequestParam int year, @RequestParam int month) {
+        return reservationService.impossibleDay(doctor, year, month);
+    }
+
+    @GetMapping("/impossible/time")
+    public List<String> impossibleTime(@RequestParam int doctor, @RequestParam String date) {
+        return reservationService.impossibleTime(doctor, date);
     }
 }

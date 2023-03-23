@@ -19,8 +19,8 @@ public class Reservation {
     private String phone1;
     private String phone2;
     private String phone3;
-    private Date wish_date;
-    private Time with_time;
+    private String wish_date;
+    private String wish_time;
     private String treatment_reason;
     private String state;
     private int doctor;

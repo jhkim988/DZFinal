@@ -42,16 +42,15 @@
             `reservation_id`,
             `patient_id`,
             `patient_name`,
-            `phone_number1`,
-            `phone_number2`,
-            `phone_number3`,
+            `phone_number1` `phone1`,
+            `phone_number2` `phone2`,
+            `phone_number3` `phone3`,
             `wish_date`,
             `wish_time`,
             `treatment_reason`,
             `state`,
             `doctor`
         from Reservation
-        join Reservation_Time_Code on Reservation.time_code = Reservation_Time_Code.id
         join Employee on Reservation.doctor = Employee.employ_id
         where reservation_id = #{reservation_id}
     </select>
@@ -71,14 +70,46 @@
             updater
         ) values (
             #{patient_name},
-            #{phone_number1},
-            #{phone_number2},
-            #{phone_number3},
+            #{phone1},
+            #{phone2},
+            #{phone3},
             #{wish_date},
             #{wish_time},
             #{treatment_reason},
             #{state},
-            #{doctor}
+            #{doctor},
+            1,
+            1
         )
     </insert>
+    <update id="update">
+        update Reservation set
+        `patient_id` = #{patient_id},
+        `patient_name` = #{patient_name},
+        `phone_number1` = #{phone1},
+        `phone_number2` = #{phone2},
+        `phone_number3` = #{phone3},
+        `wish_date` = #{wish_date},
+        `wish_time` = #{wish_time},
+        `treatment_reason` = #{treatment_reason},
+        `doctor` = #{doctor},
+        `state` = #{state},
+        `updater` = 1
+        where `reservation_id` = #{reservation_id}
+    </update>
+
+    <select id="impossibleDay" resultType="java.lang.String">
+        select `wish_date` from Reservation
+        where
+            `doctor` = #{doctor}
+            and YEAR(`wish_date`) = #{year}
+            and MONTH(`wish_date`) = #{month}
+        group by `wish_date`, `doctor` having count(*) >= 27
+    </select>
+    <select id="impossibleTime" resultType="java.lang.String">
+        select SUBSTRING(`wish_time`, 1, 5) from Reservation
+        where
+            `doctor` = #{doctor}
+            and `wish_date` = #{date}
+    </select>
 </mapper>

@@ -47,4 +47,16 @@ public class ReservationService {
             reservationRepository.update(reservation);
         });
     }
+
+    public void update(Reservation reservation) {
+        reservationRepository.update(reservation);
+    }
+
+    public List<String> impossibleDay(int doctor, int year, int month) {
+        return reservationRepository.impossibleDay(doctor, year, month);
+    }
+
+    public List<String> impossibleTime(int doctor, String date) {
+        return reservationRepository.impossibleTime(doctor, date);
+    }
 }

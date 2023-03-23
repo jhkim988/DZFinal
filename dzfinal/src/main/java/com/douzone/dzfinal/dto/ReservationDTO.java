@@ -13,10 +13,12 @@ public class ReservationDTO {
     @NoArgsConstructor
     @Data
     public static class Month {
+        private String reservation_id;
         private String patient_name;
         private String doctor;
         private int count;
         private String wish_date;
+        private String wish_time;
         private String treatment_reason;
     }
 
@@ -24,11 +26,12 @@ public class ReservationDTO {
     @NoArgsConstructor
     @Data
     public static class Week {
+        private String reservation_id;
         private String patient_name;
         private String doctor;
-        private int hour_code;
-        private int count;
         private String wish_date;
+        private String wish_time;
+        private int count;
         private String treatment_reason;
     }
 
@@ -36,9 +39,11 @@ public class ReservationDTO {
     @NoArgsConstructor
     @Data
     public static class Day {
+        private String reservation_id;
         private String patient_name;
         private String doctor;
-        private String time;
+        private String wish_date;
+        private String wish_time;
         private String treatment_reason;
     }
 }
