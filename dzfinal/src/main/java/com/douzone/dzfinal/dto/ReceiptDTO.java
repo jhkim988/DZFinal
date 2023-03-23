@@ -61,7 +61,6 @@ public class ReceiptDTO {
 	@AllArgsConstructor
 	@Builder
 	public static class ClinicRequestInfo {
-		
 		// (Disease)질병
 		private String disease_code;
 		private String disease_name;
