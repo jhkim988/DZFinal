@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ReceiptRepository">
-	<!-- <resultMap type="com.douzone.dzfinal.entity.Reception" id="receiptMap">
+	<resultMap type="com.douzone.dzfinal.entity.Reception" id="receiptMap">
 		<id property="reception_id" column="reception_id"/>
 		<result property="doctor" column="doctor"/>
 		<result property="treatment_reason" column="treatment_reason"/>
@@ -48,7 +48,7 @@
 			<result property="created_at" column="created_at" />
 			<result property="updated_at" column="updated_at" />
 		</association>
-	</resultMap> -->
+	</resultMap>
 	
 	
 	<!-- 수납할 사람 데이터 가져오기 -->
@@ -215,6 +215,7 @@
 		 SELECT 
 			r.reception_id       			reception_id,
 			r.doctor 						doctor,
+			
 			p.patient_id       				patient_id,
 			p.patient_name      			patient_name,	
 			p.front_registration_number 	front_registration_number,
@@ -222,8 +223,10 @@
 			p.gender 						gender,
 			p.address 						address,
 			p.detail_address 				detail_address,
+			
 			ds.disease_code 				disease_code,
 			ds.disease_name 				disease_name,
+			
 			dr.drug_code 					drug_code,
 			dr.drug_name 					drug_name
 			<!-- rt.created_at 					created_at  -->
@@ -234,7 +237,19 @@
 		 LEFT JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		 LEFT JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
 		 <!-- LEFT JOIN  Receipt rt 		  ON r.reception_id = rt.reception_id -->
-		WHERE 		r.patient_id = 2;
+		WHERE 		r.patient_id = 1;
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 수정 -->
+	<select id="modifyReceipt" resultType="hashMap">
+	
 	</select>
 
 

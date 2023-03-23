@@ -21,15 +21,6 @@ import com.douzone.dzfinal.repository.ReceptionRepository;
 public class ReceiptService {
 	private final ReceiptRepository receiptRepository;
 	
-	@Autowired
-	private ReceptionRepository receptionRepository;
-	
-	@Autowired
-	private PatientRepository patientRepository;
-	
-	@Autowired
-	private ClinicRepository clinicRepository;
-	
 	
 	public ReceiptService(ReceiptRepository receiptRepository) {
 		this.receiptRepository = receiptRepository;
@@ -74,8 +65,15 @@ public class ReceiptService {
 	}
 	
 	
-	
-	
+	// DTO-수납완료된 리스트
+//	public List<ReceiptDTO.getReceiptList> getReceiptList(int patient_id) {
+//		return receiptRepository.getReceiptList(patient_id);
+//	}
+//	// MAP-수납완료된 리스트
+//	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
+//		return receiptRepository.getReceipt(patient_id);
+//	}
+//	
 	
 	
 

@@ -89,5 +89,34 @@ public class ReceiptDTO {
 		private String drug_code;
 		private String drug_name;
 	}
+	
+	
+//	@Data
+//	@NoArgsConstructor
+//	@AllArgsConstructor
+//	@Builder
+//	public static class getReceiptList {
+//		// (Reception)접수
+//		private int reception_id;
+//		private int doctor;
+//		
+//		// (Patient)환자
+//		private int patient_id;
+//		private String patient_name;
+//		private boolean insurance;
+//		private String front_registration_number;
+//		private String phone_number3;	
+//		
+//		// (Disease)질병
+//		private String disease_code;
+//		
+//		// (Drug)약품
+//		private String drug_code;
+//		
+//		// (Receipt)수납
+//		private String mode;
+//		private int total_amount;
+//		private Timestamp created_at;
+//	}
 
 }
