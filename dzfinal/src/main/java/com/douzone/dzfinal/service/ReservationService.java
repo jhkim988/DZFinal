@@ -35,7 +35,7 @@ public class ReservationService {
         return reservationRepository.findOneById(reservation_id).orElseThrow(IllegalArgumentException::new);
     }
 
-    public void save(Reservation reservation) {
+    public int save(Reservation reservation) {
         reservationRepository.save(reservation);
         PatientDTO.PhoneNumbers phoneNumber = PatientDTO.PhoneNumbers.builder()
                 .phone1(reservation.getPhone1())
@@ -46,6 +46,7 @@ public class ReservationService {
             reservation.setPatient_id(patient.getPatient_id());
             reservationRepository.update(reservation);
         });
+        return reservation.getReservation_id();
     }
 
     public void update(Reservation reservation) {
