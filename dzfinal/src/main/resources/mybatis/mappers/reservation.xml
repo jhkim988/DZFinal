@@ -71,8 +71,8 @@
         ) values (
             #{patient_name},
             #{phone_number1},
-            #{phone_number1},
-            #{phone_number1},
+            #{phone_number2},
+            #{phone_number3},
             #{wish_date},
             #{wish_time},
             #{treatment_reason},
