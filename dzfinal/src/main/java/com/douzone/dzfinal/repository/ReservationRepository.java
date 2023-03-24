@@ -10,8 +10,8 @@ import java.util.Optional;
 
 @Mapper
 public interface ReservationRepository {
-    List<ReservationDTO.Month> monthList(String start, String end);
-    List<ReservationDTO.Week> weekList(String start, String end);
+    List<ReservationDTO.Month> monthList(@Param("start") String start, @Param("end") String end);
+    List<ReservationDTO.Week> weekList(@Param("start") String start, @Param("end") String end);
     List<ReservationDTO.Day> dayList(String target);
     Optional<Reservation> findOneById(int reservation_id);
     int save(Reservation reservation);
