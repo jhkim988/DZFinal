@@ -21,6 +21,15 @@ import com.douzone.dzfinal.repository.ReceptionRepository;
 public class ReceiptService {
 	private final ReceiptRepository receiptRepository;
 	
+	@Autowired
+	private ReceptionRepository receptionRepository;
+	
+	@Autowired
+	private PatientRepository patientRepository;
+	
+	@Autowired
+	private ClinicRepository clinicRepository;
+	
 	
 	public ReceiptService(ReceiptRepository receiptRepository) {
 		this.receiptRepository = receiptRepository;
