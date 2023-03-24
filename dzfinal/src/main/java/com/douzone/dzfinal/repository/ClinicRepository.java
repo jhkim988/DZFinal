@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.repository;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -10,10 +11,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
 import com.douzone.dzfinal.dto.ClinicResponse.MedicalInfo;
+=======
+
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+import com.douzone.dzfinal.dto.ReceiptResponse.Clinic;
+>>>>>>> main
 
 @Repository
 @Mapper
 public interface ClinicRepository {
+<<<<<<< HEAD
 	Optional<ClinicResponse.PatientInfo> getPatientInfo(int reception_id);
 	List<ClinicResponse.DrugTaking> getDrugTaking(@Param("patient_id") int patient_id);
 	List<ClinicResponse.Underlying> getUnderlying(@Param("patient_id") int patient_id);
@@ -34,4 +43,9 @@ public interface ClinicRepository {
 	List<ClinicResponse.Underlying> getPrescription(@Param("reception_id") int reception_id);
 	
 	ClinicResponse.MedicalInfo getMedicalInfo(int reception_id);
+=======
+	List<Clinic> findAll();
+
+	com.douzone.dzfinal.entity.Clinic findById(int reception_id);
+>>>>>>> main
 }
