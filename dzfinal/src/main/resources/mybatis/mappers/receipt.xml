@@ -105,7 +105,7 @@
 	
 	
 	<!-- 수납완료! -->
-	<select id="insertReceipt" parameterType="Receipt" resultType="hashmap">
+	<select id="insertReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" resultType="hashmap">
 		insert into Receipt(
 								reception_id, 
 								ratio, 

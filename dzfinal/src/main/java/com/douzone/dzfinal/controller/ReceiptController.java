@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
-import com.douzone.dzfinal.dto.ReceiptResponse;
-import com.douzone.dzfinal.entity.Patient;
 import com.douzone.dzfinal.entity.Receipt;
-import com.douzone.dzfinal.entity.Reception;
 import com.douzone.dzfinal.service.ReceiptService;
 
 @RestController
