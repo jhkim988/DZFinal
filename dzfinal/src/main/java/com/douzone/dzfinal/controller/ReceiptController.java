@@ -16,7 +16,7 @@ import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.service.ReceiptService;
 
 @RestController
-@RequestMapping("/api/receipt")
+@RequestMapping("/receipt")
 public class ReceiptController {
 
 	@Autowired
