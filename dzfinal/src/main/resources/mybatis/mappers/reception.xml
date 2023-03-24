@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.douzone.dzfinal.repository.ReceptionRepository">
+
+	<select id="receptionList" resultType="com.douzone.dzfinal.entity.Reception">
+		SELECT 
+			R.reception_id, 
+			R.doctor,
+			R.treatment_reason,
+			R.systolic,
+			R.diastolic,
+			R.blood_sugar,
+			R.height,
+			R.weight,
+			R.bmi,
+			P.patient_name,
+			P.phone_number1,
+			P.phone_number2,
+			P.phone_number3,
+			P.gender,
+			P.zip_code,
+			P.address,
+			P.detail_address,
+			P.insurance
+		FROM Reception R , Patient P
+		WHERE R.patient_id = P.patient_id
+	</select>
+	
+</mapper>

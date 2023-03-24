@@ -1,14 +1,11 @@
 package com.douzone.dzfinal.service;
 
-import org.springframework.cache.annotation.Cacheable;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.douzone.dzfinal.dto.LoginRequest;
 import com.douzone.dzfinal.dto.RegisterRequest;
 import com.douzone.dzfinal.entity.Member;
 import com.douzone.dzfinal.repository.MemberRepository;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {

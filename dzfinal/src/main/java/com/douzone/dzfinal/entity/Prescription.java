@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Member {
-	private String id;
-	private String pwd;
+public class Prescription {
+	private int prescription_id;
+	private int drug_id;
+	private int reception_id;
 }
