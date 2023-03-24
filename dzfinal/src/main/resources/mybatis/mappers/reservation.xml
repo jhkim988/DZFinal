@@ -54,7 +54,7 @@
         join Employee on Reservation.doctor = Employee.employ_id
         where reservation_id = #{reservation_id}
     </select>
-    <insert id="save">
+    <insert id="save" useGeneratedKeys="true" keyProperty="reservation_id">
         insert into Reservation
         (
             patient_name,

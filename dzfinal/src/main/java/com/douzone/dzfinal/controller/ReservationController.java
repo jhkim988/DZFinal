@@ -46,8 +46,8 @@ public class ReservationController {
     }
 
     @PostMapping
-    public void save(@RequestBody Reservation reservation) {
-        reservationService.save(reservation);
+    public int save(@RequestBody Reservation reservation) {
+        return reservationService.save(reservation);
     }
 
     @PutMapping
