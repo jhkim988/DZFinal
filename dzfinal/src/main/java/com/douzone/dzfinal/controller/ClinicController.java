@@ -21,7 +21,7 @@ import com.douzone.dzfinal.service.ClinicService;
 
 @Validated
 @RestController
-@RequestMapping("/api/clinic")
+@RequestMapping("/clinic")
 public class ClinicController {
 
 	@Autowired
