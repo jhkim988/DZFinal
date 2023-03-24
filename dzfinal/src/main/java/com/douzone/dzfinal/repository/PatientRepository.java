@@ -1,16 +1,11 @@
 package com.douzone.dzfinal.repository;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-
+import com.douzone.dzfinal.dto.PatientDTO;
 import com.douzone.dzfinal.entity.Patient;
+import org.apache.ibatis.annotations.Mapper;
 
-@Repository
+import java.util.Optional;
 @Mapper
 public interface PatientRepository {
-	List<Patient> findAll();
-
-	Patient findById(int reception_id);
+    Optional<Patient> findOneByPhone(PatientDTO.PhoneNumbers phoneNumbers);
 }
