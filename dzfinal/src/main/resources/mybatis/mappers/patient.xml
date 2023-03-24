@@ -3,8 +3,8 @@
 <mapper namespace="com.douzone.dzfinal.repository.PatientRepository">
     <select id="findOneByPhone" resultType="Patient">
         select * from Patient where
-            phone_number1=#{phone1}
-            and phone_number2=#{phone2}
-            and phone_number3=#{phone3}
+            phone_number1=#{phone_number1}
+            and phone_number2=#{phone_number2}
+            and phone_number3=#{phone_number3}
     </select>
 </mapper>
