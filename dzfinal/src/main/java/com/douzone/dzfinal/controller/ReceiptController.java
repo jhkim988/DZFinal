@@ -36,7 +36,7 @@ public class ReceiptController {
 	
 	
 	// DTO-수납할 사람들 정보 가져오기
-	@GetMapping("/{reception_id}")
+	@GetMapping("/findOneByReception/{reception_id}")
 	public ReceiptDTO.ReceptionInfo getReceipt(@PathVariable("reception_id") int reception_id) {
 		return receiptService.getReceipt(reception_id);
 	}
@@ -81,7 +81,7 @@ public class ReceiptController {
 	
 	
 	// DTO-수납완료내역
-	@GetMapping("/getReceiptList/{patient_id}")
+	@GetMapping("/getReceiptList")
 	public List<ReceiptDTO.GetReceiptList> getReceiptList(@PathVariable("patient_id") int patient_id) {
 		return receiptService.getReceiptList(patient_id);
 	}
