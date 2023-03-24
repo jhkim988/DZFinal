@@ -7,11 +7,13 @@ import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
@@ -26,28 +28,54 @@ public class ClinicController {
 	ClinicService clinicService;
 	
 	@GetMapping("/{reception_id}")
-	public ClinicResponse.Clinic getUnderlyingList(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {		
-		return clinicService.getClinic(reception_id);
+	public ClinicResponse.PatientInfo getPatientInfo(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {		
+		return clinicService.getPatientInfo(reception_id);
 	}
 	
-	@GetMapping("/drugtaking/{type}/{keyword}")
-	public List<ClinicResponse.DrugTaking> getDrugTaking(@PathVariable("type") String type, @PathVariable("keyword") String keyword) {
-		return clinicService.getDrugTaking(type, keyword);
+	@GetMapping("/disease/{type}/{keyword}")
+	public List<ClinicResponse.Underlying> getDiseaseList(@PathVariable("type") String type, @PathVariable("keyword") String keyword) {
+		return clinicService.getDiseaseList(type, keyword);
 	}
 	
-	@GetMapping("/underlying/{type}/{keyword}")
-	public List<ClinicResponse.Underlying> getUnderlying(@PathVariable("type") String type, @PathVariable("keyword") String keyword) {
-		return clinicService.getUnderlying(type, keyword);
+	@GetMapping("/drug/{type}/{keyword}")
+	public List<ClinicResponse.DrugTaking> getDrugList(@PathVariable("type") String type, @PathVariable("keyword") String keyword) {
+		return clinicService.getDrugList(type, keyword);
 	}
 	
-	@PostMapping("/insertUnderlying")
-	public void insertUnderlying(@RequestBody ClinicResponse.UnderlyingInsert paramData) {
+	@PostMapping("/disease")
+	public void insertUnderlying(@RequestBody ClinicResponse.Disease paramData) {
 		clinicService.insertUnderlying(paramData);
-
 	}
 	
-	@PostMapping("/deleteUnderlying")
-	public void deleteUnderlying(@RequestBody ClinicResponse.UnderlyingInsert paramData) {
-		clinicService.deleteUnderlying(paramData);
+	@DeleteMapping("/disease")
+	public void deleteUnderlying(@RequestParam @Digits(integer = 8, fraction = 0) @Min(1) int patient_id,
+			@RequestParam @Digits(integer = 8, fraction = 0) @Min(1) int disease_id) {
+		clinicService.deleteUnderlying(patient_id, disease_id);
+	}
+	
+	@PostMapping("/drug")
+	public void insertDrugTaking(@RequestBody ClinicResponse.Drug paramData) {
+		clinicService.insertDrugTaking(paramData);
+	}
+	
+	@DeleteMapping("/drug")
+	public void deleteDrugTaking(@RequestParam @Digits(integer = 8, fraction = 0) @Min(1) int patient_id,
+			@RequestParam @Digits(integer = 8, fraction = 0) @Min(1) int drug_id) {
+		clinicService.deleteDrugTaking(patient_id, drug_id);
+	}
+	
+	@PostMapping("/clinic")
+	public void clinic (@RequestBody ClinicResponse.Clinic paramData) {
+		clinicService.clinic(paramData);
+	}
+	
+	@GetMapping("/mri/{patient_id}")
+	public List<ClinicResponse.MedicalRecordInquiry> getMriList(@PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id) {
+		return clinicService.getMriList(patient_id);
+	}
+	
+	@GetMapping("/medicalinfo/{reception_id}")
+	public ClinicResponse.MedicalInfo getMedicalInfo(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {
+		return clinicService.getMedicalInfo(reception_id);
 	}
 }

@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ClinicRepository">
-	<resultMap id="clinicMap" type="com.douzone.dzfinal.dto.ClinicResponse$Clinic">
-		<association property="drug_takingList" column="patient_id" select="getDrugList"/>
-		<association property="underlyingList" column="patient_id" select="getDiseaseList"/>
+	<resultMap id="clinicMap" type="com.douzone.dzfinal.dto.ClinicResponse$PatientInfo">
+		<association property="underlyingList" column="patient_id" select="getUnderlying"/>
+		<association property="drug_takingList" column="patient_id" select="getDrugTaking"/>
 	</resultMap>
-	<select id="getClinic" resultMap="clinicMap">
+	
+	<resultMap id="mriMap" type="com.douzone.dzfinal.dto.ClinicResponse$MedicalRecordInquiry">
+		<result property="reception_id" column="reception_id"/>
+		<association property="diagnosisList" column="reception_id" select="getDiagnosis"/>
+		<association property="prescriptionList" column="reception_id" select="getPrescription"/>
+	</resultMap>
+	
+	<resultMap id="medicalInfoMap" type="com.douzone.dzfinal.dto.ClinicResponse$MedicalInfo">
+		<result property="reception_id" column="reception_id"/>
+		<association property="diagnosis" column="reception_id" select="getDiagnosis"/>
+		<association property="prescription" column="reception_id" select="getPrescription"/>
+	</resultMap>
+	
+	<select id="getPatientInfo" resultMap="clinicMap">
 	    SELECT
 			r.reception_id reception_id,
 			p.patient_id patient_id,
@@ -22,18 +35,7 @@
 	    WHERE reception_id = #{reception_id}
 	</select>
 	
-	<select id="getDrugList" resultType="com.douzone.dzfinal.dto.ClinicResponse$DrugTaking">
-		SELECT
-			d.drug_id drug_id,
-			d.drug_code drug_code,
-			d.drug_name drug_name
-		FROM Drug_Taking dt
-			inner join Drug d on dt.drug_id = d.drug_id
-		WHERE dt.patient_id = #{patient_id}
-		ORDER BY d.drug_code
-	</select>
-	
-	<select id="getDiseaseList" resultType="com.douzone.dzfinal.dto.ClinicResponse$Underlying">
+	<select id="getUnderlying" resultType="com.douzone.dzfinal.dto.ClinicResponse$Underlying">
 		SELECT
 			d.disease_id disease_id,
 			d.disease_code disease_code,
@@ -45,6 +47,30 @@
 	</select>
 	
 	<select id="getDrugTaking" resultType="com.douzone.dzfinal.dto.ClinicResponse$DrugTaking">
+		SELECT
+			d.drug_id drug_id,
+			d.drug_code drug_code,
+			d.drug_name drug_name
+		FROM Drug_Taking dt
+			inner join Drug d on dt.drug_id = d.drug_id
+		WHERE dt.patient_id = #{patient_id}
+		ORDER BY d.drug_code
+	</select>
+	
+	<select id="getDiseaseList" resultType="com.douzone.dzfinal.dto.ClinicResponse$Underlying">
+		SELECT disease_id, disease_code, disease_name
+		FROM Disease
+		WHERE
+		<if test='type == "1"'>
+			disease_code LIKE CONCAT(#{keyword}, '%')
+		</if>
+		<if test='type == "2"'>
+			disease_name LIKE CONCAT(#{keyword}, '%')
+		</if>
+		LIMIT 10
+	</select>
+	
+	<select id="getDrugList" resultType="com.douzone.dzfinal.dto.ClinicResponse$DrugTaking">
 		SELECT drug_id, drug_code, drug_name
 		FROM Drug
 		WHERE
@@ -57,19 +83,6 @@
 		LIMIT 10
 	</select>
 	
-	<select id="getUnderlying" resultType="com.douzone.dzfinal.dto.ClinicResponse$Underlying">
-		SELECT disease_id, disease_code, disease_name
-		FROM Disease
-		WHERE
-		<if test='type == "1"'>
-			disease_code LIKE CONCAT(#{keyword}, '%')
-		</if>
-		<if test='type == "2"'>
-			disease_name LIKE CONCAT(#{keyword}, '%')
-		</if>
-		LIMIT 10
-	</select>
-
 	<insert id="insertUnderlying">
 		INSERT INTO Underlying(patient_id, disease_id) VALUES (CAST(#{patient_id} AS UNSIGNED), CAST(#{disease_id} AS UNSIGNED))
 	</insert>
@@ -77,4 +90,87 @@
 	<delete id="deleteUnderlying">
 		DELETE FROM Underlying WHERE patient_id = #{patient_id} AND disease_id = #{disease_id}
 	</delete>
+	
+	<insert id="insertDrugTaking">
+		INSERT INTO Drug_Taking(patient_id, drug_id) VALUES (CAST(#{patient_id} AS UNSIGNED), CAST(#{drug_id} AS UNSIGNED))
+	</insert>
+	
+	<delete id="deleteDrugTaking">
+		DELETE FROM Drug_Taking WHERE patient_id = #{patient_id} AND drug_id = #{drug_id}
+	</delete>
+	
+	<insert id="insertClinic">
+		insert into Clinic(`reception_id`, `symptom`, `treatment`, `clinic_request`, `creator`, `updator`)
+		values (#{reception_id}, #{symptom}, #{treatment}, #{clinic_request}, #{creator}, #{creator})
+	</insert>
+	
+	<insert id="insertDiagnosis">
+		INSERT INTO Diagnosis(`disease_id`, `reception_id`, `creator`, `updator`)
+		VALUES
+		<foreach item="disease_id" collection="disease_ids" separator=",">
+		 	(#{disease_id}, #{reception_id}, #{creator}, #{creator})
+		</foreach>
+	</insert>
+	
+	<insert id="insertPrescription">
+		INSERT INTO Prescription(`drug_id`, `reception_id`)
+		VALUES
+		<foreach item="drug_id" collection="drug_ids" separator=",">
+			 (#{drug_id}, #{reception_id})
+		</foreach>
+	</insert>
+	
+	<select id="getMriList" resultMap="mriMap">
+	    SELECT
+	    	r.reception_id reception_id,
+	    	p.patient_name patient_name,
+	    	e.employee_name employee_name,
+	    	r.created_at created_at
+		FROM Reception r
+			INNER JOIN Patient p ON r.patient_id = p.patient_id
+			INNER JOIN Employee e ON r.doctor = e.employ_id
+		WHERE r.patient_id = #{patient_id};
+	</select>
+	
+	<select id="getDiagnosis" resultType="com.douzone.dzfinal.dto.ClinicResponse$Diagnosis">
+		SELECT
+			Disease.disease_id disease_id,
+			Disease.disease_name disease_name,
+			r.reception_id reception_id
+		FROM Diagnosis d
+			INNER JOIN Reception r ON d.reception_id = r.reception_id
+			INNER JOIN Disease ON d.disease_id = Disease.disease_id
+		WHERE d.reception_id = #{reception_id};
+	</select>
+	
+	<select id="getPrescription" resultType="com.douzone.dzfinal.dto.ClinicResponse$Prescription">
+		SELECT
+			d.drug_id,
+			d.drug_name,
+			r.reception_id reception_id
+		FROM Prescription p
+			INNER JOIN Reception r ON p.reception_id = r.reception_id
+			INNER JOIN Drug d ON p.drug_id = d.drug_id
+		WHERE p.reception_id = #{reception_id};
+	</select>
+	
+	<select id="getMedicalInfo" resultMap="medicalInfoMap">
+		SELECT 
+			r.reception_id reception_id,
+			c.created_at created_at,
+			e.employee_name employee_name,
+			r.systolic systolic,
+			r.diastolic diastolic,
+			r.blood_sugar blood_sugar,
+			r.height height,
+			r.weight weight,
+			r.bmi bmi,
+			r.treatment_reason treatment_reason,
+			c.symptom symptom,
+			c.treatment treatment,
+			c.clinic_request clinic_request
+		FROM Reception r INNER JOIN Employee e ON r.doctor = e.employ_id
+			INNER JOIN Clinic c ON r.reception_id = c.reception_id
+		WHERE r.reception_id = #{reception_id};
+	</select>
 </mapper>
