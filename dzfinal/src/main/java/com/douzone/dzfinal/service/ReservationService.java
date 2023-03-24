@@ -38,9 +38,9 @@ public class ReservationService {
     public int save(Reservation reservation) {
         reservationRepository.save(reservation);
         PatientDTO.PhoneNumbers phoneNumber = PatientDTO.PhoneNumbers.builder()
-                .phone1(reservation.getPhone_number1())
-                .phone2(reservation.getPhone_number2())
-                .phone3(reservation.getPhone_number3())
+                .phone_number1(reservation.getPhone_number1())
+                .phone_number2(reservation.getPhone_number2())
+                .phone_number3(reservation.getPhone_number3())
                 .build();
         patientRepository.findOneByPhone(phoneNumber).ifPresent(patient -> {
             reservation.setPatient_id(patient.getPatient_id());

@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 public class Patient {
     private int patient_id;
     private String patient_name;
-    private String phone1;
-    private String phone2;
-    private String phone3;
+    private String phone_number1;
+    private String phone_number2;
+    private String phone_number3;
     private String front_registration_number;
     private String back_registration_number;
     private String gender;
