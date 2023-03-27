@@ -46,7 +46,7 @@ public class ClinicService {
 	}
 	
 	@Transactional
-	public void clinic(ClinicResponse.Clinic paramData) {
+	public void insertClinic(ClinicResponse.Clinic paramData) {
 		int reception_id = paramData.getReception_id();
 		String symptom = paramData.getSymptom();
 		boolean treatment = paramData.isTreatment();
@@ -63,9 +63,34 @@ public class ClinicService {
 			clinicRepository.insertPrescription(reception_id, drug_ids);
 		}
 	}
+	
+	@Transactional
+	public void updateClinic(ClinicResponse.Clinic paramData) {
+		int reception_id = paramData.getReception_id();
+		String symptom = paramData.getSymptom();
+		boolean treatment = paramData.isTreatment();
+		boolean clinic_request = paramData.isClinic_request();
+		int creator = paramData.getCreator();
+		List<Integer> disease_ids = paramData.getDisease_ids();
+		List<Integer> drug_ids = paramData.getDrug_ids();
+		
+		clinicRepository.updateClinic(reception_id, symptom, treatment, clinic_request, creator);
+	    if (disease_ids != null && !disease_ids.isEmpty()) {
+	    	clinicRepository.deleteDiagnosis(reception_id);
+	    	clinicRepository.insertDiagnosis(reception_id, disease_ids, creator);
+	    }
+		if (drug_ids != null && !drug_ids.isEmpty()) {
+			clinicRepository.deletePrescription(reception_id);
+			clinicRepository.insertPrescription(reception_id, drug_ids);
+		}
+	}
 
 	public List<ClinicResponse.MedicalRecordInquiry> getMriList(int patient_id) {
 		return clinicRepository.getMriList(patient_id);
+	}
+	
+	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo paramData) {
+		return clinicRepository.getSearchMriList(paramData);
 	}
 
 	public ClinicResponse.MedicalInfo getMedicalInfo(int reception_id) {

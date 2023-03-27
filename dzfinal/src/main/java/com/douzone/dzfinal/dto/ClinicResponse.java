@@ -1,15 +1,11 @@
 package com.douzone.dzfinal.dto;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -127,5 +123,17 @@ public class ClinicResponse {
 		private String symptom;
 		private boolean treatment;
 		private boolean clinic_request;
+	}
+	
+	@AllArgsConstructor
+	@NoArgsConstructor
+	@Data
+	public static class SearchInfo {
+		private String type;
+		@JsonFormat(pattern = "yyyy-MM-dd")
+		private Timestamp start;
+		@JsonFormat(pattern = "yyyy-MM-dd")
+		private Timestamp end;
+		private String keyword;
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,13 +66,24 @@ public class ClinicController {
 	}
 	
 	@PostMapping("/clinic")
-	public void clinic (@RequestBody ClinicResponse.Clinic paramData) {
-		clinicService.clinic(paramData);
+	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
+		clinicService.insertClinic(paramData);
+	}
+	
+	@PutMapping("/clinic")
+	public void updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
+		clinicService.updateClinic(paramData);
 	}
 	
 	@GetMapping("/mri/{patient_id}")
 	public List<ClinicResponse.MedicalRecordInquiry> getMriList(@PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id) {
 		return clinicService.getMriList(patient_id);
+	}
+	
+	@PostMapping("/mri/search")
+	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
+		System.out.println(paramData);
+	    return clinicService.getSearchMriList(paramData);
 	}
 	
 	@GetMapping("/medicalinfo/{reception_id}")

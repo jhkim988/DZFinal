@@ -120,6 +120,26 @@
 		</foreach>
 	</insert>
 	
+	<update id="updateClinic">
+		UPDATE Clinic set symptom = #{symptom}, treatment = #{treatment}, clinic_request = #{clinic_request}, updator = #{updator} WHERE reception_id = #{reception_id}
+	</update>
+		
+<!-- 	<update id="updateClinic">
+		UPDATE Clinic set symptom = #{symptom}, treatment = #{treatment}, clinic_request = #{clinic_request}, updator = #{updator} WHERE reception_id = #{reception_id}
+	</update>
+	
+	<update id="updateClinic">
+		UPDATE Clinic set symptom = #{symptom}, treatment = #{treatment}, clinic_request = #{clinic_request}, updator = #{updator} WHERE reception_id = #{reception_id}
+	</update> -->
+	
+	<delete id="deleteDiagnosis">
+		DELETE FROM Diagnosis WHERE reception_id = #{reception_id}
+	</delete>
+	
+	<delete id="deletePrescription">
+		DELETE FROM Prescription WHERE reception_id = #{reception_id}
+	</delete>
+	
 	<select id="getMriList" resultMap="mriMap">
 	    SELECT
 	    	r.reception_id reception_id,
@@ -152,6 +172,22 @@
 			INNER JOIN Reception r ON p.reception_id = r.reception_id
 			INNER JOIN Drug d ON p.drug_id = d.drug_id
 		WHERE p.reception_id = #{reception_id};
+	</select>
+	
+	<select id="getSearchMriList" resultMap="mriMap">
+	  SELECT r.reception_id reception_id,
+	    p.patient_name patient_name,
+	    e.employee_name employee_name,
+	    r.created_at created_at
+	  FROM Patient p
+	    INNER JOIN Reception r ON p.patient_id = r.patient_id
+	    INNER JOIN Employee e ON r.doctor = e.employ_id
+	  <choose>
+	    <when test="type == 'reception_id'">WHERE reception_id = #{keyword}</when>
+	    <when test="type == 'patient_name'">WHERE p.patient_name LIKE CONCAT(#{keyword}, '%')</when>
+	    <otherwise></otherwise>
+	  </choose>
+	    AND r.created_at BETWEEN #{start} AND DATE_ADD(#{end}, INTERVAL 1 DAY)
 	</select>
 	
 	<select id="getMedicalInfo" resultMap="medicalInfoMap">
