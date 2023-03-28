@@ -12,16 +12,16 @@ import java.util.Map;
 @Service
 public class ReceiptService {
 	private final ReceiptRepository receiptRepository;
-	private final MqttOutboundService mqttOutboundService;
-	public ReceiptService(ReceiptRepository receiptRepository, MqttOutboundService mqttOutboundService) {
+	private final MqttMessageService mqttMessageService;
+	public ReceiptService(ReceiptRepository receiptRepository, MqttMessageService mqttMessageService) {
 		this.receiptRepository = receiptRepository;
-		this.mqttOutboundService = mqttOutboundService;
+		this.mqttMessageService = mqttMessageService;
 	}
 
 	// 수납
 	public void insertReceipt(Receipt receipt) {
 		receiptRepository.insertReceipt(receipt);
-		mqttOutboundService.sendToWaiting("PUT", receipt.getReceipt_id(), "수납완료");
+		mqttMessageService.sendToWaiting("PUT", receipt.getReceipt_id(), "수납완료");
 	}
 
 	// DTO-수납할 사람들 정보 가져오기

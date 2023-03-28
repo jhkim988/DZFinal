@@ -11,11 +11,11 @@ import java.util.List;
 @Service
 public class ClinicService {
 	private final ClinicRepository clinicRepository;
-	private final MqttOutboundService mqttOutboundService;
+	private final MqttMessageService mqttMessageService;
 
-	public ClinicService(ClinicRepository clinicRepository, MqttOutboundService mqttOutboundService) {
+	public ClinicService(ClinicRepository clinicRepository, MqttMessageService mqttMessageService) {
 		this.clinicRepository = clinicRepository;
-		this.mqttOutboundService = mqttOutboundService;
+		this.mqttMessageService = mqttMessageService;
 	}
 	
 	public ClinicResponse.PatientInfo getPatientInfo(int reception_id) {
@@ -63,7 +63,7 @@ public class ClinicService {
 		if (drug_ids != null && !drug_ids.isEmpty()) {
 			clinicRepository.insertPrescription(reception_id, drug_ids);
 		}
-		mqttOutboundService.sendToWaiting("PUT", 7, "수납완료");
+		mqttMessageService.sendToWaiting("PUT", reception_id, "수납대기");
 	}
 
 	@Transactional

@@ -12,8 +12,9 @@ import java.util.List;
 public class ReceptionService {
 
 	@Autowired
-	ReceptionRepository receptionRepository;
-
+	private ReceptionRepository receptionRepository;
+	@Autowired
+	private MqttMessageService mqttMessageService;
 	public List<Reception> receptionList() {
 		return receptionRepository.receptionList();
 	}
@@ -23,6 +24,9 @@ public class ReceptionService {
 	}
 
 	public int insertReception(Reception reception) {
-		return receptionRepository.insertReception(reception);
+		receptionRepository.insertReception(reception);
+		int reception_id = reception.getReception_id();
+		mqttMessageService.sendToWaiting("PUT", reception_id, "진료대기");
+		return reception_id;
 	}
 }
