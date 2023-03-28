@@ -1,7 +1,11 @@
 package com.douzone.dzfinal.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
@@ -16,7 +21,7 @@ import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.service.ReceiptService;
 
 @RestController
-@RequestMapping("/api/receipt")
+@RequestMapping("/receipt")
 public class ReceiptController {
 
 	@Autowired
@@ -81,9 +86,11 @@ public class ReceiptController {
 	
 	
 	// DTO-수납완료내역
-	@GetMapping("/getReceiptList")
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(@PathVariable("patient_id") int patient_id) {
-		return receiptService.getReceiptList(patient_id);
+	@PostMapping("/getReceiptList")
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestBody HashMap<String,Object> params) {
+		//System.out.println(type + searchText + start_date + end_date);
+		System.out.println("params: "+params);
+		return receiptService.getReceiptList(params);
 	}
 	// MAP-수납완료내역
 	@GetMapping("/getReceipt")
