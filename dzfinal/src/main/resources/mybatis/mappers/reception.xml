@@ -26,4 +26,27 @@
 		WHERE R.patient_id = P.patient_id
 	</select>
 	
+	<insert id="insertReception" parameterType="com.douzone.dzfinal.entity.Reception">
+		INSERT INTO Reception (
+			doctor, 
+			treatment_reason, 
+			patient_id, 
+			systolic, 
+			diastolic, 
+			blood_sugar, 
+			height, 
+			weight, 
+			bmi
+		)VALUES (
+		    #{doctor},
+		    #{treatment_reason},
+		    #{patient_id},
+		    #{systolic},
+		    #{diastolic},
+		    #{blood_sugar},
+		    #{height},
+		    #{weight},
+		    #{bmi}
+  		)
+	</insert>
 </mapper>

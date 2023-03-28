@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Mapper
 public interface ReservationRepository {
+	List<Reservation> todayReservationList();
     List<ReservationDTO.Month> monthList(@Param("start") String start, @Param("end") String end);
     List<ReservationDTO.Week> weekList(@Param("start") String start, @Param("end") String end);
     List<ReservationDTO.Day> dayList(String target);
@@ -18,5 +19,4 @@ public interface ReservationRepository {
     void update(Reservation reservation);
     List<String> impossibleDay(@Param("doctor") int doctor, @Param("year") int year, @Param("month") int month);
     List<String> impossibleTime(@Param("doctor") int doctor, @Param("date") String date);
-
 }

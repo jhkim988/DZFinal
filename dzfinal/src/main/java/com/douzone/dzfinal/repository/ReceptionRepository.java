@@ -11,4 +11,6 @@ import java.util.List;
 public interface ReceptionRepository {
 	
 	public List<Reception> receptionList();
+	
+	public int insertReception(Reception reception);
 }
