@@ -18,7 +18,7 @@ import com.douzone.dzfinal.entity.Patient;
 import com.douzone.dzfinal.service.PatientService;
 
 @RestController
-@RequestMapping("/api/patient")
+@RequestMapping("/patient")
 public class PatientController {
 	
 	@Autowired
