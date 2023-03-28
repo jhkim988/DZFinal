@@ -1,11 +1,13 @@
 package com.douzone.dzfinal.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class ReceiptDTO {
 	@Data
@@ -71,6 +73,23 @@ public class ReceiptDTO {
 		// (Diagnosis)진단
 		private Timestamp created_at;
 	}
+	
+	
+	@AllArgsConstructor
+	@NoArgsConstructor
+	@Data
+	public static class Diagnosis {
+		private int disease_id;
+		private String disease_name;
+	}
+	
+	@AllArgsConstructor
+	@NoArgsConstructor
+	@Data
+	public static class Prescription {
+		private int drug_id;
+		private String drug_name;
+	}
 
 	
 	@Data
@@ -97,7 +116,22 @@ public class ReceiptDTO {
 		// (Receipt)수납
 		private String mode;
 		private int total_amount;
+		@JsonFormat(pattern = "yyyy-MM-dd")
 		private Timestamp created_at;
 		
+		private int receipt_id;
+		private String employee_name;
+		private List<Diagnosis> diagnosisList;
+		private List<Prescription> prescriptionList;	
+		
+		private String type;
+		@JsonFormat(pattern = "yyyy-MM-dd")
+		private Timestamp start_date;
+		@JsonFormat(pattern = "yyyy-MM-dd")
+		private Timestamp end_date;
+		private String searchText;
+		
 	}
+	
+
 }

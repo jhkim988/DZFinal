@@ -5,6 +5,7 @@ import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.repository.ReceiptRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class ReceiptService {
 		this.receiptRepository = receiptRepository;
 		this.mqttOutboundService = mqttOutboundService;
 	}
-	
+
 	// 수납
 	public void insertReceipt(Receipt receipt) {
 		receiptRepository.insertReceipt(receipt);
@@ -31,10 +32,10 @@ public class ReceiptService {
 	public Map<String, Object> selectReceiptDetail(String reception_id) throws Exception {
 		return receiptRepository.selectReceiptDetail(reception_id);
 	}
-	
-	
-	
-	
+
+
+
+
 	// DTO-처방전 출력 정보 가져오기
 	public ReceiptDTO.TreatmentInfo getTreatmentInfo(int reception_id) {
 		return receiptRepository.getTreatmentInfo(reception_id).orElseThrow(IllegalArgumentException::new);
@@ -43,8 +44,8 @@ public class ReceiptService {
 	public Map<String, Object> getTreatment(String reception_id) throws Exception {
 		return receiptRepository.getTreatment(reception_id);
 	}
-	
-	
+
+
 	// DTO-진료의뢰서 출력 정보 가져오기
 	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(int patient_id) {
 		return receiptRepository.getClinicRequestInfo(patient_id);
@@ -53,14 +54,18 @@ public class ReceiptService {
 	public List<Map<String, Object>> getClinicRequest(String patient_id) throws Exception {
 		return receiptRepository.getClinicRequest(patient_id);
 	}
-	
-	
+
+
 	// DTO-수납완료내역
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(int patient_id) {
-		return receiptRepository.getReceiptList(patient_id);
-	}
+//	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText, String start_date, String end_date) {
+//		return receiptRepository.getReceiptList(type, searchText, start_date, end_date);
+//	}
 	// MAP-수납완료내역
 	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
 		return receiptRepository.getReceipt(patient_id);
+	}
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(HashMap<String, Object> params) {
+		// TODO Auto-generated method stub
+		return receiptRepository.getReceiptList(params);
 	}
 }

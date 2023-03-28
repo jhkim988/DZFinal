@@ -14,6 +14,10 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final PatientRepository patientRepository;
 
+    public List<Reservation> todayReservationList() {
+		return reservationRepository.todayReservationList();
+	}
+    
     public ReservationService(ReservationRepository reservationRepository, PatientRepository patientRepository) {
         this.reservationRepository = reservationRepository;
         this.patientRepository = patientRepository;

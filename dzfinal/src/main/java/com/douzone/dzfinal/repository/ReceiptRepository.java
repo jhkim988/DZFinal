@@ -1,10 +1,12 @@
 package com.douzone.dzfinal.repository;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
+import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.entity.Receipt;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,8 +29,15 @@ public interface ReceiptRepository {
 	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(int patient_id);
 	// MAP-진료의뢰서 출력 정보 가져오기
 	public List<Map<String, Object>> getClinicRequest(String patient_id);	
-	// DTO-수납완료내역
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(int patient_id);
+	
+	
+
+//	// DTO-수납완료내역
+//	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText,
+//														  String start_type, String end_date);
+//	public List<ReceiptDTO.GetReceiptList> getReceiptList(int receipt_id);
 	// MAP-수납완료내역
-	public List<Map<String, Object>> getReceipt(String patient_id);	
+	public List<Map<String, Object>> getReceipt(String patient_id);
+
+	List<GetReceiptList> getReceiptList(HashMap<String, Object> params);	
 }

@@ -40,4 +40,28 @@
 		inner join Employee e on r.doctor = e.employ_id
 		where DATE(r.created_at) = DATE(NOW());
 	</select>
+	
+	<insert id="insertReception" parameterType="com.douzone.dzfinal.entity.Reception">
+		INSERT INTO Reception (
+			doctor, 
+			treatment_reason, 
+			patient_id, 
+			systolic, 
+			diastolic, 
+			blood_sugar, 
+			height, 
+			weight, 
+			bmi
+		)VALUES (
+		    #{doctor},
+		    #{treatment_reason},
+		    #{patient_id},
+		    #{systolic},
+		    #{diastolic},
+		    #{blood_sugar},
+		    #{height},
+		    #{weight},
+		    #{bmi}
+  		)
+	</insert>
 </mapper>

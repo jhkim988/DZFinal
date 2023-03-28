@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class ReceptionService {
-	
+
 	@Autowired
 	ReceptionRepository receptionRepository;
 
@@ -20,5 +20,9 @@ public class ReceptionService {
 
 	public List<WaitingDTO.WaitingData> todayList() {
 		return receptionRepository.todayList();
+	}
+
+	public int insertReception(Reception reception) {
+		return receptionRepository.insertReception(reception);
 	}
 }
