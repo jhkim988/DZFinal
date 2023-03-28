@@ -2,11 +2,7 @@ package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
 import com.douzone.dzfinal.entity.Receipt;
-import com.douzone.dzfinal.repository.ClinicRepository;
-import com.douzone.dzfinal.repository.PatientRepository;
 import com.douzone.dzfinal.repository.ReceiptRepository;
-import com.douzone.dzfinal.repository.ReceptionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,28 +11,18 @@ import java.util.Map;
 @Service
 public class ReceiptService {
 	private final ReceiptRepository receiptRepository;
-	
-	@Autowired
-	private ReceptionRepository receptionRepository;
-	
-	@Autowired
-	private PatientRepository patientRepository;
-	
-	@Autowired
-	private ClinicRepository clinicRepository;
-	
-	
-	public ReceiptService(ReceiptRepository receiptRepository) {
+	private final MqttOutboundService mqttOutboundService;
+	public ReceiptService(ReceiptRepository receiptRepository, MqttOutboundService mqttOutboundService) {
 		this.receiptRepository = receiptRepository;
+		this.mqttOutboundService = mqttOutboundService;
 	}
 	
 	// 수납
-	public Receipt insertReceipt(Receipt receipt) {
-		return receiptRepository.insertReceipt(receipt);
+	public void insertReceipt(Receipt receipt) {
+		receiptRepository.insertReceipt(receipt);
+		mqttOutboundService.sendToWaiting("PUT", receipt.getReceipt_id(), "수납완료");
 	}
-	
-	
-	
+
 	// DTO-수납할 사람들 정보 가져오기
 	public ReceiptDTO.ReceptionInfo getReceipt(int reception_id) {
 		return receiptRepository.findOneByReception(reception_id).orElseThrow(IllegalArgumentException::new);
@@ -77,13 +63,4 @@ public class ReceiptService {
 	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
 		return receiptRepository.getReceipt(patient_id);
 	}
-	
-	
-
-	public Receipt test() {
-		return receiptRepository.test();
-	}
-	
-
-
 }

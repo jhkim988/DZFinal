@@ -1,24 +1,17 @@
 package com.douzone.dzfinal.config;
 
-import com.douzone.dzfinal.dto.WaitingDTO;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessageProducer;
-import org.springframework.integration.dsl.IntegrationFlow;
-import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.Transformers;
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
 import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter;
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
-import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
-import org.springframework.messaging.handler.annotation.Header;
 
 @Configuration
 public class MqttConfig {
@@ -50,7 +43,7 @@ public class MqttConfig {
     public MessageHandler inboundMessageHandler() {
         return message -> {
             System.out.println(message.getHeaders());
-          System.out.println(message.getPayload());
+            System.out.println(message.getPayload());
         };
     }
 
@@ -65,7 +58,6 @@ public class MqttConfig {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
-        messageHandler.setDefaultTopic("waiting");
         return messageHandler;
     }
 }
