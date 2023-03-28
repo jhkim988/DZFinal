@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ReservationRepository">
 
-	<select id="todayReservationList" resultType="com.douzone.dzfinal.entity.Reservation">
+	<select id="todayReservationList" resultType="com.douzone.dzfinal.dto.ReceptionDTO$TodayReservationList">
 		SELECT R.reservation_id,
 			R.patient_name,
 			R.phone_number1,
