@@ -32,8 +32,8 @@
 			p.patient_id,
 			p.patient_name,
 			p.front_registration_number,
-			r.doctor,
-			e.employee_name,
+			r.doctor doctor_id,
+			e.employee_name doctor_name,
 			r.state
 		from Reception r
 		inner join Patient p on r.patient_id = p.patient_id
