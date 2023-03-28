@@ -64,4 +64,10 @@
 		    #{bmi}
   		)
 	</insert>
+
+	<update id="update">
+		update Reception set
+			`state` = #{state}
+		where reception_id = #{reception_id}
+	</update>
 </mapper>

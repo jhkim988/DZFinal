@@ -16,4 +16,6 @@ public interface ReceptionRepository {
 	List<WaitingDTO.WaitingData> todayList();
 	
 	public int insertReception(Reception reception);
+
+	void update(WaitingDTO.WaitingData data);
 }
