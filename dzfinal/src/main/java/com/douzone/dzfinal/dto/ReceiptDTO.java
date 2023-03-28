@@ -1,12 +1,11 @@
 package com.douzone.dzfinal.dto;
 
-import java.sql.Timestamp;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Timestamp;
 
 public class ReceiptDTO {
 	@Data

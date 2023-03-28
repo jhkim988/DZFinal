@@ -1,21 +1,16 @@
 package com.douzone.dzfinal.service;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.douzone.dzfinal.dto.ReceiptDTO;
-import com.douzone.dzfinal.dto.ReceiptResponse;
-import com.douzone.dzfinal.entity.Clinic;
-import com.douzone.dzfinal.entity.Patient;
 import com.douzone.dzfinal.entity.Receipt;
-import com.douzone.dzfinal.entity.Reception;
 import com.douzone.dzfinal.repository.ClinicRepository;
 import com.douzone.dzfinal.repository.PatientRepository;
 import com.douzone.dzfinal.repository.ReceiptRepository;
 import com.douzone.dzfinal.repository.ReceptionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ReceiptService {

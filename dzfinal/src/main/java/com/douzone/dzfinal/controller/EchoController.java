@@ -1,19 +1,19 @@
 package com.douzone.dzfinal.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.douzone.dzfinal.config.MqttOutboundGateway;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/api")
 public class EchoController {
-	
-	@PostMapping("/echo")
-	public Map<String, Object> echo(@RequestBody Map<String, Object> map) {
-		map.put("hi", "bye");
-		return map;
+
+	@Autowired
+	private MqttOutboundGateway gateway;
+	@GetMapping("/test")
+	public void test() {
+		System.out.println("TEST Controller: " + "{\"method\":\"PUT\",\"data\":{\"reception_id\":\"7\",\"state\":\"수납완료\"}}");
+		gateway.sendToMqtt("{\"method\":\"PUT\",\"data\":{\"reception_id\":\"7\",\"state\":\"수납완료\"}}", "waiting", 1);
 	}
 }

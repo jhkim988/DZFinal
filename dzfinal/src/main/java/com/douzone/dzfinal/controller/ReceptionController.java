@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.controller;
 
+import com.douzone.dzfinal.dto.WaitingDTO;
 import com.douzone.dzfinal.entity.Reception;
 import com.douzone.dzfinal.service.ReceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,10 @@ public class ReceptionController {
 	public List<Reception> receptionList() {
 
 		return receptionService.receptionList();
+	}
+
+	@GetMapping("/today")
+	public List<WaitingDTO.WaitingData> todayList() {
+		return receptionService.todayList();
 	}
 }
