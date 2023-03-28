@@ -1,6 +1,8 @@
 package com.douzone.dzfinal.config;
 
+import com.douzone.dzfinal.service.MqttMessageService;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -15,35 +17,41 @@ import org.springframework.messaging.MessageHandler;
 
 @Configuration
 public class MqttConfig {
+
+//    private String mqttURL = "tcp://192.168.0.132:1883";
+    private String mqttURL = "tcp://127.0.0.1:1883";
+
+    @Autowired
+    private MqttMessageService mqttMessageService;
+
     @Bean
     public DefaultMqttPahoClientFactory defaultMqttPahoClientFactory() {
         DefaultMqttPahoClientFactory clientFactory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setServerURIs(new String[]{"tcp://192.168.0.132:1883"});
+        options.setServerURIs(new String[]{mqttURL});
         clientFactory.setConnectionOptions(options);
         return clientFactory;
     }
     @Bean
-    public MessageProducer mqttInboundAdapter() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("tcp://192.168.0.132:1883","springBoot1","waiting", "chat");
+    public MessageProducer waitingInboundAdapter() {
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Waiting_inbound","waiting");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
-        adapter.setOutputChannel(mqttInboundChannel());
+        adapter.setOutputChannel(waitingInboundChannel());
         return adapter;
     }
 
-    @Bean("mqttInboundChannel")
-    public MessageChannel mqttInboundChannel() {
+    @Bean
+    public MessageChannel waitingInboundChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    @ServiceActivator(inputChannel = "mqttInboundChannel")
+    @ServiceActivator(inputChannel = "waitingInboundChannel")
     public MessageHandler inboundMessageHandler() {
         return message -> {
-            System.out.println(message.getHeaders());
-            System.out.println(message.getPayload());
+            mqttMessageService.updateReception((String) message.getPayload());
         };
     }
 
