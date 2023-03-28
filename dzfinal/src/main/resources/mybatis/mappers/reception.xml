@@ -26,7 +26,7 @@
 		WHERE R.patient_id = P.patient_id
 	</select>
 
-	<select id="today" resultType="com.douzone.dzfinal.dto.WaitingDTO$WaitingData">
+	<select id="todayList" resultType="com.douzone.dzfinal.dto.WaitingDTO$WaitingData">
 		select
 			r.reception_id,
 			p.patient_id,
