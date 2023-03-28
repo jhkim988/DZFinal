@@ -9,6 +9,7 @@
 	<select id="getEmployee" resultType="com.douzone.dzfinal.dto.AdminDTO$Employee">
 		SELECT employ_id, user_id, employee_name, birth, role, real_image, employee_email
 		FROM Employee
+		WHERE is_deleted = 0 AND role != "admin"
 	</select>
 	
 	<!-- 구현중 -->
