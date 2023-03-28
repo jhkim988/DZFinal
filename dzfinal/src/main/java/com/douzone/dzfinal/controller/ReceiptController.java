@@ -1,24 +1,14 @@
 package com.douzone.dzfinal.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.douzone.dzfinal.dto.ReceiptDTO;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.service.ReceiptService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/receipt")
@@ -27,15 +17,10 @@ public class ReceiptController {
 	@Autowired
 	private ReceiptService receiptService;
 	
-	@GetMapping
-	public void test() {
-		System.out.println(receiptService.test());
-	}
-
 	// 수납
 	@PostMapping("/insertReceipt")
-    public Receipt insertReceipt(@RequestBody Receipt receipt) {
-        return receiptService.insertReceipt(receipt);
+    public void insertReceipt(@RequestBody Receipt receipt) {
+		receiptService.insertReceipt(receipt);
     }
 	
 	
