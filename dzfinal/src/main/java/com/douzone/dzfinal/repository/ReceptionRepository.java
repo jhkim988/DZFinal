@@ -1,11 +1,10 @@
 package com.douzone.dzfinal.repository;
 
-import java.util.List;
-
+import com.douzone.dzfinal.entity.Reception;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.douzone.dzfinal.entity.Reception;
+import java.util.List;
 
 @Repository
 @Mapper
