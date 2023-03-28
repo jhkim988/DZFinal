@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.dto.ReceiptDTO;
+import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.dto.ReceiptDTO.ReceptionInfo;
 
 
@@ -47,8 +49,12 @@ public interface ReceiptRepository {
 	
 	
 
-	// DTO-수납완료내역
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(int patient_id);
+//	// DTO-수납완료내역
+//	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText,
+//														  String start_type, String end_date);
+//	public List<ReceiptDTO.GetReceiptList> getReceiptList(int receipt_id);
 	// MAP-수납완료내역
-	public List<Map<String, Object>> getReceipt(String patient_id);	
+	public List<Map<String, Object>> getReceipt(String patient_id);
+
+	List<GetReceiptList> getReceiptList(HashMap<String, Object> params);	
 }

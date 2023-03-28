@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.douzone.dzfinal.entity.Reception;
-import com.douzone.dzfinal.service.ReceptionService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/reception")
