@@ -4,17 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class WaitingDTO {
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class Inbound {
-        private String method;
-        private WaitingData data;
-    }
-
+    private String method;
+    private WaitingData data;
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

@@ -16,15 +16,10 @@ public class ReceiptController {
 	@Autowired
 	private ReceiptService receiptService;
 	
-	@GetMapping
-	public void test() {
-		System.out.println(receiptService.test());
-	}
-
 	// 수납
 	@PostMapping("/insertReceipt")
-    public Receipt insertReceipt(@RequestBody Receipt receipt) {
-        return receiptService.insertReceipt(receipt);
+    public void insertReceipt(@RequestBody Receipt receipt) {
+		receiptService.insertReceipt(receipt);
     }
 	
 	
