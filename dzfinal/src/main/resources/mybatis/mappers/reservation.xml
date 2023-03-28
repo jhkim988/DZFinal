@@ -127,6 +127,7 @@
             `doctor` = #{doctor}
             and YEAR(`wish_date`) = #{year}
             and MONTH(`wish_date`) = #{month}
+            and `state` in ("예약중", "완료")
         group by `wish_date`, `doctor` having count(*) >= 27
     </select>
     <select id="impossibleTime" resultType="java.lang.String">
@@ -134,5 +135,6 @@
         where
             `doctor` = #{doctor}
             and `wish_date` = #{date}
+            and `state` in ("예약중", "완료")
     </select>
 </mapper>
