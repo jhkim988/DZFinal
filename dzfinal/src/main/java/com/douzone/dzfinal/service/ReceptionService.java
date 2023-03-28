@@ -16,4 +16,8 @@ public class ReceptionService {
 	public List<Reception> receptionList() {
 		return receptionRepository.receptionList();
 	}
+	
+	public int insertReception(Reception reception) {
+		return receptionRepository.insertReception(reception);
+	}
 }

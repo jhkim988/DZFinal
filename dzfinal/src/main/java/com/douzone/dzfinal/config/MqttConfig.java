@@ -58,29 +58,29 @@ import org.springframework.messaging.MessagingException;
 public class MqttConfig {
 
 
-    @Bean
-    public MessageChannel mqttInputChannel() {
-        return new DirectChannel();
-    }
-
-    @Bean
-    public MessageProducer inbound() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("tcp://192.168.0.132:1883", "testClient", "test");
-        adapter.setCompletionTimeout(5000);
-        adapter.setConverter(new DefaultPahoMessageConverter());
-        adapter.setQos(1);
-        adapter.setOutputChannel(mqttInputChannel());
-        return adapter;
-    }
-
-    @Bean
-    @ServiceActivator(inputChannel="mqttInputChannel")
-    public MessageHandler handler() {
-        return new MessageHandler() {
-            @Override
-            public void handleMessage(Message<?> message) throws MessagingException {
-                System.out.println(message.getPayload());
-            }
-        };
-    }
+//    @Bean
+//    public MessageChannel mqttInputChannel() {
+//        return new DirectChannel();
+//    }
+//
+//    @Bean
+//    public MessageProducer inbound() {
+//        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("tcp://192.168.0.132:1883", "testClient", "test");
+//        adapter.setCompletionTimeout(5000);
+//        adapter.setConverter(new DefaultPahoMessageConverter());
+//        adapter.setQos(1);
+//        adapter.setOutputChannel(mqttInputChannel());
+//        return adapter;
+//    }
+//
+//    @Bean
+//    @ServiceActivator(inputChannel="mqttInputChannel")
+//    public MessageHandler handler() {
+//        return new MessageHandler() {
+//            @Override
+//            public void handleMessage(Message<?> message) throws MessagingException {
+//                System.out.println(message.getPayload());
+//            }
+//        };
+//    }
 }
