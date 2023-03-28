@@ -3,6 +3,8 @@ package com.douzone.dzfinal.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.douzone.dzfinal.entity.Reception;
+import com.douzone.dzfinal.service.ReceptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
