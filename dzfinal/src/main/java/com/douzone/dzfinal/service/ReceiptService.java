@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
+import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.dto.ReceiptResponse;
 import com.douzone.dzfinal.entity.Clinic;
 import com.douzone.dzfinal.entity.Patient;
@@ -37,6 +39,7 @@ public class ReceiptService {
 	
 	// 수납
 	public Receipt insertReceipt(Receipt receipt) {
+		System.out.println("수납 controller: " + receipt);
 		return receiptRepository.insertReceipt(receipt);
 	}
 	
@@ -75,9 +78,9 @@ public class ReceiptService {
 	
 	
 	// DTO-수납완료내역
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(int patient_id) {
-		return receiptRepository.getReceiptList(patient_id);
-	}
+//	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText, String start_date, String end_date) {
+//		return receiptRepository.getReceiptList(type, searchText, start_date, end_date);
+//	}
 	// MAP-수납완료내역
 	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
 		return receiptRepository.getReceipt(patient_id);
@@ -87,6 +90,11 @@ public class ReceiptService {
 
 	public Receipt test() {
 		return receiptRepository.test();
+	}
+
+	public List<GetReceiptList> getReceiptList(HashMap<String, Object> params) {
+		// TODO Auto-generated method stub
+		return receiptRepository.getReceiptList(params);
 	}
 	
 
