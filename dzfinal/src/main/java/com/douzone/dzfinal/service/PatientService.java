@@ -1,13 +1,11 @@
 package com.douzone.dzfinal.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.douzone.dzfinal.entity.Patient;
+import com.douzone.dzfinal.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.douzone.dzfinal.entity.Patient;
-import com.douzone.dzfinal.repository.PatientRepository;
+import java.util.List;
 
 @Service
 public class PatientService {
