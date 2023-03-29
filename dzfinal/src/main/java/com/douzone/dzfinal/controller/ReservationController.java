@@ -22,6 +22,11 @@ public class ReservationController {
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
+    
+    @GetMapping
+	public List<Reservation> todayReservationList(){
+		return reservationService.todayReservationList();
+	}
 
     @GetMapping("/month")
     public List<ReservationDTO.Month> monthList(@RequestParam String start, @RequestParam String end) {
@@ -41,13 +46,12 @@ public class ReservationController {
     @GetMapping("/{reservation_id}")
     public Reservation detail(@PathVariable("reservation_id") @Digits(integer = 8, fraction = 0) @Min(0) int reservation_id) {
         Reservation reservation = reservationService.details(reservation_id);
-        System.out.println(reservation);
         return reservation;
     }
 
     @PostMapping
-    public void save(@RequestBody Reservation reservation) {
-        reservationService.save(reservation);
+    public int save(@RequestBody Reservation reservation) {
+        return reservationService.save(reservation);
     }
 
     @PutMapping
