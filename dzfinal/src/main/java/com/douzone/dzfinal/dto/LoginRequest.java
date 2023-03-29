@@ -1,10 +1,9 @@
 package com.douzone.dzfinal.dto;
 
+import lombok.Data;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-import lombok.Data;
 
 @Data
 public class LoginRequest {
