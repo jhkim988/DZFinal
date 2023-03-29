@@ -1,20 +1,21 @@
 package com.douzone.dzfinal.service;
 
-import java.util.List;
-
+import com.douzone.dzfinal.dto.ClinicResponse;
+import com.douzone.dzfinal.repository.ClinicRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.repository.ClinicRepository;
+import java.util.List;
 
 @Service
 public class ClinicService {
 	private final ClinicRepository clinicRepository;
-	
-	public ClinicService(ClinicRepository clinicRepository) {
+	private final MqttMessageService mqttMessageService;
+
+	public ClinicService(ClinicRepository clinicRepository, MqttMessageService mqttMessageService) {
 		this.clinicRepository = clinicRepository;
+		this.mqttMessageService = mqttMessageService;
 	}
 	
 	public ClinicResponse.PatientInfo getPatientInfo(int reception_id) {
@@ -62,8 +63,9 @@ public class ClinicService {
 		if (drug_ids != null && !drug_ids.isEmpty()) {
 			clinicRepository.insertPrescription(reception_id, drug_ids);
 		}
+		mqttMessageService.sendToWaiting("PUT", reception_id, "수납대기");
 	}
-	
+
 	@Transactional
 	public void updateClinic(ClinicResponse.Clinic paramData) {
 		int reception_id = paramData.getReception_id();

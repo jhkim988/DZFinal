@@ -10,7 +10,7 @@
 			, #{pwd}
 		)
 	</insert>
-	<select id="findOneById" resultType="Member">
+<!-- 	<select id="findOneById" resultType="Member">
 		select * from tb_dzfinal_member where id = #{id}
-	</select>
+	</select> -->
 </mapper>

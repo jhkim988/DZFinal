@@ -1,55 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ReceiptRepository">
-	<resultMap type="com.douzone.dzfinal.entity.Reception" id="receiptMap">
-		<id property="reception_id" column="reception_id"/>
-		<result property="doctor" column="doctor"/>
-		<result property="treatment_reason" column="treatment_reason"/>
-		<result property="patient_id" column="patient_id"/>
-		<result property="creator" column="creator"/>
-		<result property="updator" column="updator"/>
-		<result property="created_at" column="created_at"/>
-		<result property="updated_at" column="updated_at"/>
-		<result property="state" column="state"/>
-		<result property="systolic" column="systolic"/>
-		<result property="diastolic" column="diastolic"/>
-		<result property="blood_sugar" column="blood_sugar"/>
-		<result property="height" column="height"/>
-		<result property="weight" column="weight"/>
-		<result property="bmi" column="bmi"/>
-		<result property="is_deleted" column="is_deleted"/>
-		<association property="patient" javaType="com.douzone.dzfinal.entity.Patient">
-			<id property="patient_id" column="patient_id"/>
-			<result property="patient_name" column="patient_name"/>
-			<result property="phone_number1" column="phone_number1"/>
-			<result property="phone_number2" column="phone_number2"/>
-			<result property="phone_number3" column="phone_number3"/>
-			<result property="front_registration_number" column="front_registration_number"/>
-			<result property="back_registration_number" column="back_registration_number"/>
-			<result property="gender" column="gender"/>
-			<result property="zip_code" column="zip_code"/>
-			<result property="address" column="address"/>
-			<result property="detail_address" column="detail_address"/>
-			<result property="insurance" column="insurance"/>
-			<result property="creator" column="creator"/>
-			<result property="updator" column="updator"/>
-			<result property="created_at" column="created_at"/>
-			<result property="updated_at" column="updated_at"/>
-			<result property="is_deleted" column="is_deleted"/>
-		</association>
-		<association property="clinic" javaType="com.douzone.dzfinal.entity.Clinic">
-			<id property="clinic_id" column="clinic_id" />
-			<result property="reception_id" column="reception_id" />
-			<result property="symptom" column="symptom" />
-			<result property="treatment" column="treatment" />
-			<result property="clinic_request" column="clinic_request" />
-			<result property="creator" column="creator" />
-			<result property="updator" column="updator" />
-			<result property="created_at" column="created_at" />
-			<result property="updated_at" column="updated_at" />
-		</association>
-	</resultMap>
-	
 	
 	<!-- 수납할 사람 데이터 가져오기 -->
  	<select id="findOneByReception" resultType="com.douzone.dzfinal.dto.ReceiptDTO$ReceptionInfo">
@@ -93,32 +44,32 @@
       INNER JOIN    Clinic c  ON r.reception_id = c.reception_id
       WHERE       	r.reception_id = 2;
 	</select>
-	
-	
-	
-	
-	
+
+
+
+
+
 	<!-- 수납완료! -->
-	<select id="insertReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" resultType="hashmap">
-		insert into Receipt(
-								reception_id, 
-								ratio, 
-								total_amount, 
-								card_name, 
-								card_number, 
-								mode, 
-								creator
-								)
-			values(
-					#{reception_id}, 
-					#{ratio}, 
-					#{total_amount}, 
-					#{card_name}, 
-					#{card_number}, 
-					#{mode}, 
-					1
-					)
-	</select>
+	<insert id="insertReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" useGeneratedKeys="true" keyProperty="reception_id">
+<!--		insert into Receipt(-->
+<!--								reception_id, -->
+<!--								ratio, -->
+<!--								total_amount, -->
+<!--								card_name, -->
+<!--								card_number, -->
+<!--								mode, -->
+<!--								creator-->
+<!--								)-->
+<!--			values(-->
+<!--					#{reception_id}, -->
+<!--					#{ratio}, -->
+<!--					#{total_amount}, -->
+<!--					#{card_name}, -->
+<!--					#{card_number}, -->
+<!--					#{mode}, -->
+<!--					1-->
+<!--					)-->
+	</insert>
 	
 
 
@@ -208,8 +159,37 @@
 
 
 	<!-- 수납완료내역 정보 가져오기! -->
-	<select id="getReceiptList" resultType="com.douzone.dzfinal.dto.ReceiptDTO$GetReceiptList">
+	<select id="getReceiptList" parameterType="hashmap" resultType="com.douzone.dzfinal.dto.ReceiptDTO$GetReceiptList">		 
 		SELECT 
+		    rt.receipt_id                   receipt_id,
+		    r.reception_id                  reception_id,
+		    r.doctor                        doctor,
+		    p.patient_id                    patient_id,
+		    p.patient_name                  patient_name,
+		    p.front_registration_number    front_registration_number,
+		    p.phone_number3                 phone_number3,
+		    ds.disease_name                 disease_name,
+		    dr.drug_name                    drug_name,
+		    rt.total_amount                 total_amount,
+		    rt.mode                         mode,
+		    rt.created_at                   created_at 
+		FROM Reception r
+		INNER JOIN Patient p ON r.patient_id = p.patient_id
+		INNER JOIN Diagnosis d ON r.reception_id = d.reception_id
+		INNER JOIN Disease ds ON d.disease_id = ds.disease_id
+		INNER JOIN Prescription pr ON r.reception_id = pr.reception_id
+		INNER JOIN Drug dr ON pr.drug_id =dr.drug_id
+		INNER JOIN Receipt rt ON r.reception_id = rt.reception_id
+		WHERE
+		    (#{type} = '' AND #{searchText} = '') OR
+		    (#{type} = 'patient_name' AND p.patient_name LIKE CONCAT('%',#{searchText}, '%')) OR
+		    (#{type} = 'reception_id' AND r.reception_id = #{searchText})
+		    AND rt.created_at BETWEEN #{start_date} AND #{end_date}
+		ORDER BY rt.created_at DESC;
+
+
+
+<!-- 		 SELECT 
 			rt.receipt_id 					receipt_id,
 			r.reception_id       			reception_id,
 			r.doctor 						doctor,
@@ -228,10 +208,76 @@
 		 INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id
 		 INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		 INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
-		 INNER JOIN  Receipt rt 		  ON r.reception_id = rt.reception_id;
+		 INNER JOIN  	Receipt rt 		  ON r.reception_id = rt.reception_id
+		 WHERE
+		  CASE
+		    WHEN #{type} = 'patient_name' THEN p.patient_name LIKE CONCAT('%',#{searchText}, '%')
+		    WHEN #{type} = 'reception_id' THEN r.reception_id = #{searchText}
+		    ELSE FALSE
+		  END
+		  AND rt.created_at BETWEEN #{start_date} AND #{end_date}
+		 ORDER BY rt.created_at desc; -->
+		 
+		 
+		 
+		<!--  SELECT 
+			rt.receipt_id 					receipt_id,
+			r.reception_id       			reception_id,
+			r.doctor 						doctor,
+			p.patient_id       				patient_id,
+			p.patient_name      			patient_name,
+			p.front_registration_number 	front_registration_number,
+			p.phone_number3 				phone_number3,
+			ds.disease_name 				disease_name,
+			dr.drug_name 					drug_name,
+			rt.total_amount 				total_amount,
+			rt.mode 						mode,
+			rt.created_at 					created_at 
+		FROM 		Reception r
+		 INNER JOIN 	Patient p 		  ON r.patient_id = p.patient_id
+		 INNER JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		 INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id
+		 INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
+		 INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
+		 INNER JOIN  	Receipt rt 		  ON r.reception_id = rt.reception_id
+		 WHERE
+		  CASE
+		    WHEN 'type' = 'patient_name' THEN p.patient_name LIKE '%searchText%'
+		    WHEN 'type' = 'reception_id' THEN rt.reception_id = 'searchText'
+		    ELSE FALSE
+		  END
+		  AND ( 
+		        rt.created_at BETWEEN #{start_date} AND #{end_date}
+		        OR NOT EXISTS (
+		            SELECT 1
+		            FROM Receipt
+		            WHERE created_at BETWEEN #{start_date} AND #{end_date}
+		        )
+		    ); -->
 	</select>
 	
 	<select id="getReceipt" resultType="hashmap">
+<!-- 		SELECT 
+			rt.receipt_id 					receipt_id,
+			r.reception_id       			reception_id,
+			r.doctor 						doctor,
+			p.patient_id       				patient_id,
+			p.patient_name      			patient_name,
+			p.front_registration_number 	front_registration_number,
+			p.phone_number3 				phone_number3,
+			ds.disease_name 				disease_name,
+			dr.drug_name 					drug_name,
+			rt.total_amount 				total_amount,
+			rt.mode 						mode,
+			rt.created_at 					created_at 
+		FROM 		Reception r
+		 INNER JOIN 	Patient p 		  ON r.patient_id = p.patient_id
+		 INNER JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		 INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id
+		 INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
+		 INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
+		 INNER JOIN  Receipt rt 		  ON r.reception_id = rt.reception_id; -->
+		 
 		SELECT 
 			rt.receipt_id 					receipt_id,
 			r.reception_id       			reception_id,
@@ -252,6 +298,15 @@
 		 INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		 INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
 		 INNER JOIN  Receipt rt 		  ON r.reception_id = rt.reception_id;
+		 <choose>
+		 	<when test="type == 'patient_name'">
+		 		WHERE p.patient_name LIKE '%searchText%'
+		 	</when>
+		 	<when test="type == 'reception_id'">
+		 		WHERE r.reception_id LIKE CONCAT(#{keyword}, '%')
+		 	</when>
+		 </choose>
+		WHERE rt.created_at BETWEEN #{start_date} AND #{end_date};
 	</select>
 
 </mapper>

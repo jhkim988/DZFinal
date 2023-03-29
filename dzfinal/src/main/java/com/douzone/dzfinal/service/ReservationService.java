@@ -14,6 +14,10 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final PatientRepository patientRepository;
 
+    public List<Reservation> todayReservationList() {
+		return reservationRepository.todayReservationList();
+	}
+    
     public ReservationService(ReservationRepository reservationRepository, PatientRepository patientRepository) {
         this.reservationRepository = reservationRepository;
         this.patientRepository = patientRepository;
@@ -35,17 +39,18 @@ public class ReservationService {
         return reservationRepository.findOneById(reservation_id).orElseThrow(IllegalArgumentException::new);
     }
 
-    public void save(Reservation reservation) {
+    public int save(Reservation reservation) {
         reservationRepository.save(reservation);
         PatientDTO.PhoneNumbers phoneNumber = PatientDTO.PhoneNumbers.builder()
-                .phone1(reservation.getPhone_number1())
-                .phone2(reservation.getPhone_number2())
-                .phone3(reservation.getPhone_number3())
+                .phone_number1(reservation.getPhone_number1())
+                .phone_number2(reservation.getPhone_number2())
+                .phone_number3(reservation.getPhone_number3())
                 .build();
         patientRepository.findOneByPhone(phoneNumber).ifPresent(patient -> {
             reservation.setPatient_id(patient.getPatient_id());
             reservationRepository.update(reservation);
         });
+        return reservation.getReservation_id();
     }
 
     public void update(Reservation reservation) {
