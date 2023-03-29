@@ -11,7 +11,7 @@ import com.douzone.dzfinal.entity.Chat;
 import com.douzone.dzfinal.service.ChatService;
 
 @RestController
-@RequestMapping("/api/chat")
+@RequestMapping("/chat")
 public class ChatController {
 	
 	@Autowired
