@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.douzone.dzfinal.repository.ReservationRepository">
+
+	<select id="todayReservationList" resultType="com.douzone.dzfinal.dto.ReceptionDTO$TodayReservationList">
+		SELECT R.reservation_id,
+			R.patient_name,
+			R.phone_number1,
+			R.phone_number2,
+			R.phone_number3,
+			E.employee_name,
+			P.front_registration_number,
+			P.back_registration_number,
+			P.zip_code,
+			P.address,
+			P.detail_address,
+			R.treatment_reason,
+			R.wish_time,
+			R.state
+		FROM Reservation R 
+		LEFT OUTER JOIN  Patient P ON R.patient_id = P.patient_id
+		INNER JOIN Employee E ON R.doctor = E.employ_id
+		WHERE DATE_FORMAT(R.wish_date,"%Y-%m-%d") = CURDATE()
+		AND R.state="예약중"
+	</select>
+	
+    <select id="monthList" resultType="com.douzone.dzfinal.dto.ReservationDTO$Month">
+        select
+            `reservation_id`,
+            `patient_name`,
+            `doctor`, count(*) as `count`,
+            `wish_date`,
+            `wish_time`,
+            `treatment_reason`
+        from Reservation
+            where wish_date between #{start} and #{end} and state in ('예약중', '완료')
+        group by `wish_date`, `doctor`;
+    </select>
+    <select id="weekList" resultType="com.douzone.dzfinal.dto.ReservationDTO$Week">
+    select
+        `reservation_id`,
+        `patient_name`,
+        `doctor`,
+        `wish_date`,
+        `wish_time`,
+        count(*) as `count`,
+        `treatment_reason`
+    from Reservation
+        where wish_date BETWEEN #{start} AND #{end} and state in ('예약중', '완료')
+        group by `wish_date`, HOUR(`wish_time`), `doctor`
+    </select>
+    <select id="dayList" resultType="com.douzone.dzfinal.dto.ReservationDTO$Day">
+        select
+            `reservation_id`,
+            `patient_name`,
+            `wish_date`,
+            `wish_time`,
+            `doctor`,
+            `treatment_reason`
+        from Reservation
+        where Reservation.wish_date=#{target} and state in ('예약중', '완료')
+    </select>
+    <select id="findOneById" resultType="com.douzone.dzfinal.entity.Reservation">
+        select
+            `reservation_id`,
+            `patient_id`,
+            `patient_name`,
+            `phone_number1`,
+            `phone_number2`,
+            `phone_number3`,
+            `wish_date`,
+            `wish_time`,
+            `treatment_reason`,
+            `state`,
+            `doctor`
+        from Reservation
+        join Employee on Reservation.doctor = Employee.employ_id
+        where reservation_id = #{reservation_id}
+    </select>
+    <insert id="save" useGeneratedKeys="true" keyProperty="reservation_id">
+        insert into Reservation
+        (
+            patient_name,
+            phone_number1,
+            phone_number2,
+            phone_number3,
+            wish_date,
+            wish_time,
+            treatment_reason,
+            state,
+            doctor,
+            creator,
+            updater
+        ) values (
+            #{patient_name},
+            #{phone_number1},
+            #{phone_number2},
+            #{phone_number3},
+            #{wish_date},
+            #{wish_time},
+            #{treatment_reason},
+            #{state},
+            #{doctor},
+            1,
+            1
+        )
+    </insert>
+    <update id="update">
+        update Reservation set
+        `patient_id` = #{patient_id},
+        `patient_name` = #{patient_name},
+        `phone_number1` = #{phone_number1},
+        `phone_number2` = #{phone_number2},
+        `phone_number3` = #{phone_number3},
+        `wish_date` = #{wish_date},
+        `wish_time` = #{wish_time},
+        `treatment_reason` = #{treatment_reason},
+        `doctor` = #{doctor},
+        `state` = #{state},
+        `updater` = 1
+        where `reservation_id` = #{reservation_id}
+    </update>
+
+    <select id="impossibleDay" resultType="java.lang.String">
+        select `wish_date` from Reservation
+        where
+            `doctor` = #{doctor}
+            and YEAR(`wish_date`) = #{year}
+            and MONTH(`wish_date`) = #{month}
+            and `state` in ("예약중", "완료")
+        group by `wish_date`, `doctor` having count(*) >= 27
+    </select>
+    <select id="impossibleTime" resultType="java.lang.String">
+        select SUBSTRING(`wish_time`, 1, 5) from Reservation
+        where
+            `doctor` = #{doctor}
+            and `wish_date` = #{date}
+            and `state` in ("예약중", "완료")
+    </select>
+</mapper>
