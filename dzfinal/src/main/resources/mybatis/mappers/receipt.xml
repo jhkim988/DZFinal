@@ -51,24 +51,24 @@
 
 	<!-- 수납완료! -->
 	<insert id="insertReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" useGeneratedKeys="true" keyProperty="reception_id">
-<!--		insert into Receipt(-->
-<!--								reception_id, -->
-<!--								ratio, -->
-<!--								total_amount, -->
-<!--								card_name, -->
-<!--								card_number, -->
-<!--								mode, -->
-<!--								creator-->
-<!--								)-->
-<!--			values(-->
-<!--					#{reception_id}, -->
-<!--					#{ratio}, -->
-<!--					#{total_amount}, -->
-<!--					#{card_name}, -->
-<!--					#{card_number}, -->
-<!--					#{mode}, -->
-<!--					1-->
-<!--					)-->
+		insert into Receipt(
+								reception_id,
+								ratio,
+								total_amount,
+								card_name,
+								card_number,
+								mode,
+								creator
+								)
+			values(
+					#{reception_id},
+					#{ratio},
+					#{total_amount},
+					#{card_name},
+					#{card_number},
+					#{mode},
+					1
+					)
 	</insert>
 	
 
