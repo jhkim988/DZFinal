@@ -60,12 +60,12 @@ public class ReceiptService {
 //	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText, String start_date, String end_date) {
 //		return receiptRepository.getReceiptList(type, searchText, start_date, end_date);
 //	}
+	public List<GetReceiptList> getReceiptList(HashMap<String, Object> params) {
+		return receiptRepository.getReceiptList(params);
+	}
 	// MAP-수납완료내역
 	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
 		return receiptRepository.getReceipt(patient_id);
 	}
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(HashMap<String, Object> params) {
-		// TODO Auto-generated method stub
-		return receiptRepository.getReceiptList(params);
-	}
+
 }
