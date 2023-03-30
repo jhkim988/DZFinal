@@ -17,14 +17,15 @@ public class ClinicResponse {
 		private int reception_id;
 		private int patient_id;
 		private String patient_name;
-		private String front_registration_number;
-		private String back_registration_number;
+//		private String front_registration_number;
+//		private String back_registration_number;
 		private int systolic;
 		private int diastolic;
 		private int blood_sugar;
 		private double height;
 		private double weight;
 		private double bmi;
+		private String treatment_reason;
 		private List<Underlying> underlyingList;
 		private List<DrugTaking> drug_takingList;		
 	}

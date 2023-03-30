@@ -23,14 +23,15 @@
 			r.reception_id reception_id,
 			p.patient_id patient_id,
 			p.patient_name patient_name,
-	    	p.front_registration_number front_registration_number,
-	    	p.back_registration_number back_registration_number,
+<!-- 	    	p.front_registration_number front_registration_number,
+	    	p.back_registration_number back_registration_number, -->
 	    	r.systolic systolic,
 			r.diastolic diastolic,
 	    	r.blood_sugar blood_sugar,
 			r.height height,
 			r.weight weight,
-			r.bmi bmi
+			r.bmi bmi,
+			r.treatment_reason treatment_reason
 	    FROM Reception r inner join Patient p on r.patient_id = p.patient_id
 	    WHERE reception_id = #{reception_id}
 	</select>
