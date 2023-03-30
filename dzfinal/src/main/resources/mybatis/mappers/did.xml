@@ -20,4 +20,8 @@
 	<update id="updateMessage">
 		UPDATE DID_subtitle SET message = #{message} WHERE id = #{id}
 	</update>
+	
+	<delete id="deleteMessgae">
+		DELETE FROM DID_subtitle WHERE id = #{id}
+	</delete>
 </mapper>

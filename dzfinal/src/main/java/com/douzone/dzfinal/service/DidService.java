@@ -36,4 +36,8 @@ public class DidService {
 	public void did_Setting(String type, String video_name, String video_real_name) {
 		didRepository.did_Setting(type, video_name, video_real_name);
 	}
+
+	public void deleteMessgae(int id) {
+		didRepository.deleteMessgae(id);
+	}
 }
