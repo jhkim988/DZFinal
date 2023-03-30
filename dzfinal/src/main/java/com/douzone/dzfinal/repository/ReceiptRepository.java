@@ -30,7 +30,7 @@ public interface ReceiptRepository {
 	// MAP-진료의뢰서 출력 정보 가져오기
 	public List<Map<String, Object>> getClinicRequest(String patient_id);	
 	
-	
+	Optional<Receipt> findOneByReceptionId(int reception_id);
 
 //	// DTO-수납완료내역
 //	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText,

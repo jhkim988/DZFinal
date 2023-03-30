@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.controller;
 
+import com.douzone.dzfinal.dto.ReceptionDTO;
 import com.douzone.dzfinal.dto.WaitingDTO;
 import com.douzone.dzfinal.entity.Reception;
 import com.douzone.dzfinal.service.ReceptionService;
@@ -37,5 +38,10 @@ public class ReceptionController {
 	@GetMapping("/today")
 	public List<WaitingDTO.WaitingData> todayList() {
 		return receptionService.todayList();
+	}
+
+	@GetMapping("/detail/{reception_id}")
+	public ReceptionDTO.Detail detail(@PathVariable int reception_id) {
+		return receptionService.detail(reception_id);
 	}
 }

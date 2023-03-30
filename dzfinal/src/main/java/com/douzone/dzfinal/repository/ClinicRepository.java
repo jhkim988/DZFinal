@@ -2,6 +2,7 @@ package com.douzone.dzfinal.repository;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
 import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
+import com.douzone.dzfinal.entity.Clinic;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -38,4 +39,6 @@ public interface ClinicRepository {
 	
 	ClinicResponse.MedicalInfo getMedicalInfo(int reception_id);
 	List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(SearchInfo paramData);
+
+	Optional<Clinic> findOneByReceptionId(int reception_id);
 }
