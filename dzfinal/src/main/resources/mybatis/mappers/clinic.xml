@@ -209,4 +209,7 @@
 			INNER JOIN Clinic c ON r.reception_id = c.reception_id
 		WHERE r.reception_id = #{reception_id};
 	</select>
+	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Clinic">
+		select * from Clinic where reception_id = #{reception_id}
+	</select>
 </mapper>

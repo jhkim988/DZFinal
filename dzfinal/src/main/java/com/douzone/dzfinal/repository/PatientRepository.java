@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Optional;
 @Mapper
 public interface PatientRepository {
+	
     Optional<Patient> findOneByPhone(PatientDTO.PhoneNumbers phoneNumbers);
+    
 	public int insertPatient(Patient patient);
 	
 	public int getPatientId(Patient patient);

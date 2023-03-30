@@ -16,7 +16,7 @@ public class Patient {
     private String front_registration_number;
     private String back_registration_number;
     private String gender;
-    private String zip;
+    private String zip_code;
     private String address;
     private String detail_address;
     private boolean insurance;

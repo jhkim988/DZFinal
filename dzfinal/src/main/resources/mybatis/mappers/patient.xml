@@ -7,4 +7,49 @@
             and phone_number2=#{phone_number2}
             and phone_number3=#{phone_number3}
     </select>
+    
+    <insert id="insertPatient" parameterType="com.douzone.dzfinal.entity.Patient" useGeneratedKeys="true" keyProperty="patient_id"> 
+		INSERT INTO Patient (
+			patient_name,
+			phone_number1,
+			phone_number2,
+			phone_number3,
+			front_registration_number,
+			back_registration_number,
+			gender,
+			zip_code,
+			address,
+			detail_address,
+			insurance
+		) VALUES (
+			#{patient_name},
+			#{phone_number1},
+			#{phone_number2},
+			#{phone_number3},
+			#{front_registration_number},
+			#{back_registration_number},
+			#{gender},
+			#{zip_code},
+			#{address},
+			#{detail_address},
+			#{insurance}
+		)
+	</insert>
+
+	<select id="searchPatient" resultType="com.douzone.dzfinal.entity.Patient">
+		SELECT patient_id,patient_name, front_registration_number, phone_number3
+		FROM Patient
+		WHERE patient_name LIKE CONCAT(#{patient_name},'%')
+	</select>
+
+	 <select id="getPatientId" resultType="int">
+	    SELECT patient_id FROM Patient
+	    WHERE patient_name = #{patient_name} 
+	    AND front_registration_number = #{front_registration_number} 
+	    AND phone_number3 = #{phone_number3}
+  	</select> 
+
+  	<select id="searchPatientInfo" resultType="com.douzone.dzfinal.entity.Patient">
+  		SELECT * FROM Patient WHERE patient_id=#{patient_id} 
+  	</select>
 </mapper>

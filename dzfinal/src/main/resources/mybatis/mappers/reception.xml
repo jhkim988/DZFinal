@@ -25,6 +25,23 @@
 		FROM Reception R , Patient P
 		WHERE R.patient_id = P.patient_id
 	</select>
+
+	<select id="todayList" resultType="com.douzone.dzfinal.dto.WaitingDTO$WaitingData">
+		select
+			r.reception_id,
+			p.patient_id,
+			p.patient_name,
+			p.front_registration_number,
+			r.doctor doctor_id,
+			e.employee_name doctor_name,
+			r.state,
+			Receipt.receipt_id receipt_id
+		from Reception r
+		inner join Patient p on r.patient_id = p.patient_id
+		inner join Employee e on r.doctor = e.employ_id
+		left join Receipt on Receipt.reception_id = r.reception_id
+		where DATE(r.created_at) = DATE(NOW());
+	</select>
 	
 	<insert id="insertReception" parameterType="com.douzone.dzfinal.entity.Reception">
 		INSERT INTO Reception (
@@ -49,4 +66,46 @@
 		    #{bmi}
   		)
 	</insert>
+
+	<update id="update">
+		update Reception set
+			`state` = #{state}
+		where reception_id = #{reception_id}
+	</update>
+
+	<resultMap id="reception_detail" type="com.douzone.dzfinal.dto.ReceptionDTO$Detail">
+		<association
+				property="reception"
+				column="reception_id"
+				javaType="com.douzone.dzfinal.entity.Reception"
+				select="findOneById"
+		/>
+		<association
+				property="patient"
+				column="patient_id"
+				javaType="com.douzone.dzfinal.entity.Patient"
+				select="com.douzone.dzfinal.repository.PatientRepository.searchPatientInfo"
+		/>
+		<association
+				property="receipt"
+				column="reception_id"
+				javaType="com.douzone.dzfinal.entity.Receipt"
+				select="com.douzone.dzfinal.repository.ReceiptRepository.findOneByReceptionId"
+		/>
+		<association
+				property="clinic"
+				column="reception_id"
+				javaType="com.douzone.dzfinal.entity.Clinic"
+				select="com.douzone.dzfinal.repository.ClinicRepository.findOneByReceptionId"
+		/>
+	</resultMap>
+	<select id="findOneById" resultType="com.douzone.dzfinal.entity.Reception">
+		select * from Reception where reception_id = #{reception_id}
+	</select>
+	<select id="detail" resultMap="reception_detail">
+		select
+			*
+		from Reception
+		where Reception.reception_id = #{reception_id}
+	</select>
 </mapper>
