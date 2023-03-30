@@ -1,5 +1,8 @@
 package com.douzone.dzfinal.dto;
 
+import com.douzone.dzfinal.entity.Patient;
+import com.douzone.dzfinal.entity.Receipt;
+import com.douzone.dzfinal.entity.Reception;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +28,13 @@ public class ReceptionDTO {
 		private String employee_name;
 	}
 
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
+	public static class Detail {
+		private Reception reception;
+		private Patient patient;
+		private Receipt receipt;
+	}
 }

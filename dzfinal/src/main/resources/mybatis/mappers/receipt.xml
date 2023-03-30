@@ -309,4 +309,7 @@
 		WHERE rt.created_at BETWEEN #{start_date} AND #{end_date};
 	</select>
 
+	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Receipt">
+		select * from Receipt where reception_id = #{reception_id}
+	</select>
 </mapper>

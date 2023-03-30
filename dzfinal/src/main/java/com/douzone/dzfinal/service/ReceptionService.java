@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.service;
 
+import com.douzone.dzfinal.dto.ReceptionDTO;
 import com.douzone.dzfinal.dto.WaitingDTO;
 import com.douzone.dzfinal.entity.Reception;
 import com.douzone.dzfinal.repository.ReceptionRepository;
@@ -28,5 +29,9 @@ public class ReceptionService {
 		int reception_id = reception.getReception_id();
 		mqttMessageService.sendToWaiting("PUT", reception_id, "진료대기");
 		return reception_id;
+	}
+
+	public ReceptionDTO.Detail detail(int reception_id) {
+		return receptionRepository.detail(reception_id);
 	}
 }

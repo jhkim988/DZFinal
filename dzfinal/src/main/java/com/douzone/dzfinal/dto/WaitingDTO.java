@@ -23,5 +23,6 @@ public class WaitingDTO {
         private int doctor_id;
         private String doctor_name;
         private String state;
+        private int receipt_id;
     }
 }

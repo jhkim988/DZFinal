@@ -52,5 +52,4 @@
   	<select id="searchPatientInfo" resultType="com.douzone.dzfinal.entity.Patient">
   		SELECT * FROM Patient WHERE patient_id=#{patient_id} 
   	</select>
-  	
 </mapper>
