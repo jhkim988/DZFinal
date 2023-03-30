@@ -42,7 +42,6 @@ public class PatientController {
 	}
 
 	@GetMapping("/list")
-	@ResponseBody
 	public List<Patient> searchPatient(
 			@RequestParam("patient_name") String patient_name){
 		return patientService.searchPatient(patient_name);

@@ -53,7 +53,8 @@
 			blood_sugar, 
 			height, 
 			weight, 
-			bmi
+			bmi,
+			state
 		)VALUES (
 		    #{doctor},
 		    #{treatment_reason},
@@ -63,7 +64,8 @@
 		    #{blood_sugar},
 		    #{height},
 		    #{weight},
-		    #{bmi}
+		    #{bmi},
+		    "진료대기"
   		)
 	</insert>
 
