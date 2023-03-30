@@ -1,4 +1,4 @@
-//package com.douzone.dzfinal.config;
+package com.douzone.dzfinal.config;
 //
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.annotation.Bean;

@@ -172,7 +172,45 @@
 		    dr.drug_name                    drug_name,
 		    rt.total_amount                 total_amount,
 		    rt.mode                         mode,
-		    rt.created_at                   created_at 
+		    rt.created_at                   created_at,
+		    COUNT(*)                        AS receipt_count
+		FROM Reception r
+		INNER JOIN Patient p ON r.patient_id = p.patient_id
+		INNER JOIN Diagnosis d ON r.reception_id = d.reception_id
+		INNER JOIN Disease ds ON d.disease_id = ds.disease_id
+		INNER JOIN Prescription pr ON r.reception_id = pr.reception_id
+		INNER JOIN Drug dr ON pr.drug_id = dr.drug_id
+		INNER JOIN Receipt rt ON r.reception_id = rt.reception_id
+		WHERE
+		    1=1
+		    <if test='start_date != null and start_date != ""'>
+		        <![CDATA[ AND DATE(#{start_date}) <=  DATE(rt.created_at) ]]>
+		    </if>
+		    <if test='end_date != null and end_date != ""'>
+		        <![CDATA[ AND DATE(rt.created_at) <=  DATE(#{end_date}) ]]>
+		    </if>
+		    <if test='type == "patient_id"'> 	AND 	p.patient_id = #{searchText}</if>
+		    <if test='type == "patient_name"'> 	AND 	p.patient_name LIKE CONCAT(#{searchText}, '%') </if>
+		    <if test='type == "reception_id"'> 	AND 	r.reception_id = #{searchText} </if>
+		GROUP BY 	rt.reception_id
+		<!-- HAVING 		r.reception_id = #{searchText} OR p.patient_name = #{searchText} -->
+		ORDER BY 	rt.created_at DESC;
+
+
+<!--   		SELECT 
+		    rt.receipt_id                   receipt_id,
+		    r.reception_id                  reception_id,
+		    r.doctor                        doctor,
+		    p.patient_id                    patient_id,
+		    p.patient_name                  patient_name,
+		    p.front_registration_number    front_registration_number,
+		    p.phone_number3                 phone_number3,
+		    ds.disease_name                 disease_name,
+		    dr.drug_name                    drug_name,
+		    rt.total_amount                 total_amount,
+		    rt.mode                         mode,
+		    rt.created_at                   created_at,
+			COUNT(*) 			AS 			receipt_count
 		FROM Reception r
 		INNER JOIN Patient p ON r.patient_id = p.patient_id
 		INNER JOIN Diagnosis d ON r.reception_id = d.reception_id
@@ -181,15 +219,20 @@
 		INNER JOIN Drug dr ON pr.drug_id =dr.drug_id
 		INNER JOIN Receipt rt ON r.reception_id = rt.reception_id
 		WHERE
-		    (#{type} = '' AND #{searchText} = '') OR
-		    (#{type} = 'patient_name' AND p.patient_name LIKE CONCAT('%',#{searchText}, '%')) OR
-		    (#{type} = 'reception_id' AND r.reception_id = #{searchText})
-		    AND rt.created_at BETWEEN #{start_date} AND #{end_date}
-		ORDER BY rt.created_at DESC;
+		<if test="type == patient_name"> patient_name = #{patient_name} </if>
+		<if test="type == reception_id"> reception_id = #{reception_id} </if>
+			AND rt.created_at BETWEEN #{start_date} AND #{end_date}
+			AND rt.reception_id = #{searchText}
+		    		(#{type} = '' AND #{searchText} = '') OR
+		    		(#{type} = 'patient_name' AND p.patient_name LIKE CONCAT('%', #{searchText}, '%')) OR
+		    		(#{type} = 'reception_id' AND r.reception_id = #{searchText})
+		    		AND rt.created_at BETWEEN #{start_date} AND #{end_date}
+		GROUP BY 	(rt.reception_id = #{searchText})
+		HAVING 		(r.reception_id = #{searchText}) OR (p.patient_name = #{searchText})
+		ORDER BY 	rt.created_at DESC; -->
 
 
-
-<!-- 		 SELECT 
+<!--    		 SELECT 
 			rt.receipt_id 					receipt_id,
 			r.reception_id       			reception_id,
 			r.doctor 						doctor,

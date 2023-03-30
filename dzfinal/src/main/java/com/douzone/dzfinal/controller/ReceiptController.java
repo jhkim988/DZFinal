@@ -27,10 +27,10 @@ public class ReceiptController {
 	@Autowired
 	private ReceiptService receiptService;
 	
-	@GetMapping
-	public void test() {
-		System.out.println(receiptService.test());
-	}
+//	@GetMapping
+//	public void test() {
+//		System.out.println(receiptService.test());
+//	}
 
 	// 수납
 	@PostMapping("/insertReceipt")
@@ -90,6 +90,7 @@ public class ReceiptController {
 	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestBody HashMap<String,Object> params) {
 		//System.out.println(type + searchText + start_date + end_date);
 		System.out.println("params: "+params);
+	    System.out.println(receiptService.getReceiptList(params));
 		return receiptService.getReceiptList(params);
 	}
 	// MAP-수납완료내역

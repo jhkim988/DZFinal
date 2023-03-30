@@ -132,6 +132,8 @@ public class ReceiptDTO {
 		private Timestamp end_date;
 		private String searchText;
 		
+		private int receipt_count;
+		
 	}
 	
 
