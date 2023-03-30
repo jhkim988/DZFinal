@@ -92,6 +92,7 @@ public class ClinicResponse {
 	@Data
 	public static class Diagnosis {
 		private int disease_id;
+		private String disease_code;
 		private String disease_name;
 	}
 	
@@ -100,6 +101,7 @@ public class ClinicResponse {
 	@Data
 	public static class Prescription {
 		private int drug_id;
+		private String drug_code;
 		private String drug_name;
 	}
 	
@@ -110,6 +112,8 @@ public class ClinicResponse {
 		private int reception_id;
 		@JsonFormat(pattern = "yyyy-MM-dd")
 		private Timestamp created_at;
+		private String patient_name;
+		private String front_registration_number;
 		private String employee_name;
 		private int systolic;
 		private int diastolic;

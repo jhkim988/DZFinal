@@ -82,7 +82,6 @@ public class ClinicController {
 	
 	@PostMapping("/mri/search")
 	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
-		System.out.println(paramData);
 	    return clinicService.getSearchMriList(paramData);
 	}
 	
