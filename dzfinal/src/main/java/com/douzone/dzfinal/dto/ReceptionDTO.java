@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.dto;
 
+import com.douzone.dzfinal.entity.Clinic;
 import com.douzone.dzfinal.entity.Patient;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.entity.Reception;
@@ -36,5 +37,6 @@ public class ReceptionDTO {
 		private Reception reception;
 		private Patient patient;
 		private Receipt receipt;
+		private Clinic clinic;
 	}
 }

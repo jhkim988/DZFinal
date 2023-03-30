@@ -92,6 +92,12 @@
 				javaType="com.douzone.dzfinal.entity.Receipt"
 				select="com.douzone.dzfinal.repository.ReceiptRepository.findOneByReceptionId"
 		/>
+		<association
+				property="clinic"
+				column="reception_id"
+				javaType="com.douzone.dzfinal.entity.Clinic"
+				select="com.douzone.dzfinal.repository.ClinicRepository.findOneByReceptionId"
+		/>
 	</resultMap>
 	<select id="findOneById" resultType="com.douzone.dzfinal.entity.Reception">
 		select * from Reception where reception_id = #{reception_id}
