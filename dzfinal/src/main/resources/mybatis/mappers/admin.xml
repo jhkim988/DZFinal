@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.douzone.dzfinal.repository.AdminRepository">
+	<insert id="register">
+		INSERT INTO Employee(`user_id`, `pwd` ,`employee_name`, `birth`, `role`, `image_name`, `real_image`, `employee_email`, `is_deleted`)
+		VALUES (#{user_id}, #{birth}, #{employee_name}, #{birth}, #{role}, #{image_name}, #{real_image}, #{employee_email}, 0)
+	</insert>
+	
+	<select id="getEmployee" resultType="com.douzone.dzfinal.dto.AdminDTO$Employee">
+		SELECT employ_id, user_id, employee_name, birth, role, real_image, employee_email
+		FROM Employee
+		WHERE is_deleted = 0 AND role != "admin"
+	</select>
+	
+	<!-- 구현중 -->
+	<update id="updateEmployee">
+		UPDATE Employee
+		SET user_id = #{user_id}, employee_name = #{employee_name}, birth = #{birth}, role = #{role}, image_name = #{image_name},
+			real_image = #{real_image}, employee_email = #{employee_email}
+		WHERE employ_id = #{employ_id}
+	</update>
+	
+	<update id="updatePwd">
+		UPDATE Employee
+		SET pwd = #{pwd}
+		WHERE employ_id = #{employ_id}
+	</update>
+	
+	<update id="deleteEmployee">
+		UPDATE Employee SET is_deleted = 1 WHERE employ_id = #{employ_id}
+	</update>
+</mapper>
