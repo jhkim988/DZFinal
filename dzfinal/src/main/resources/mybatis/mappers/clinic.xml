@@ -148,7 +148,8 @@
 		FROM Reception r
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
-		WHERE r.patient_id = #{patient_id};
+		WHERE r.patient_id = #{patient_id}
+			AND r.state = "수납완료"
 	</select>
 	
 	<select id="getDiagnosis" resultType="com.douzone.dzfinal.dto.ClinicResponse$Diagnosis">
@@ -160,7 +161,7 @@
 		FROM Diagnosis d
 			INNER JOIN Reception r ON d.reception_id = r.reception_id
 			INNER JOIN Disease ON d.disease_id = Disease.disease_id
-		WHERE d.reception_id = #{reception_id};
+		WHERE d.reception_id = #{reception_id}
 	</select>
 	
 	<select id="getPrescription" resultType="com.douzone.dzfinal.dto.ClinicResponse$Prescription">
@@ -172,7 +173,7 @@
 		FROM Prescription p
 			INNER JOIN Reception r ON p.reception_id = r.reception_id
 			INNER JOIN Drug d ON p.drug_id = d.drug_id
-		WHERE p.reception_id = #{reception_id};
+		WHERE p.reception_id = #{reception_id}
 	</select>
 	
 	<select id="getSearchMriList" resultMap="mriMap">
@@ -211,6 +212,6 @@
 		FROM Reception r INNER JOIN Employee e ON r.doctor = e.employ_id
 			INNER JOIN Clinic c ON r.reception_id = c.reception_id
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
-		WHERE r.reception_id = #{reception_id};
+		WHERE r.reception_id = #{reception_id}
 	</select>
 </mapper>
