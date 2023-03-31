@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
+import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.repository.ReceiptRepository;
 import org.springframework.stereotype.Service;
@@ -68,4 +69,11 @@ public class ReceiptService {
 		return receiptRepository.getReceipt(patient_id);
 	}
 
+	
+	
+	
+	// MAP-수납목록 중 선택한 데이터 하나 가져오기
+	public Map<String, Object> selectedOneReceipt(String reception_id) throws Exception {
+		return receiptRepository.selectedOneReceipt(reception_id);
+	}
 }
