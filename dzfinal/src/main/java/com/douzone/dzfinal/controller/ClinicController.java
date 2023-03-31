@@ -1,14 +1,24 @@
 package com.douzone.dzfinal.controller;
 
-import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.service.ClinicService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.douzone.dzfinal.dto.ClinicResponse;
+import com.douzone.dzfinal.service.ClinicService;
 
 @Validated
 @RestController
@@ -57,22 +67,31 @@ public class ClinicController {
 	
 	@PostMapping("/clinic")
 	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
+		System.out.println("insert : " + paramData);
 		clinicService.insertClinic(paramData);
 	}
 	
 	@PutMapping("/clinic")
 	public void updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
+		System.out.println("update : " + paramData);
 		clinicService.updateClinic(paramData);
 	}
 	
-	@GetMapping("/mri/{patient_id}")
-	public List<ClinicResponse.MedicalRecordInquiry> getMriList(@PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id) {
-		return clinicService.getMriList(patient_id);
+	@GetMapping("/mri/{patient_id}/{currentPage}")
+	public ClinicResponse.MriPage getMriList(
+	    @PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id, @PathVariable("currentPage") int currentPage) {
+		int amount = 10;
+		
+		int total = clinicService.getTotal(patient_id);
+		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(currentPage, amount, total);
+		
+		ClinicResponse.MriPage mriPage = new ClinicResponse.MriPage(clinicService.getMriList(patient_id, pagination), pagination);
+		
+	  return mriPage;
 	}
 	
 	@PostMapping("/mri/search")
 	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
-		System.out.println(paramData);
 	    return clinicService.getSearchMriList(paramData);
 	}
 	

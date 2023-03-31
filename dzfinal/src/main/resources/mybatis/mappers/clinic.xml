@@ -23,14 +23,15 @@
 			r.reception_id reception_id,
 			p.patient_id patient_id,
 			p.patient_name patient_name,
-	    	p.front_registration_number front_registration_number,
-	    	p.back_registration_number back_registration_number,
+<!-- 	    	p.front_registration_number front_registration_number,
+	    	p.back_registration_number back_registration_number, -->
 	    	r.systolic systolic,
 			r.diastolic diastolic,
 	    	r.blood_sugar blood_sugar,
 			r.height height,
 			r.weight weight,
-			r.bmi bmi
+			r.bmi bmi,
+			r.treatment_reason treatment_reason
 	    FROM Reception r inner join Patient p on r.patient_id = p.patient_id
 	    WHERE reception_id = #{reception_id}
 	</select>
@@ -67,7 +68,6 @@
 		<if test='type == "2"'>
 			disease_name LIKE CONCAT(#{keyword}, '%')
 		</if>
-		LIMIT 10
 	</select>
 	
 	<select id="getDrugList" resultType="com.douzone.dzfinal.dto.ClinicResponse$DrugTaking">
@@ -80,7 +80,6 @@
 		<if test='type == "2"'>
 			drug_name LIKE CONCAT(#{keyword}, '%')
 		</if>
-		LIMIT 10
 	</select>
 	
 	<insert id="insertUnderlying">
@@ -149,29 +148,34 @@
 		FROM Reception r
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
-		WHERE r.patient_id = #{patient_id};
+		WHERE r.patient_id = #{patient_id}
+			AND r.state = "수납완료"
+		ORDER BY r.created_at DESC
+    	LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
 	</select>
 	
 	<select id="getDiagnosis" resultType="com.douzone.dzfinal.dto.ClinicResponse$Diagnosis">
 		SELECT
 			Disease.disease_id disease_id,
+			Disease.disease_code disease_code,
 			Disease.disease_name disease_name,
 			r.reception_id reception_id
 		FROM Diagnosis d
 			INNER JOIN Reception r ON d.reception_id = r.reception_id
 			INNER JOIN Disease ON d.disease_id = Disease.disease_id
-		WHERE d.reception_id = #{reception_id};
+		WHERE d.reception_id = #{reception_id}
 	</select>
 	
 	<select id="getPrescription" resultType="com.douzone.dzfinal.dto.ClinicResponse$Prescription">
 		SELECT
 			d.drug_id,
+			d.drug_code,
 			d.drug_name,
 			r.reception_id reception_id
 		FROM Prescription p
 			INNER JOIN Reception r ON p.reception_id = r.reception_id
 			INNER JOIN Drug d ON p.drug_id = d.drug_id
-		WHERE p.reception_id = #{reception_id};
+		WHERE p.reception_id = #{reception_id}
 	</select>
 	
 	<select id="getSearchMriList" resultMap="mriMap">
@@ -188,12 +192,15 @@
 	    <otherwise></otherwise>
 	  </choose>
 	    AND r.created_at BETWEEN #{start} AND DATE_ADD(#{end}, INTERVAL 1 DAY)
+	    AND r.state = "수납완료"
 	</select>
 	
 	<select id="getMedicalInfo" resultMap="medicalInfoMap">
 		SELECT 
 			r.reception_id reception_id,
 			c.created_at created_at,
+			p.patient_name patient_name,
+			p.front_registration_number front_registration_number,
 			e.employee_name employee_name,
 			r.systolic systolic,
 			r.diastolic diastolic,
@@ -201,13 +208,23 @@
 			r.height height,
 			r.weight weight,
 			r.bmi bmi,
-			r.treatment_reason treatment_reason,
 			c.symptom symptom,
 			c.treatment treatment,
 			c.clinic_request clinic_request
 		FROM Reception r INNER JOIN Employee e ON r.doctor = e.employ_id
 			INNER JOIN Clinic c ON r.reception_id = c.reception_id
-		WHERE r.reception_id = #{reception_id};
+			INNER JOIN Patient p ON r.patient_id = p.patient_id
+		WHERE r.reception_id = #{reception_id}
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT
+	    	count(*) as total
+		FROM Reception r
+			INNER JOIN Patient p ON r.patient_id = p.patient_id
+			INNER JOIN Employee e ON r.doctor = e.employ_id
+		WHERE r.patient_id = #{patient_id}
+			AND r.state = "수납완료";
 	</select>
 	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Clinic">
 		select * from Clinic where reception_id = #{reception_id}

@@ -1,14 +1,18 @@
 package com.douzone.dzfinal.repository;
 
-import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
-import com.douzone.dzfinal.entity.Clinic;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.douzone.dzfinal.dto.ClinicResponse;
+import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
+import com.douzone.dzfinal.entity.Clinic;
 
 @Repository
 @Mapper
@@ -33,12 +37,13 @@ public interface ClinicRepository {
 	void deleteDiagnosis(@Param("reception_id") int reception_id);
 	void deletePrescription(@Param("reception_id") int reception_id);
 	
-	List<ClinicResponse.MedicalRecordInquiry> getMriList(int patient_id);
+	List<ClinicResponse.MedicalRecordInquiry> getMriList(@Param("patient_id") int patient_id, @Param("pagination") ClinicResponse.Pagination pagination);
 	List<ClinicResponse.DrugTaking> getDiagnosis(@Param("reception_id") int reception_id);
 	List<ClinicResponse.Underlying> getPrescription(@Param("reception_id") int reception_id);
 	
 	ClinicResponse.MedicalInfo getMedicalInfo(int reception_id);
 	List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(SearchInfo paramData);
+	int getTotal(@Digits(integer = 8, fraction = 0) @Min(1) int patient_id);
 
 	Optional<Clinic> findOneByReceptionId(int reception_id);
 }
