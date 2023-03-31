@@ -1,12 +1,11 @@
 package com.douzone.dzfinal.entity;
 
-import java.sql.Timestamp;
-
-import org.apache.ibatis.type.Alias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor

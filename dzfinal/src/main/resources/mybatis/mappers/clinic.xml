@@ -226,4 +226,7 @@
 		WHERE r.patient_id = #{patient_id}
 			AND r.state = "수납완료";
 	</select>
+	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Clinic">
+		select * from Clinic where reception_id = #{reception_id}
+	</select>
 </mapper>

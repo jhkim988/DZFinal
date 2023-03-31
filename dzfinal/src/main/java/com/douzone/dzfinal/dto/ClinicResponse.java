@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.douzone.dzfinal.entity.Pagination;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public class ClinicResponse {
 	@NoArgsConstructor

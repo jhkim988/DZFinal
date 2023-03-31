@@ -10,8 +10,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Mapper
@@ -43,4 +43,6 @@ public interface ClinicRepository {
 	ClinicResponse.MedicalInfo getMedicalInfo(int reception_id);
 	List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(SearchInfo paramData);
 	int getTotal(@Digits(integer = 8, fraction = 0) @Min(1) int patient_id);
+
+	Optional<Clinic> findOneByReceptionId(int reception_id);
 }

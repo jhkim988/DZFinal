@@ -1,36 +1,26 @@
 package com.douzone.dzfinal.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.douzone.dzfinal.dto.ReceiptDTO;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.service.ReceiptService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/receipt")
+@RequestMapping("/receipt")
 public class ReceiptController {
 
 	@Autowired
 	private ReceiptService receiptService;
 	
-	@GetMapping
-	public void test() {
-		System.out.println(receiptService.test());
-	}
-
 	// 수납
 	@PostMapping("/insertReceipt")
-    public Receipt insertReceipt(@RequestBody Receipt receipt) {
-        return receiptService.insertReceipt(receipt);
+    public void insertReceipt(@RequestBody Receipt receipt) {
+		receiptService.insertReceipt(receipt);
     }
 	
 	
@@ -81,9 +71,11 @@ public class ReceiptController {
 	
 	
 	// DTO-수납완료내역
-	@GetMapping("/getReceiptList")
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(@PathVariable("patient_id") int patient_id) {
-		return receiptService.getReceiptList(patient_id);
+	@PostMapping("/getReceiptList")
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestBody HashMap<String,Object> params) {
+		//System.out.println(type + searchText + start_date + end_date);
+		System.out.println("params: "+params);
+		return receiptService.getReceiptList(params);
 	}
 	// MAP-수납완료내역
 	@GetMapping("/getReceipt")
