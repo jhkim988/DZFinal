@@ -41,7 +41,6 @@ public class MqttMessageService {
     }
 
     public void updateReception(String message) {
-        System.out.println("Update Reception");
         try {
             WaitingDTO dto = mapper.readValue(message, WaitingDTO.class);
             WaitingDTO.WaitingData data = dto.getData();
