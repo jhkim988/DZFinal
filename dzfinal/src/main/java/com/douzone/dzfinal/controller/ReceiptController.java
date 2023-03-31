@@ -84,5 +84,14 @@ public class ReceiptController {
 		System.out.println(receiptService.getReceipt(patient_id));
 		return receiptService.getReceipt(patient_id);
 	}
+	
+	
+	
+	// MAP-수납목록 중 선택한 데이터 하나 가져오기
+	@GetMapping("/selectedOneReceipt")
+	public Map<String, Object> selectedOneReceipt(String reception_id) throws Exception {
+		System.out.println(receiptService.selectedOneReceipt(reception_id));
+		return receiptService.selectedOneReceipt(reception_id);
+	}
 
 }

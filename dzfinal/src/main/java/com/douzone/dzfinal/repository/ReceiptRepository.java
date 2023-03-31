@@ -40,4 +40,8 @@ public interface ReceiptRepository {
 	public List<Map<String, Object>> getReceipt(String patient_id);
 
 	List<GetReceiptList> getReceiptList(HashMap<String, Object> params);	
+	
+	
+	// MAP-수납목록 중 선택한 데이터 하나 가져오기
+	public Map<String, Object> selectedOneReceipt(String reception_id);
 }
