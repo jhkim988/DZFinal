@@ -63,7 +63,7 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "mqttOutboundChannel")
     public MessageHandler mqttOutbound(DefaultMqttPahoClientFactory clientFactory) {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot#Waiting_outbound", clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
         return messageHandler;
