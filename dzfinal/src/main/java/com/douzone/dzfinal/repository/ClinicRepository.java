@@ -10,8 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import com.douzone.dzfinal.dto.ClinicResponse;
+import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
+import com.douzone.dzfinal.entity.Clinic;
 
 @Repository
 @Mapper

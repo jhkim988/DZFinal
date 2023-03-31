@@ -1,14 +1,9 @@
 package com.douzone.dzfinal.controller;
 
-import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.service.ClinicService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.entity.Pagination;
 import com.douzone.dzfinal.service.ClinicService;
 
 @Validated
