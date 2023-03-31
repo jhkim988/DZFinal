@@ -2,6 +2,9 @@ package com.douzone.dzfinal.service;
 
 import java.util.List;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,8 +88,8 @@ public class ClinicService {
 		}
 	}
 
-	public List<ClinicResponse.MedicalRecordInquiry> getMriList(int patient_id) {
-		return clinicRepository.getMriList(patient_id);
+	public List<ClinicResponse.MedicalRecordInquiry> getMriList(int patient_id, ClinicResponse.Pagination pagination) {
+		return clinicRepository.getMriList(patient_id, pagination);
 	}
 	
 	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo paramData) {
@@ -95,5 +98,9 @@ public class ClinicService {
 
 	public ClinicResponse.MedicalInfo getMedicalInfo(int reception_id) {
 		return clinicRepository.getMedicalInfo(reception_id);
+	}
+
+	public int getTotal(@Digits(integer = 8, fraction = 0) @Min(1) int patient_id) {
+		return clinicRepository.getTotal(patient_id);
 	}
 }

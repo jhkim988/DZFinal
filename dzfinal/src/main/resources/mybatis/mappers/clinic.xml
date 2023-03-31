@@ -150,6 +150,8 @@
 			INNER JOIN Employee e ON r.doctor = e.employ_id
 		WHERE r.patient_id = #{patient_id}
 			AND r.state = "수납완료"
+		ORDER BY r.created_at DESC
+    	LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
 	</select>
 	
 	<select id="getDiagnosis" resultType="com.douzone.dzfinal.dto.ClinicResponse$Diagnosis">
@@ -213,5 +215,15 @@
 			INNER JOIN Clinic c ON r.reception_id = c.reception_id
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 		WHERE r.reception_id = #{reception_id}
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT
+	    	count(*) as total
+		FROM Reception r
+			INNER JOIN Patient p ON r.patient_id = p.patient_id
+			INNER JOIN Employee e ON r.doctor = e.employ_id
+		WHERE r.patient_id = #{patient_id}
+			AND r.state = "수납완료";
 	</select>
 </mapper>
