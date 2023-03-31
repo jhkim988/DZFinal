@@ -187,12 +187,15 @@
 	    INNER JOIN Reception r ON p.patient_id = r.patient_id
 	    INNER JOIN Employee e ON r.doctor = e.employ_id
 	  <choose>
-	    <when test="type == 'reception_id'">WHERE reception_id = #{keyword}</when>
-	    <when test="type == 'patient_name'">WHERE p.patient_name LIKE CONCAT(#{keyword}, '%')</when>
+	    <when test="searchInfo.type == 'reception_id'">WHERE reception_id = #{searchInfo.keyword}</when>
+	    <when test="searchInfo.type == 'patient_name'">WHERE p.patient_name LIKE CONCAT(#{searchInfo.keyword}, '%')</when>
 	    <otherwise></otherwise>
 	  </choose>
-	    AND r.created_at BETWEEN #{start} AND DATE_ADD(#{end}, INTERVAL 1 DAY)
+	    AND r.created_at BETWEEN #{searchInfo.start} AND DATE_ADD(#{searchInfo.end}, INTERVAL 1 DAY)
 	    AND r.state = "수납완료"
+	    ORDER BY r.created_at DESC
+	    LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
+    	<!-- LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1 >= 0) ? (pagination.currentPage-1) * pagination.amount : 0} -->
 	</select>
 	
 	<select id="getMedicalInfo" resultMap="medicalInfoMap">
@@ -226,6 +229,22 @@
 		WHERE r.patient_id = #{patient_id}
 			AND r.state = "수납완료";
 	</select>
+	
+	<select id="getSearchTotal" resultType="int">
+		SELECT
+			count(*) as total
+	  	FROM Patient p
+	    	INNER JOIN Reception r ON p.patient_id = r.patient_id
+	    	INNER JOIN Employee e ON r.doctor = e.employ_id
+	  <choose>
+	    <when test="type == 'reception_id'">WHERE reception_id = #{keyword}</when>
+	    <when test="type == 'patient_name'">WHERE p.patient_name LIKE CONCAT(#{keyword}, '%')</when>
+	    <otherwise></otherwise>
+	  </choose>
+	    AND r.created_at BETWEEN #{start} AND DATE_ADD(#{end}, INTERVAL 1 DAY)
+	    AND r.state = "수납완료"
+	</select>
+	
 	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Clinic">
 		select * from Clinic where reception_id = #{reception_id}
 	</select>

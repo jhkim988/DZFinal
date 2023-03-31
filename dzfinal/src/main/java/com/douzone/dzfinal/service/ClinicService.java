@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
+import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
 import com.douzone.dzfinal.repository.ClinicRepository;
 
 @Service
@@ -95,8 +96,8 @@ public class ClinicService {
 		return clinicRepository.getMriList(patient_id, pagination);
 	}
 	
-	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo paramData) {
-		return clinicRepository.getSearchMriList(paramData);
+	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo paramData, ClinicResponse.Pagination pagination) {
+		return clinicRepository.getSearchMriList(paramData, pagination);
 	}
 
 	public ClinicResponse.MedicalInfo getMedicalInfo(int reception_id) {
@@ -105,5 +106,9 @@ public class ClinicService {
 
 	public int getTotal(@Digits(integer = 8, fraction = 0) @Min(1) int patient_id) {
 		return clinicRepository.getTotal(patient_id);
+	}
+
+	public int getSearchTotal(ClinicResponse.SearchInfo paramData) {
+		return clinicRepository.getSearchTotal(paramData);
 	}
 }

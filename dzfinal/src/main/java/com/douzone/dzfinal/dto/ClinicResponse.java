@@ -182,5 +182,6 @@ public class ClinicResponse {
 		@JsonFormat(pattern = "yyyy-MM-dd")
 		private Timestamp end;
 		private String keyword;
+		private int currentPage;
 	}
 }
