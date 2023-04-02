@@ -28,7 +28,7 @@ public class ClinicController {
 	@Autowired
 	ClinicService clinicService;
 	
-	@GetMapping("/{reception_id}")
+	@GetMapping("/receptioninfo/{reception_id}")
 	public ClinicResponse.PatientInfo getPatientInfo(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {		
 		return clinicService.getPatientInfo(reception_id);
 	}
@@ -67,13 +67,11 @@ public class ClinicController {
 	
 	@PostMapping("/clinic")
 	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		System.out.println("insert : " + paramData);
 		clinicService.insertClinic(paramData);
 	}
 	
 	@PutMapping("/clinic")
 	public void updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		System.out.println("update : " + paramData);
 		clinicService.updateClinic(paramData);
 	}
 	
