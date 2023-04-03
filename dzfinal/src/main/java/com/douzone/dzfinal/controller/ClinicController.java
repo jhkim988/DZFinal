@@ -28,7 +28,7 @@ public class ClinicController {
 	@Autowired
 	ClinicService clinicService;
 	
-	@GetMapping("/receptioninfo/{reception_id}")
+	@GetMapping("/{reception_id}")
 	public ClinicResponse.PatientInfo getPatientInfo(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {		
 		return clinicService.getPatientInfo(reception_id);
 	}
@@ -77,12 +77,11 @@ public class ClinicController {
 	
 	@GetMapping("/mri/{patient_id}/{currentPage}")
 	public ClinicResponse.MriPage getMriList(
-	    @PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id, @PathVariable("currentPage") int currentPage) {
+	    @PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id, @PathVariable("currentPage") int currentPage) {		
 		int amount = 10;
 		
 		int total = clinicService.getTotal(patient_id);
 		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(currentPage, amount, total);
-		
 		ClinicResponse.MriPage mriPage = new ClinicResponse.MriPage(clinicService.getMriList(patient_id, pagination), pagination);
 		
 	  return mriPage;
