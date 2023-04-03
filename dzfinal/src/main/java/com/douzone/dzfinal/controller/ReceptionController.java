@@ -47,4 +47,9 @@ public class ReceptionController {
 	public ReceptionDTO.Detail detail(@PathVariable int reception_id) {
 		return receptionService.detail(reception_id);
 	}
+	
+	@PostMapping("/update")
+	public void updateReceptionInfo(@RequestBody Reception reception) {
+		receptionService.updateReceptionInfo(reception);
+	}
 }

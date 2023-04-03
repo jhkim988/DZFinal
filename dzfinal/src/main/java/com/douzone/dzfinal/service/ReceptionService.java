@@ -19,7 +19,11 @@ public class ReceptionService {
 	public List<Reception> receptionList() {
 		return receptionRepository.receptionList();
 	}
-
+	
+	public void updateReceptionInfo(Reception reception) {
+		receptionRepository.updateReceptionInfo(reception);
+	}
+	
 	public List<WaitingDTO.WaitingData> todayList() {
 		return receptionRepository.todayList();
 	}
