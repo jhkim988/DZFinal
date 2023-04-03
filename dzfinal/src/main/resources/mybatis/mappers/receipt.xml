@@ -218,13 +218,14 @@
 		    rt.total_amount                 total_amount,
 		    rt.mode                         mode,
 		    rt.created_at                   created_at,
-		    COUNT(*)                        AS receipt_count
+ 		    COUNT(DISTINCT ds.disease_id)                AS disease_count,
+ 		    COUNT(DISTINCT pr.prescription_id) 			 AS prescription_count
 		FROM Reception r
-		INNER JOIN Patient p ON r.patient_id = p.patient_id
-		INNER JOIN Diagnosis d ON r.reception_id = d.reception_id
-		INNER JOIN Disease ds ON d.disease_id = ds.disease_id
-		INNER JOIN Prescription pr ON r.reception_id = pr.reception_id
-		INNER JOIN Drug dr ON pr.drug_id = dr.drug_id
+		LEFT JOIN Patient p ON r.patient_id = p.patient_id
+		LEFT JOIN Diagnosis d ON r.reception_id = d.reception_id
+		LEFT JOIN Disease ds ON d.disease_id = ds.disease_id
+		LEFT JOIN Prescription pr ON r.reception_id = pr.reception_id
+		LEFT JOIN Drug dr ON pr.drug_id = dr.drug_id
 		INNER JOIN Receipt rt ON r.reception_id = rt.reception_id
 		WHERE
 		    1=1
