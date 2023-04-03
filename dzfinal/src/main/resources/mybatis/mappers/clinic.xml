@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ClinicRepository">
 	<resultMap id="clinicMap" type="com.douzone.dzfinal.dto.ClinicResponse$PatientInfo">
+		<id property="reception_id" column="reception_id"/>
+    	<result property="patient_id" column="patient_id"/>
 		<association property="underlyingList" column="patient_id" select="getUnderlying"/>
 		<association property="drug_takingList" column="patient_id" select="getDrugTaking"/>
 	</resultMap>
@@ -144,10 +146,11 @@
 	    	r.reception_id reception_id,
 	    	p.patient_name patient_name,
 	    	e.employee_name employee_name,
-	    	r.created_at created_at
+	    	re.created_at created_at
 		FROM Reception r
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
+			INNER JOIN Receipt re ON re.reception_id = r.reception_id
 		WHERE r.patient_id = #{patient_id}
 			AND r.state = "수납완료"
 		ORDER BY r.created_at DESC
@@ -182,20 +185,23 @@
 	  SELECT r.reception_id reception_id,
 	    p.patient_name patient_name,
 	    e.employee_name employee_name,
-	    r.created_at created_at
+	    re.created_at created_at
 	  FROM Patient p
 	    INNER JOIN Reception r ON p.patient_id = r.patient_id
 	    INNER JOIN Employee e ON r.doctor = e.employ_id
+	    INNER JOIN Receipt re ON re.reception_id = r.reception_id
+	  WHERE 1 = 1
 	  <choose>
-	    <when test="searchInfo.type == 'reception_id'">WHERE reception_id = #{searchInfo.keyword}</when>
-	    <when test="searchInfo.type == 'patient_name'">WHERE p.patient_name LIKE CONCAT(#{searchInfo.keyword}, '%')</when>
+	    <when test="searchInfo.type == 'reception_id'">AND r.reception_id = #{searchInfo.keyword}</when>
+	    <when test="searchInfo.type == 'patient_name'">AND p.patient_name LIKE CONCAT(#{searchInfo.keyword}, '%')</when>
 	    <otherwise></otherwise>
 	  </choose>
-	    AND r.created_at BETWEEN #{searchInfo.start} AND DATE_ADD(#{searchInfo.end}, INTERVAL 1 DAY)
+	  <if test="searchInfo.start != '' and searchInfo.end != ''">
+	    AND DATE(re.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
+	  </if>
 	    AND r.state = "수납완료"
 	    ORDER BY r.created_at DESC
 	    LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
-    	<!-- LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1 >= 0) ? (pagination.currentPage-1) * pagination.amount : 0} -->
 	</select>
 	
 	<select id="getMedicalInfo" resultMap="medicalInfoMap">
@@ -226,6 +232,7 @@
 		FROM Reception r
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
+			INNER JOIN Receipt re ON re.reception_id = r.reception_id
 		WHERE r.patient_id = #{patient_id}
 			AND r.state = "수납완료";
 	</select>
@@ -236,12 +243,14 @@
 	  	FROM Patient p
 	    	INNER JOIN Reception r ON p.patient_id = r.patient_id
 	    	INNER JOIN Employee e ON r.doctor = e.employ_id
+	    	INNER JOIN Receipt re ON re.reception_id = r.reception_id
+	    WHERE 1 = 1
 	  <choose>
-	    <when test="type == 'reception_id'">WHERE reception_id = #{keyword}</when>
-	    <when test="type == 'patient_name'">WHERE p.patient_name LIKE CONCAT(#{keyword}, '%')</when>
+	    <when test="type == 'reception_id'">AND r.reception_id = #{keyword}</when>
+	    <when test="type == 'patient_name'">AND p.patient_name LIKE CONCAT(#{keyword}, '%')</when>
 	    <otherwise></otherwise>
 	  </choose>
-	    AND r.created_at BETWEEN #{start} AND DATE_ADD(#{end}, INTERVAL 1 DAY)
+	    AND DATE(re.created_at) BETWEEN #{start} AND #{end}
 	    AND r.state = "수납완료"
 	</select>
 	

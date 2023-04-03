@@ -175,9 +175,9 @@ public class ClinicResponse {
 	public static class SearchInfo {
 		private String type;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Timestamp start;
+		private String start;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Timestamp end;
+		private String end;
 		private String keyword;
 		private int currentPage;
 	}
