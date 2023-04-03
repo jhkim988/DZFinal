@@ -12,6 +12,19 @@ import com.douzone.dzfinal.repository.DidRepository;
 public class DidService {
 	private final DidRepository didRepository;
 	
+	
+	// DID 화면 출력(윤지)
+	public List<DidDTO.getDidVideo> getDidVideo() {
+		return didRepository.getDidVideo();
+	}
+	
+	public List<DidDTO.getDidSubtitle> getDidSubtitle() {
+		return didRepository.getDidSubtitle();
+	}
+	
+	
+	
+	// DID-SETTING(정주)
 	public DidService(DidRepository didRepository) {
 		this.didRepository = didRepository;
 	}
@@ -36,4 +49,10 @@ public class DidService {
 	public void did_Setting(String type, String video_name, String video_real_name) {
 		didRepository.did_Setting(type, video_name, video_real_name);
 	}
+
+
+
+
+
+
 }
