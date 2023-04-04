@@ -1,6 +1,8 @@
 package com.douzone.dzfinal.service;
 
+import com.douzone.dzfinal.dto.ChatDTO;
 import com.douzone.dzfinal.dto.WaitingDTO;
+import com.douzone.dzfinal.repository.ChatRepository;
 import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +17,8 @@ public class MqttMessageService {
     private ObjectMapper mapper;
     @Autowired
     private ReceptionRepository receptionRepository;
+    @Autowired
+    private ChatRepository chatRepository;
 
     public void sendToWaiting(String method, int reception_id, String state) {
         WaitingDTO waitingDTO = WaitingDTO.builder()
@@ -47,7 +51,9 @@ public class MqttMessageService {
     public void receiveChat(String message) {
     	System.out.println(message);
     	try {
-        	mapper.readValue(message, Object.class);
+        	ChatDTO.Message chatMessage = mapper.readValue(message, ChatDTO.Message.class);
+        	
+        	chatRepository.insert(chatMessage);
     	} catch (JsonProcessingException e) {
     		
     	}

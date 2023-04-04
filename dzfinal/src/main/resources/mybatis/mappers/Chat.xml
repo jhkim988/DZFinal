@@ -4,4 +4,14 @@
 	<select id="chatRoomList" resultType="com.douzone.dzfinal.dto.ChatDTO$ChatRoom">
 		SELECT * FROM ChatRoom
 	</select>
+	
+	<select id="getChatRoomMessages" resultType="com.douzone.dzfinal.dto.ChatDTO$Message">
+		SELECT * FROM Chat WHERE chatroom_id = #{chatroom_id}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO Chat(chatroom_id, message, created_at, `from`) VALUES (#{to}, #{message}, now(), #{from});
+	</insert>
+	
+	
 </mapper>

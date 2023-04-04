@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public class ChatDTO {
+public class ChatDTO {	
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Data
@@ -19,6 +19,9 @@ public class ChatDTO {
     @AllArgsConstructor
     @Builder
     public static class Message {
-        private String state;
+        private String mode;
+        private int to;
+        private int from;
+        private String message;
     }
 }
