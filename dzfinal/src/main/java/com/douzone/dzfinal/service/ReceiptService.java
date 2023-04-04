@@ -24,6 +24,10 @@ public class ReceiptService {
 		receiptRepository.insertReceipt(receipt);
 		mqttMessageService.sendToWaiting("PUT", receipt.getReceipt_id(), "수납완료");
 	}
+	// 수납
+	public void updateReceipt(Receipt receipt) {
+		receiptRepository.updateReceipt(receipt);
+	}
 
 	// DTO-수납할 사람들 정보 가져오기
 	public ReceiptDTO.ReceptionInfo getReceipt(int reception_id) {

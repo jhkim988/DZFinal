@@ -120,6 +120,24 @@
 
 
 
+
+
+
+	<!-- 수납수정 -->
+	<insert id="updateReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" useGeneratedKeys="true" keyProperty="receipt_id">
+		UPDATE Receipt 
+		SET reception_id = #{reception_id}, ratio=#{ratio}, total_amount=#{total_amount}, card_name=#{card_name}, card_number=#{card_number}, mode=#{mode}, creator=1
+		WHERE receipt_id = #{receipt_id};
+
+	</insert>
+	
+
+
+
+
+
+
+
 	<!-- 처방전 정보 가져오기! -->
 	<select id="getTreatmentInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$TreatmentInfo">
 		SELECT 

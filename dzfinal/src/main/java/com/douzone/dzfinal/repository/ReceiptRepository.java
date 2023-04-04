@@ -17,6 +17,8 @@ import java.util.Optional;
 public interface ReceiptRepository {
 	// 수납
 	public void insertReceipt(Receipt receipt);
+	// 수납
+	public void updateReceipt(Receipt receipt);
 	// DTO-수납할 사람들 정보 가져오
 	public Optional<ReceiptDTO.ReceptionInfo> findOneByReception(int reception_id);
 	// MAP-수납할 사람들 정보 가져오기

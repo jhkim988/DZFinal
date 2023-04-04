@@ -25,6 +25,15 @@ public class ReceiptController {
 	
 	
 	
+	// 수납
+	@PostMapping("/updateReceipt")
+    public void updateReceipt(@RequestBody Receipt receipt) {
+		receiptService.insertReceipt(receipt);
+    }
+	
+	
+	
+	
 	// DTO-수납할 사람들 정보 가져오기
 	@GetMapping("/findOneByReception/{reception_id}")
 	public ReceiptDTO.ReceptionInfo getReceipt(@PathVariable("reception_id") int reception_id) {
