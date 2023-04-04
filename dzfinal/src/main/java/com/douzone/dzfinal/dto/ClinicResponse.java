@@ -3,14 +3,11 @@ package com.douzone.dzfinal.dto;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.douzone.dzfinal.entity.Pagination;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Timestamp;
-import java.util.List;
 
 public class ClinicResponse {
 	@NoArgsConstructor
@@ -30,7 +27,7 @@ public class ClinicResponse {
 		private double bmi;
 		private String treatment_reason;
 		private List<Underlying> underlyingList;
-		private List<DrugTaking> drug_takingList;		
+		private List<DrugTaking> drug_takingList;
 	}
 	
 	@AllArgsConstructor
@@ -178,9 +175,10 @@ public class ClinicResponse {
 	public static class SearchInfo {
 		private String type;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Timestamp start;
+		private String start;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Timestamp end;
+		private String end;
 		private String keyword;
+		private int currentPage;
 	}
 }

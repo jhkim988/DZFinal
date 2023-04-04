@@ -42,8 +42,9 @@ public interface ClinicRepository {
 	List<ClinicResponse.Underlying> getPrescription(@Param("reception_id") int reception_id);
 	
 	ClinicResponse.MedicalInfo getMedicalInfo(int reception_id);
-	List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(SearchInfo paramData);
+	List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(@Param("searchInfo") SearchInfo paramData, @Param("pagination") ClinicResponse.Pagination pagination);
 	int getTotal(@Digits(integer = 8, fraction = 0) @Min(1) int patient_id);
-
+	int getSearchTotal(ClinicResponse.SearchInfo paramData);
+	
 	Optional<Clinic> findOneByReceptionId(int reception_id);
 }

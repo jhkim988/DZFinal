@@ -67,32 +67,37 @@ public class ClinicController {
 	
 	@PostMapping("/clinic")
 	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		System.out.println("insert : " + paramData);
 		clinicService.insertClinic(paramData);
 	}
 	
 	@PutMapping("/clinic")
 	public void updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		System.out.println("update : " + paramData);
 		clinicService.updateClinic(paramData);
 	}
 	
 	@GetMapping("/mri/{patient_id}/{currentPage}")
 	public ClinicResponse.MriPage getMriList(
-	    @PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id, @PathVariable("currentPage") int currentPage) {
+	    @PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id, @PathVariable("currentPage") int currentPage) {		
 		int amount = 10;
 		
 		int total = clinicService.getTotal(patient_id);
 		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(currentPage, amount, total);
-		
 		ClinicResponse.MriPage mriPage = new ClinicResponse.MriPage(clinicService.getMriList(patient_id, pagination), pagination);
 		
 	  return mriPage;
 	}
 	
 	@PostMapping("/mri/search")
-	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
-	    return clinicService.getSearchMriList(paramData);
+	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
+		System.out.println(paramData);
+		int amount = 10;
+		
+		int total = clinicService.getSearchTotal(paramData);
+		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(paramData.getCurrentPage(), amount, total);
+		
+		ClinicResponse.MriPage searchPage = new ClinicResponse.MriPage(clinicService.getSearchMriList(paramData, pagination), pagination);
+		
+	    return searchPage;
 	}
 	
 	@GetMapping("/medicalinfo/{reception_id}")
