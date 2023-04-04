@@ -43,6 +43,21 @@
 		where DATE(r.created_at) = DATE(NOW());
 	</select>
 	
+	<update id="updateReceptionInfo" parameterType="com.douzone.dzfinal.entity.Reception">
+	UPDATE Reception
+	SET
+		height = #{height},
+		weight = #{weight},
+		bmi = #{bmi},
+		systolic= #{systolic},
+		diastolic = #{diastolic},
+		blood_sugar = #{blood_sugar},
+		treatment_reason = #{treatment_reason},
+		doctor = #{doctor}
+	WHERE reception_id = #{reception_id}
+	AND patient_id = #{patient_id}
+	</update>
+	
 	<insert id="insertReception" parameterType="com.douzone.dzfinal.entity.Reception">
 		INSERT INTO Reception (
 			doctor, 
@@ -53,7 +68,8 @@
 			blood_sugar, 
 			height, 
 			weight, 
-			bmi
+			bmi,
+			state
 		)VALUES (
 		    #{doctor},
 		    #{treatment_reason},
@@ -63,7 +79,8 @@
 		    #{blood_sugar},
 		    #{height},
 		    #{weight},
-		    #{bmi}
+		    #{bmi},
+		    "진료대기"
   		)
 	</insert>
 

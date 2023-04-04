@@ -42,36 +42,15 @@ public class PatientController {
 	}
 
 	@GetMapping("/list")
-	@ResponseBody
 	public List<Patient> searchPatient(
 			@RequestParam("patient_name") String patient_name){
 		return patientService.searchPatient(patient_name);
 	}
-//	@GetMapping("/{patient_name}")
-//	public Patient searchPatient(
-//			@PathVariable("patient_name") String patient_name){
-//		return patientService.searchPatient(patient_name);
-//	}
-//	public List<Patient> searchPatient(
-//			@RequestParam("patient_name") String patient_name,
-//			@RequestParam("front_registration_number") String front_registration_number,
-//			@RequestParam("phone_number3") String phone_number3){
-//		Map<String, String> param = new HashMap<>();
-//		param.put("patient_name", patient_name);
-//		param.put("front_registration_number", front_registration_number);
-//		param.put("phone_number3", phone_number3);
-//		return patientService.searchPatient(param);
-//	}
-	
-	/*
-	 * public int insertPatient(@RequestBody Patient patient) {
-	 * 
-	 * if(patient != null) { patientService.insertPatient(patient); }else {
-	 * 
-	 * }
-	 * 
-	 * return patientService.insertPatient(patient); }
-	 */
+
+	@PostMapping("/update")
+	public void updatePatientInfo(@RequestBody Patient patient) {
+		patientService.updatePatientInfo(patient);
+	}
 	
 	
 
