@@ -32,8 +32,9 @@ public class MqttConfig {
         clientFactory.setConnectionOptions(options);
         return clientFactory;
     }
+    
     @Bean
-    public MessageProducer waitingInboundAdapter() {
+	public MessageProducer waitingInboundAdapter() {
         MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Waiting_inbound","waiting");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
@@ -54,6 +55,30 @@ public class MqttConfig {
             mqttMessageService.updateReception((String) message.getPayload());
         };
     }
+    
+    // 채팅
+    @Bean
+   	public MessageProducer chatingInboundAdapter() {
+           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Chating_inbound","chat");
+           adapter.setCompletionTimeout(5000);
+           adapter.setConverter(new DefaultPahoMessageConverter());
+           adapter.setQos(1);
+           adapter.setOutputChannel(chatingInboundChannel());
+           return adapter;
+       }
+
+   @Bean
+   public MessageChannel chatingInboundChannel() {
+       return new DirectChannel();
+   }
+
+   @Bean
+   @ServiceActivator(inputChannel = "chatingInboundChannel")
+   public MessageHandler inboundMessageHandler1() {
+       return message -> {
+           mqttMessageService.receiveChat((String) message.getPayload());
+       };
+   }
 
     @Bean("mqttOutboundChannel")
     public MessageChannel mqttOutboundChannel() {
