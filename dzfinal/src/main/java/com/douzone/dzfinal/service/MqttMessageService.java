@@ -52,4 +52,13 @@ public class MqttMessageService {
             throw new IllegalArgumentException("Need WaitingDTO");
         }
     }
+    
+    public void receiveChat(String message) {
+    	System.out.println(message);
+    	try {
+        	mapper.readValue(message, Object.class);
+    	} catch (JsonProcessingException e) {
+    		
+    	}
+    }
 }
