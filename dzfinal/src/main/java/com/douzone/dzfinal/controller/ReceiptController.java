@@ -75,6 +75,7 @@ public class ReceiptController {
 	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestBody HashMap<String,Object> params) {
 		//System.out.println(type + searchText + start_date + end_date);
 		System.out.println("params: "+params);
+	    System.out.println(receiptService.getReceiptList(params));
 		return receiptService.getReceiptList(params);
 	}
 	// MAP-수납완료내역
@@ -82,6 +83,15 @@ public class ReceiptController {
 	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
 		System.out.println(receiptService.getReceipt(patient_id));
 		return receiptService.getReceipt(patient_id);
+	}
+	
+	
+	
+	// MAP-수납목록 중 선택한 데이터 하나 가져오기
+	@GetMapping("/selectedOneReceipt")
+	public Map<String, Object> selectedOneReceipt(String reception_id) throws Exception {
+		System.out.println(receiptService.selectedOneReceipt(reception_id));
+		return receiptService.selectedOneReceipt(reception_id);
 	}
 
 }

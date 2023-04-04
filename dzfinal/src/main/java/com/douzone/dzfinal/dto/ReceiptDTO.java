@@ -131,6 +131,14 @@ public class ReceiptDTO {
 		private Timestamp end_date;
 		private String searchText;
 		
+		private int disease_count;
+		private int prescription_count;
+		
+		
+		// 페이징처리
+		private int page;
+		private int recordSize;
+		private int pageSize;
 	}
 	
 

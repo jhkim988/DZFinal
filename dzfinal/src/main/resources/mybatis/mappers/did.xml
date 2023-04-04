@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.DidRepository">
+	
+	
+	<select id="getDidVideo" resultType="com.douzone.dzfinal.dto.DidDTO$getDidVideo">
+		select * from DID_type dt;
+	</select>
+	
+	<select id="getDidSubtitle" resultType="com.douzone.dzfinal.dto.DidDTO$getDidSubtitle">
+		SELECT 
+			*
+		FROM 	DID_subtitle ds
+		WHERE   ds.active = 1;
+	</select>
+	
 	<select id="getDidMessage" resultType="com.douzone.dzfinal.dto.DidDTO$DID_subtitle">
 		SELECT * FROM DID_subtitle
 	</select>

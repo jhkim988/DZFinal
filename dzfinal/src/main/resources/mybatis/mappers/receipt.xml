@@ -4,7 +4,7 @@
 	
 	<!-- 수납할 사람 데이터 가져오기 -->
  	<select id="findOneByReception" resultType="com.douzone.dzfinal.dto.ReceiptDTO$ReceptionInfo">
-	  SELECT
+<!-- 	  SELECT
                r.reception_id       reception_id,
                r.doctor				doctor,
                p.patient_id       	patient_id,
@@ -22,10 +22,32 @@
       INNER JOIN    Patient p ON r.patient_id = p.patient_id
       INNER JOIN    Clinic c  ON r.reception_id = c.reception_id
       WHERE       	r.reception_id = #{reception_id};
+       -->
+      
+      	SELECT
+	               r.reception_id       		reception_id,
+	               r.doctor						doctor,
+	               p.patient_id       			patient_id,
+	               p.patient_name      			patient_name,
+	               p.insurance       			insurance,
+	               p.gender						gender,
+	               p.front_registration_number	front_registration_number,
+	               p.back_registration_number	back_registration_number,
+	               p.address					address,
+	               p.detail_address				detail_address,
+	               c.treatment       			treatment,
+	               c.clinic_request    			clinic_request,
+	               rt.receipt_id 				receipt_id,
+	               (SELECT IF (COUNT(*) > 0, 1, 0) FROM Prescription pr WHERE pr.reception_id = 1) has_prescription
+	      FROM       	Reception r 
+	      LEFT JOIN    Patient p ON r.patient_id = p.patient_id
+	      LEFT JOIN    Clinic c  ON r.reception_id = c.reception_id
+	      LEFT JOIN 	Receipt rt ON r.reception_id = rt.reception_id 
+	      WHERE       	r.reception_id = #{reception_id};
 	</select>
 	
 	<select id="selectReceiptDetail" resultType="hashmap">
-	  SELECT
+<!-- 	  SELECT
                r.reception_id       reception_id,
                r.doctor				doctor,
                p.patient_id       	patient_id,
@@ -42,7 +64,30 @@
       FROM       	Reception r 
       INNER JOIN    Patient p ON r.patient_id = p.patient_id
       INNER JOIN    Clinic c  ON r.reception_id = c.reception_id
-      WHERE       	r.reception_id = 2;
+      WHERE       	r.reception_id = #{reception_id}; -->
+      
+         SELECT
+	               r.reception_id       		reception_id,
+	               r.doctor						doctor,
+	               p.patient_id       			patient_id,
+	               p.patient_name      			patient_name,
+	               p.insurance       			insurance,
+	               p.gender						gender,
+	               p.front_registration_number	front_registration_number,
+	               p.back_registration_number	back_registration_number,
+	               p.address					address,
+	               p.detail_address				detail_address,
+	               c.treatment       			treatment,
+	               c.clinic_request    			clinic_request,
+	               rt.receipt_id 				receipt_id,
+	               (SELECT IF (COUNT(*) > 0, 1, 0) FROM Prescription pr WHERE pr.reception_id = 1) has_prescription
+	      FROM       	Reception r 
+	      LEFT JOIN    Patient p ON r.patient_id = p.patient_id
+	      LEFT JOIN    Clinic c  ON r.reception_id = c.reception_id
+	      LEFT JOIN 	Receipt rt ON r.reception_id = rt.reception_id 
+	      WHERE       	r.reception_id = #{reception_id};
+      
+      
 	</select>
 
 
@@ -51,6 +96,32 @@
 
 	<!-- 수납완료! -->
 	<insert id="insertReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" useGeneratedKeys="true" keyProperty="reception_id">
+		insert into Receipt(
+								reception_id,
+								ratio,
+								total_amount,
+								card_name,
+								card_number,
+								mode,
+								creator
+								)
+			values(
+					#{reception_id},
+					#{ratio},
+					#{total_amount},
+					#{card_name},
+					#{card_number},
+					#{mode},
+					1
+					)
+	</insert>
+	
+	
+	
+	
+	
+	<!-- 수납수정 -->
+	<insert id="updateReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" useGeneratedKeys="true" keyProperty="receipt_id">
 		insert into Receipt(
 								reception_id,
 								ratio,
@@ -108,7 +179,7 @@
 		INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id 
 		INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
-		WHERE 		r.reception_id = 2;
+		WHERE 		r.reception_id = #{reception_id};
 	</select>
 	
 	
@@ -151,7 +222,7 @@
 		INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id 
 		INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
-		WHERE 		r.patient_id = 2;
+		WHERE 		r.patient_id = #{patient_id};
 	</select>
 
 
@@ -172,7 +243,46 @@
 		    dr.drug_name                    drug_name,
 		    rt.total_amount                 total_amount,
 		    rt.mode                         mode,
-		    rt.created_at                   created_at 
+		    rt.created_at                   created_at,
+ 		    COUNT(DISTINCT ds.disease_id)                AS disease_count,
+ 		    COUNT(DISTINCT pr.prescription_id) 			 AS prescription_count
+		FROM Reception r
+		INNER JOIN Patient p ON r.patient_id = p.patient_id
+		INNER JOIN Diagnosis d ON r.reception_id = d.reception_id
+		INNER JOIN Disease ds ON d.disease_id = ds.disease_id
+		INNER JOIN Prescription pr ON r.reception_id = pr.reception_id
+		INNER JOIN Drug dr ON pr.drug_id = dr.drug_id
+		INNER JOIN Receipt rt ON r.reception_id = rt.reception_id
+		WHERE
+		    1=1
+		    <if test='start_date != null and start_date != ""'>
+		        <![CDATA[ AND DATE(#{start_date}) <=  DATE(rt.created_at) ]]>
+		    </if>
+		    <if test='end_date != null and end_date != ""'>
+		        <![CDATA[ AND DATE(rt.created_at) <=  DATE(#{end_date}) ]]>
+		    </if>
+		    <if test='type == "patient_id"'> 	AND 	p.patient_id = #{searchText}</if>
+		    <if test='type == "patient_name"'> 	AND 	p.patient_name LIKE CONCAT(#{searchText}, '%') </if>
+		    <if test='type == "reception_id"'> 	AND 	r.reception_id = #{searchText} </if>
+		GROUP BY 	rt.reception_id
+		<!-- HAVING 		r.reception_id = #{searchText} OR p.patient_name = #{searchText} -->
+		ORDER BY 	rt.created_at DESC;
+
+
+<!--   		SELECT 
+		    rt.receipt_id                   receipt_id,
+		    r.reception_id                  reception_id,
+		    r.doctor                        doctor,
+		    p.patient_id                    patient_id,
+		    p.patient_name                  patient_name,
+		    p.front_registration_number    front_registration_number,
+		    p.phone_number3                 phone_number3,
+		    ds.disease_name                 disease_name,
+		    dr.drug_name                    drug_name,
+		    rt.total_amount                 total_amount,
+		    rt.mode                         mode,
+		    rt.created_at                   created_at,
+			COUNT(*) 			AS 			receipt_count
 		FROM Reception r
 		INNER JOIN Patient p ON r.patient_id = p.patient_id
 		INNER JOIN Diagnosis d ON r.reception_id = d.reception_id
@@ -181,15 +291,20 @@
 		INNER JOIN Drug dr ON pr.drug_id =dr.drug_id
 		INNER JOIN Receipt rt ON r.reception_id = rt.reception_id
 		WHERE
-		    (#{type} = '' AND #{searchText} = '') OR
-		    (#{type} = 'patient_name' AND p.patient_name LIKE CONCAT('%',#{searchText}, '%')) OR
-		    (#{type} = 'reception_id' AND r.reception_id = #{searchText})
-		    AND rt.created_at BETWEEN #{start_date} AND #{end_date}
-		ORDER BY rt.created_at DESC;
+		<if test="type == patient_name"> patient_name = #{patient_name} </if>
+		<if test="type == reception_id"> reception_id = #{reception_id} </if>
+			AND rt.created_at BETWEEN #{start_date} AND #{end_date}
+			AND rt.reception_id = #{searchText}
+		    		(#{type} = '' AND #{searchText} = '') OR
+		    		(#{type} = 'patient_name' AND p.patient_name LIKE CONCAT('%', #{searchText}, '%')) OR
+		    		(#{type} = 'reception_id' AND r.reception_id = #{searchText})
+		    		AND rt.created_at BETWEEN #{start_date} AND #{end_date}
+		GROUP BY 	(rt.reception_id = #{searchText})
+		HAVING 		(r.reception_id = #{searchText}) OR (p.patient_name = #{searchText})
+		ORDER BY 	rt.created_at DESC; -->
 
 
-
-<!-- 		 SELECT 
+<!--    		 SELECT 
 			rt.receipt_id 					receipt_id,
 			r.reception_id       			reception_id,
 			r.doctor 						doctor,
@@ -311,5 +426,33 @@
 
 	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Receipt">
 		select * from Receipt where reception_id = #{reception_id}
+	</select>
+	
+	
+	
+	
+	<!-- 수납목록 중 선택한 데이터 하나 가져오기 -->
+	<select id="selectedOneReceipt" resultType="hashmap">
+	  SELECT
+	  		   rt.receipt_id		receipt_id,
+	  		   rt.card_name			crad_name,
+	  		   rt.card_number		card_number,
+               r.reception_id       reception_id,
+               r.doctor				doctor,
+               p.patient_id       	patient_id,
+               p.patient_name      	patient_name,
+               p.insurance       	insurance,
+               p.gender				gender,
+               p.front_registration_number	front_registration_number,
+               p.back_registration_number	back_registration_number,
+               p.address			address,
+               p.detail_address		detail_address,
+               c.treatment       	treatment,
+               c.clinic_request    	clinic_request
+      FROM       	Receipt rt
+      INNER JOIN	Reception r ON rt.reception_id = r.reception_id
+      INNER JOIN    Patient p ON r.patient_id = p.patient_id
+      INNER JOIN    Clinic c  ON r.reception_id = c.reception_id
+      WHERE       	r.reception_id = #{reception_id};
 	</select>
 </mapper>
