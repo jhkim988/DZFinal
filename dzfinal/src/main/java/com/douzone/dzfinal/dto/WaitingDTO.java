@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.dto;
 
+import com.douzone.dzfinal.entity.Reception;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

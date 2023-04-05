@@ -95,7 +95,7 @@
 
 
 	<!-- 수납완료! -->
-	<insert id="insertReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" useGeneratedKeys="true" keyProperty="reception_id">
+	<insert id="insertReceipt" parameterType="com.douzone.dzfinal.entity.Receipt">
 		insert into Receipt(
 								reception_id,
 								ratio,

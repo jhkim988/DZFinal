@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.WaitingDTO;
+import com.douzone.dzfinal.entity.Reception;
 import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +25,14 @@ public class MqttMessageService {
                         .state(state)
                         .build())
                 .build();
+        try {
+            gateway.sendToMqtt(mapper.writeValueAsString(waitingDTO), "waiting", 1);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendToWaitingAdd(WaitingDTO waitingDTO, String state) {
         try {
             gateway.sendToMqtt(mapper.writeValueAsString(waitingDTO), "waiting", 1);
         } catch (JsonProcessingException e) {
