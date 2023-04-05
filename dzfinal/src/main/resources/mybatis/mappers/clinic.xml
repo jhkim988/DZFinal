@@ -146,7 +146,7 @@
 	    	r.reception_id reception_id,
 	    	p.patient_name patient_name,
 	    	e.employee_name employee_name,
-	    	re.created_at created_at
+	    	r.created_at created_at
 		FROM Reception r
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
@@ -184,7 +184,7 @@
 	  SELECT r.reception_id reception_id,
 	    p.patient_name patient_name,
 	    e.employee_name employee_name,
-	    re.created_at created_at
+	    r.created_at created_at
 	  FROM Patient p
 	    INNER JOIN Reception r ON p.patient_id = r.patient_id
 	    INNER JOIN Employee e ON r.doctor = e.employ_id
@@ -195,7 +195,7 @@
 	    <otherwise></otherwise>
 	  </choose>
 	  <if test="searchInfo.start != '' and searchInfo.end != ''">
-	    AND DATE(re.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
+	    AND DATE(r.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
 	  </if>
 	    AND (r.state="수납중" OR r.state = "수납완료")
 	    ORDER BY r.created_at DESC
@@ -246,7 +246,9 @@
 	    <when test="type == 'patient_name'">AND p.patient_name LIKE CONCAT(#{keyword}, '%')</when>
 	    <otherwise></otherwise>
 	  </choose>
-	    AND DATE(re.created_at) BETWEEN #{start} AND #{end}
+	  <if test="start != '' and end != ''">
+	    AND DATE(re.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
+	  </if>
 	    AND (r.state="수납중" OR r.state = "수납완료")
 	</select>
 	

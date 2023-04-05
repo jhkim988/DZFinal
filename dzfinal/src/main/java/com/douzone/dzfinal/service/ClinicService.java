@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
 import com.douzone.dzfinal.repository.ClinicRepository;
 
 @Service

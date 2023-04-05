@@ -94,9 +94,8 @@ public class ClinicController {
 		
 		int total = clinicService.getSearchTotal(paramData);
 		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(paramData.getCurrentPage(), amount, total);
-		
 		ClinicResponse.MriPage searchPage = new ClinicResponse.MriPage(clinicService.getSearchMriList(paramData, pagination), pagination);
-		
+
 	    return searchPage;
 	}
 	
