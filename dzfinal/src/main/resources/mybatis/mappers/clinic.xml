@@ -150,9 +150,8 @@
 		FROM Reception r
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
-			INNER JOIN Receipt re ON re.reception_id = r.reception_id
 		WHERE r.patient_id = #{patient_id}
-			AND r.state = "수납완료"
+			AND (r.state="수납중" OR r.state = "수납완료")
 		ORDER BY r.created_at DESC
     	LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
 	</select>
@@ -189,7 +188,6 @@
 	  FROM Patient p
 	    INNER JOIN Reception r ON p.patient_id = r.patient_id
 	    INNER JOIN Employee e ON r.doctor = e.employ_id
-	    INNER JOIN Receipt re ON re.reception_id = r.reception_id
 	  WHERE 1 = 1
 	  <choose>
 	    <when test="searchInfo.type == 'reception_id'">AND r.reception_id = #{searchInfo.keyword}</when>
@@ -199,7 +197,7 @@
 	  <if test="searchInfo.start != '' and searchInfo.end != ''">
 	    AND DATE(re.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
 	  </if>
-	    AND r.state = "수납완료"
+	    AND (r.state="수납중" OR r.state = "수납완료")
 	    ORDER BY r.created_at DESC
 	    LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
 	</select>
@@ -232,9 +230,8 @@
 		FROM Reception r
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
-			INNER JOIN Receipt re ON re.reception_id = r.reception_id
 		WHERE r.patient_id = #{patient_id}
-			AND r.state = "수납완료";
+			AND (r.state="수납중" OR r.state = "수납완료")
 	</select>
 	
 	<select id="getSearchTotal" resultType="int">
@@ -243,7 +240,6 @@
 	  	FROM Patient p
 	    	INNER JOIN Reception r ON p.patient_id = r.patient_id
 	    	INNER JOIN Employee e ON r.doctor = e.employ_id
-	    	INNER JOIN Receipt re ON re.reception_id = r.reception_id
 	    WHERE 1 = 1
 	  <choose>
 	    <when test="type == 'reception_id'">AND r.reception_id = #{keyword}</when>
@@ -251,7 +247,7 @@
 	    <otherwise></otherwise>
 	  </choose>
 	    AND DATE(re.created_at) BETWEEN #{start} AND #{end}
-	    AND r.state = "수납완료"
+	    AND (r.state="수납중" OR r.state = "수납완료")
 	</select>
 	
 	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Clinic">
