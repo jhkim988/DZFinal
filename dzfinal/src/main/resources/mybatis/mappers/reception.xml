@@ -41,7 +41,7 @@
 		inner join Employee e on r.doctor = e.employ_id
 		left join Receipt on Receipt.reception_id = r.reception_id
 		where DATE(r.created_at) = DATE(NOW())
-		order by r.created_at desc;
+		order by r.created_at;
 	</select>
 	<select id="findReceptionInfoById" resultType="com.douzone.dzfinal.dto.WaitingDTO$WaitingData">
 		select
