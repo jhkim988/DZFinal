@@ -18,8 +18,8 @@ import org.springframework.messaging.MessageHandler;
 @Configuration
 public class MqttConfig {
 
-//    private String mqttURL = "tcp://192.168.0.132:1883";
-    private String mqttURL = "tcp://127.0.0.1:1883";
+    private String mqttURL = "tcp://192.168.0.132:1883";
+//    private String mqttURL = "tcp://127.0.0.1:1883";
 
     @Autowired
     private MqttMessageService mqttMessageService;
@@ -63,7 +63,7 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "mqttOutboundChannel")
     public MessageHandler mqttOutbound(DefaultMqttPahoClientFactory clientFactory) {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot#Waiting_outbound", clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
         return messageHandler;

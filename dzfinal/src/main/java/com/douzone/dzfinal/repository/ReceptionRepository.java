@@ -24,4 +24,5 @@ public interface ReceptionRepository {
 	ReceptionDTO.Detail detail(int reception_id);
 	
 	public void updateReceptionInfo(Reception reception);
+	Optional<WaitingDTO.WaitingData> findReceptionInfoById(int reception_id);
 }
