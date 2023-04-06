@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.PatientDTO;
+import com.douzone.dzfinal.dto.ReceptionDTO;
 import com.douzone.dzfinal.dto.ReservationDTO;
 import com.douzone.dzfinal.entity.Reservation;
 import com.douzone.dzfinal.repository.PatientRepository;
@@ -14,7 +15,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final PatientRepository patientRepository;
 
-    public List<Reservation> todayReservationList() {
+    public List<ReceptionDTO.TodayReservationList> todayReservationList() {
 		return reservationRepository.todayReservationList();
 	}
     
@@ -37,6 +38,10 @@ public class ReservationService {
 
     public Reservation details(int reservation_id) {
         return reservationRepository.findOneById(reservation_id).orElseThrow(IllegalArgumentException::new);
+    }
+    
+    public ReceptionDTO.DetailTodayReservationList detailTodayReservationList(int reservation_id) {
+    	return reservationRepository.detailTodayReservationList(reservation_id).orElseThrow(IllegalArgumentException::new);
     }
 
     public int save(Reservation reservation) {

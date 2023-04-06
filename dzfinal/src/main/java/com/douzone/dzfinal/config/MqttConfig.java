@@ -68,4 +68,28 @@ public class MqttConfig {
         messageHandler.setDefaultQos(1);
         return messageHandler;
     }
+    
+    // 채팅
+    @Bean
+   	public MessageProducer chatInboundAdapter() {
+           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Chating_inbound","chat");
+           adapter.setCompletionTimeout(5000);
+           adapter.setConverter(new DefaultPahoMessageConverter());
+           adapter.setQos(1);
+           adapter.setOutputChannel(chatInboundChannel());
+           return adapter;
+       }
+
+   @Bean
+   public MessageChannel chatInboundChannel() {
+       return new DirectChannel();
+   }
+
+   @Bean
+   @ServiceActivator(inputChannel = "chatInboundChannel")
+   public MessageHandler chatInboundMessageHandler() {
+       return message -> {
+           mqttMessageService.receiveChat((String) message.getPayload());
+       };
+   }
 }
