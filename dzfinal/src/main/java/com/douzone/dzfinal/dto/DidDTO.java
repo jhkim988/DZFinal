@@ -35,6 +35,7 @@ public class DidDTO {
 		private String type;
 		private String video_name;
 		private String video_real_name;
+		private long size;
 	}
 	
 	

@@ -22,6 +22,9 @@ public class DidService {
 		return didRepository.getDidSubtitle();
 	}
 	
+	public String getVideoName() {
+		return didRepository.getVideoName();
+	}
 	
 	
 	// DID-SETTING(정주)
@@ -46,8 +49,8 @@ public class DidService {
 		didRepository.updateMessage(paramData);
 	}
 	
-	public void did_Setting(String type, String video_name, String video_real_name) {
-		didRepository.did_Setting(type, video_name, video_real_name);
+	public void did_Setting(String type, String video_name, String video_real_name, long size) {
+		didRepository.did_Setting(type, video_name, video_real_name, size);
 	}
 
 	public void deleteMessgae(int id) {
