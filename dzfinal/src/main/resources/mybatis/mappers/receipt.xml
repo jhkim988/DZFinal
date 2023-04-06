@@ -84,26 +84,11 @@
 	
 	
 	<!-- 수납수정 -->
-	<insert id="updateReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" useGeneratedKeys="true" keyProperty="receipt_id">
-		insert into Receipt(
-								reception_id,
-								ratio,
-								total_amount,
-								card_name,
-								card_number,
-								mode,
-								creator
-								)
-			values(
-					#{reception_id},
-					#{ratio},
-					#{total_amount},
-					#{card_name},
-					#{card_number},
-					#{mode},
-					1
-					)
-	</insert>
+	<update id="updateReceipt" parameterType="com.douzone.dzfinal.entity.Receipt" >
+		UPDATE Receipt 
+		SET reception_id = #{reception_id}, ratio=#{ratio}, total_amount=#{total_amount}, card_name=#{card_name}, card_number=#{card_number}, mode=#{mode}, creator=1
+		WHERE receipt_id = #{receipt_id};
+	</update>
 	
 
 
@@ -231,6 +216,7 @@
 		GROUP BY 	rt.reception_id
 		<!-- HAVING 		r.reception_id = #{searchText} OR p.patient_name = #{searchText} -->
 		ORDER BY 	rt.created_at DESC;
+		<!-- LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount} -->
 
 
 	</select>
