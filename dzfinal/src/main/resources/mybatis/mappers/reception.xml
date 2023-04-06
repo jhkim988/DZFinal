@@ -47,9 +47,27 @@
 		inner join Patient p on r.patient_id = p.patient_id
 		inner join Employee e on r.doctor = e.employ_id
 		left join Receipt on Receipt.reception_id = r.reception_id
-		where DATE(r.created_at) = DATE(NOW());
+		where DATE(r.created_at) = DATE(NOW())
+		order by r.created_at;
 	</select>
-	
+	<select id="findReceptionInfoById" resultType="com.douzone.dzfinal.dto.WaitingDTO$WaitingData">
+		select
+			r.reception_id,
+			p.patient_id,
+			p.patient_name,
+			p.front_registration_number,
+			r.doctor doctor_id,
+			e.employee_name doctor_name,
+			r.state,
+			Receipt.receipt_id receipt_id
+		from Reception r
+		inner join Patient p on r.patient_id = p.patient_id
+		inner join Employee e on r.doctor = e.employ_id
+		left join Receipt on Receipt.reception_id = r.reception_id
+		where r.reception_id = #{reception_id};
+	</select>
+
+
 	<update id="updateReceptionInfo" parameterType="com.douzone.dzfinal.entity.Reception">
 	UPDATE Reception
 	SET
@@ -65,7 +83,7 @@
 	AND patient_id = #{patient_id}
 	</update>
 	
-	<insert id="insertReception" parameterType="com.douzone.dzfinal.entity.Reception">
+	<insert id="insertReception" parameterType="com.douzone.dzfinal.entity.Reception" useGeneratedKeys="true" keyProperty="reception_id">
 		INSERT INTO Reception (
 			doctor, 
 			treatment_reason, 

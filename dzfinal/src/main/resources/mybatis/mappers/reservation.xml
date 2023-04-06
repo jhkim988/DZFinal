@@ -5,7 +5,9 @@
 	
 
 	<select id="todayReservationList" resultType="com.douzone.dzfinal.dto.ReceptionDTO$TodayReservationList">
-		SELECT R.reservation_id,
+		SELECT
+            P.patient_id,
+            R.reservation_id,
 			R.patient_name,
 			R.phone_number1,
 			R.phone_number2,

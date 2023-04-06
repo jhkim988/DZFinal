@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.WaitingDTO;
+import com.douzone.dzfinal.entity.Reception;
 import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,23 +17,23 @@ public class MqttMessageService {
     @Autowired
     private ReceptionRepository receptionRepository;
 
-    public void sendToWaiting(String method, int reception_id, String state) {
-        WaitingDTO waitingDTO = WaitingDTO.builder()
-                .method(method)
-                .data(WaitingDTO.WaitingData.builder()
-                        .reception_id(reception_id)
-                        .state(state)
-                        .build())
-                .build();
+    public void sendToWaiting(WaitingDTO waitingDTO) {
         try {
             gateway.sendToMqtt(mapper.writeValueAsString(waitingDTO), "waiting", 1);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException("Need WaitingDTO");
         }
     }
 
+    public void updateWaitingState(int reception_id, String state) {
+        WaitingDTO waitingDTO = WaitingDTO.builder().method("PUT").data(WaitingDTO.WaitingData.builder()
+                .reception_id(reception_id)
+                .state(state)
+                .build())
+                .build();
+        sendToWaiting(waitingDTO);
+    }
     public void updateReception(String message) {
-        System.out.println("Update Reception");
         try {
             WaitingDTO dto = mapper.readValue(message, WaitingDTO.class);
             WaitingDTO.WaitingData data = dto.getData();
