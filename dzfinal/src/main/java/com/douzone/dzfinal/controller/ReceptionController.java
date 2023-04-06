@@ -28,11 +28,12 @@ public class ReceptionController {
 		//수정
 		if(reception != null) {
 			receptionService.insertReception(reception);
+			receptionService.updateTodayReservationState(reception);
 			map.put("status", "true");
 			map.put("message", "접수등록 성공");
 		}else {
 			map.put("status", "false");
-			map.put("message", "접수등록 실패");
+			map.put("message", "접수 실패");
 		}
 
 		return map;

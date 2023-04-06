@@ -34,6 +34,10 @@ public class ReceptionService {
 		mqttMessageService.sendToWaiting("PUT", reception_id, "진료대기");
 		return reception_id;
 	}
+	
+	public void updateTodayReservationState(Reception reception) {
+		receptionRepository.updateTodayReservationState(reception);
+	}
 
 	public ReceptionDTO.Detail detail(int reception_id) {
 		return receptionRepository.detail(reception_id);

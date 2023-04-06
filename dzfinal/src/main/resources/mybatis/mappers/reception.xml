@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ReceptionRepository">
 
+	<update id = "updateTodayReservationState">
+		UPDATE Reservation
+		SET
+		state = "완료"
+		WHERE reservation_id = #{reservation_id}
+	</update>
+	
 	<select id="receptionList" resultType="com.douzone.dzfinal.entity.Reception">
 		SELECT 
 			R.reception_id, 
