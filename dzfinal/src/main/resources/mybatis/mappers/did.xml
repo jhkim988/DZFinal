@@ -14,6 +14,11 @@
 		WHERE   ds.active = 1;
 	</select>
 	
+	<select id="getVideoName" resultType="String">
+		SELECT video_real_name FROM DID_type;
+	</select>
+	
+	
 	<select id="getDidMessage" resultType="com.douzone.dzfinal.dto.DidDTO$DID_subtitle">
 		SELECT * FROM DID_subtitle
 	</select>
@@ -23,7 +28,7 @@
 	</insert>
 	
 	<insert id="did_Setting">
-		INSERT INTO DID_type(`type`, `video_name`, `video_real_name`) VALUES (#{type}, #{video_name}, #{video_real_name})
+		INSERT INTO DID_type(`type`, `video_name`, `video_real_name`, `size`) VALUES (#{type}, #{video_name}, #{video_real_name}, #{size})
 	</insert>
 	
 	<update id="toggleActive">

@@ -49,12 +49,12 @@ public class DidController {
 	@PostMapping("/did_setting")
 	public boolean did_Setting(@RequestParam("file") MultipartFile file, @RequestParam("type") String type) {
 		String video_real_name = "upload" + System.currentTimeMillis();
-		File saveFile = new File("c:\\upload\\didVideo\\" + video_real_name);
+		File saveFile = new File("/Users/yoonz/Desktop/video/" + video_real_name);
 		boolean message = false;
 		
 		try (OutputStream os = new FileOutputStream(saveFile)) {
 			os.write(file.getBytes());
-			didService.did_Setting(type, file.getOriginalFilename(), video_real_name);
+			didService.did_Setting(type, file.getOriginalFilename(), video_real_name, file.getSize());
 			message = true;
 		} catch (Exception e) {
 			e.printStackTrace();
