@@ -29,13 +29,18 @@ public class ReceptionService {
 	}
 
 	public int insertReception(Reception reception) {
-		System.out.println("insertReception" + reception);
 		receptionRepository.insertReception(reception);
-		WaitingDTO.WaitingData waitingData = receptionRepository.findReceptionInfoById(reception.getReception_id()).orElseThrow(() -> new IllegalArgumentException("No reception_id"));
-		mqttMessageService.sendToWaitingAdd(WaitingDTO.builder()
+
+		WaitingDTO.WaitingData waitingData = receptionRepository
+				.findReceptionInfoById(reception.getReception_id())
+				.orElseThrow(() -> new IllegalArgumentException("No reception_id"));
+		waitingData.setState("진료대기");
+
+		mqttMessageService.sendToWaiting(WaitingDTO.builder()
 				.method("ADD")
 				.data(waitingData)
-				.build(), "진료대기");
+				.build());
+
 		return reception.getReception_id();
 	}
 
