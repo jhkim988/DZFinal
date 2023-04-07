@@ -31,6 +31,12 @@ public class DidViewController {
 	public List<DidDTO.getDidSubtitle> getDidSubtitle() {
 		return didService.getDidSubtitle();
 	}
+	
+	// 비디오 하나 찾기
+	@GetMapping("/findOneDidVideo")
+	public List<DidDTO.findOneDidVideo> findOneDidVideo() {
+		return didService.findOneDidVideo();
+	}
 
 	
 	// 비디오 출력
@@ -38,22 +44,17 @@ public class DidViewController {
 	public ResponseEntity<byte[]> getDidVideo() throws IOException {
 		String videoName = didService.getVideoName();
 		String videoPath = "/Users/yoonz/Desktop/video/";
-		
-		System.out.println("videoName: " + videoName);
 	    
 		// 동영상 파일을 byte 배열로 읽어옴
 	    byte[] videoBytes = getVideoBytes(videoPath, videoName);
-	    System.out.println("videoBytes: " + videoBytes);
 
 	    // HTTP 응답의 헤더를 설정
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.parseMediaType("video/mp4")); // 동영상 파일의 MIME 타입
 	    headers.setContentLength(videoBytes.length); // 동영상 파일의 크기
-	    System.out.println("headers: "+ headers);
 
 	    // HTTP 응답의 바디에 byte 배열을 설정하여 ResponseEntity 객체 생성
 	    ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(videoBytes, headers, HttpStatus.OK);
-	    System.out.println("responseEntity: " + responseEntity);
 	    return responseEntity;
 	 }
 

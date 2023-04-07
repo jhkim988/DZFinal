@@ -26,6 +26,10 @@ public class DidService {
 		return didRepository.getVideoName();
 	}
 	
+	public List<DidDTO.findOneDidVideo> findOneDidVideo() {
+		return didRepository.findOneDidVideo();
+	}
+	
 	
 	// DID-SETTING(정주)
 	public DidService(DidRepository didRepository) {
@@ -56,4 +60,6 @@ public class DidService {
 	public void deleteMessgae(int id) {
 		didRepository.deleteMessgae(id);
 	}
+
+
 }

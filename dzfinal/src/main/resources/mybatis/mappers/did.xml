@@ -18,6 +18,10 @@
 		SELECT video_real_name FROM DID_type;
 	</select>
 	
+	<select id="findOneDidVideo" resultType="com.douzone.dzfinal.dto.DidDTO$findOneDidVideo">
+		SELECT * FROM DID_type;
+	</select>
+	
 	
 	<select id="getDidMessage" resultType="com.douzone.dzfinal.dto.DidDTO$DID_subtitle">
 		SELECT * FROM DID_subtitle
