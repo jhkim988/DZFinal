@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.EmployeeRepository">
-    <select id="getEmployee" resultType="com.douzone.dzfinal.dto.EmployeeDTO$EmployeeLoginInfo">
+    <resultMap id="employeeWithAuthoritiesResultMap" type="com.douzone.dzfinal.dto.EmployeeDTO$EmployeeLoginInfo">
+        <id property="employ_id" column="employ_id"/>
+        <result property="employee_name" column="employee_name"/>
+        <result property="real_image" column="real_image"/>
+        <collection property="authority" column="authority" ofType="java.lang.String">
+            <result property="authority" column="authority"/>
+        </collection>
+    </resultMap>
+    <select id="getEmployee" resultMap="employeeWithAuthoritiesResultMap">
         SELECT
-        employ_id
-        , employee_name
-        , real_image
-        , role
-    FROM Employee where user_id = #{user_id}
+        e.employ_id AS employ_id,
+        e.employee_name AS employee_name,
+        e.real_image AS real_image,
+        a.authority AS authority
+        FROM Employee e
+        INNER JOIN Authority a ON e.user_id = a.username
+        WHERE e.user_id = #{user_id}
     </select>
 </mapper>

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 public class EmployeeDTO {
     @Data
     @NoArgsConstructor
@@ -14,6 +16,6 @@ public class EmployeeDTO {
         private long employ_id;
         private String employee_name;
         private String real_image;
-        private String role;
+        private List<String> authority;
     }
 }

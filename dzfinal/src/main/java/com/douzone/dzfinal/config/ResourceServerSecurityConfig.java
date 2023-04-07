@@ -42,6 +42,19 @@ public class ResourceServerSecurityConfig extends ResourceServerConfigurerAdapte
         http.authorizeRequests()
                 .mvcMatchers(HttpMethod.GET, "/api/admin/getimage/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/view/**").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/reservation/**").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/reception/**").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/clinic/**").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/receipt/**").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/employee/**").permitAll()
+                .mvcMatchers("/api/admin/**").hasAuthority("ADMIN")
+                .mvcMatchers("/api/employee/**").hasAuthority("ADMIN")
+                .mvcMatchers("/api/reservation/**").hasAnyAuthority("KLPN", "RN", "DOCTOR")
+                .mvcMatchers("/api/patient/**").hasAnyAuthority("KLPN", "RN", "DOCTOR")
+                .mvcMatchers("/api/reception/**").hasAnyAuthority("KLPN", "RN", "DOCTOR")
+                .mvcMatchers("/api/clinic/**").hasAuthority("DOCTOR")
+                .mvcMatchers("/api/receipt/**").hasAnyAuthority("KLPN", "RN", "DOCTOR")
+                .mvcMatchers("/api/did/**").authenticated()
                 .mvcMatchers("/api/**").authenticated();
     }
 }
