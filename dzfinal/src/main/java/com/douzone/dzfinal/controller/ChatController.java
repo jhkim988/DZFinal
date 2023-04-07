@@ -1,8 +1,15 @@
 package com.douzone.dzfinal.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,12 +26,27 @@ public class ChatController {
 	private ChatService chatService;
 	
 	@GetMapping("/chatlist")
-	public List<ChatDTO.ChatRoom> chatRoomList(){
-		return chatService.chatRoomList();
+	public List<ChatDTO.ChatRoom> chatRoomList(@RequestParam("participants_id") int participants_id){
+		return chatService.chatRoomList(participants_id);
 	}
 	
 	@GetMapping("/getchatroommessages")
 	public List<ChatDTO.Message> getChatRoomMessages(@RequestParam("chatroom_id") int chatroom_id) {
 		return chatService.getChatRoomMessages(chatroom_id);
+	}
+	
+	@GetMapping("/getthumbnail")
+	public ResponseEntity<byte[]> getThumbnail(@RequestParam("thumbnail_image") String thumbnail_image) {
+		File file = new File("c:\\upload\\thumbnail\\" + thumbnail_image);
+		
+		try {
+	        byte[] imageBytes = Files.readAllBytes(file.toPath());
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.IMAGE_JPEG);
+	        return new ResponseEntity<byte[]>(imageBytes, headers, HttpStatus.OK);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<byte[]>(null, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 }

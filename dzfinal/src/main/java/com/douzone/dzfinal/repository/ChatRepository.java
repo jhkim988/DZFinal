@@ -10,7 +10,7 @@ import com.douzone.dzfinal.dto.ChatDTO;
 @Repository
 @Mapper
 public interface ChatRepository {
-	List<ChatDTO.ChatRoom> chatRoomList();
+	List<ChatDTO.ChatRoom> chatRoomList(int participants_id);
 	void insert(ChatDTO.Message chatMessage);
 	List<ChatDTO.Message> getChatRoomMessages(int chatroom_id);
 }

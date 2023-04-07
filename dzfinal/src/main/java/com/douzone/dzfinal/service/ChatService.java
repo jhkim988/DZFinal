@@ -14,8 +14,8 @@ public class ChatService {
 	@Autowired
 	ChatRepository chatRepository;
 	
-	public List<ChatDTO.ChatRoom> chatRoomList(){
-		return chatRepository.chatRoomList(); 
+	public List<ChatDTO.ChatRoom> chatRoomList(int participants_id){
+		return chatRepository.chatRoomList(participants_id); 
 	}
 	
 	public List<ChatDTO.Message> getChatRoomMessages(int chatroom_id) {

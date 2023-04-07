@@ -8,6 +8,7 @@ import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +31,7 @@ public class MqttMessageService {
                         .build())
                 .build();
         try {
-            gateway.sendToMqtt(mapper.writeValueAsString(waitingDTO), "waiting", 1);
+            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -38,7 +39,7 @@ public class MqttMessageService {
 
     public void sendToWaitingAdd(WaitingDTO waitingDTO, String state) {
         try {
-            gateway.sendToMqtt(mapper.writeValueAsString(waitingDTO), "waiting", 1);
+            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -57,12 +58,12 @@ public class MqttMessageService {
         }
     }
     
-    public void receiveChat(String message) {
+    public void receiveChat(String message, MessageHeaders messageHeaders) {
     	System.out.println(message);
     	try {
         	ChatDTO.Message chatMessage = mapper.readValue(message, ChatDTO.Message.class);
-        	
         	chatRepository.insert(chatMessage);
+//        	gateway.sendToChat("", "notification/1", 1);
     	} catch (JsonProcessingException e) {
     		
     	}

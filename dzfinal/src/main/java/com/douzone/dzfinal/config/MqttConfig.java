@@ -59,7 +59,7 @@ public class MqttConfig {
     // 채팅
     @Bean
    	public MessageProducer chatingInboundAdapter() {
-           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Chating_inbound","chat");
+           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Chating_inbound","chat/+");
            adapter.setCompletionTimeout(5000);
            adapter.setConverter(new DefaultPahoMessageConverter());
            adapter.setQos(1);
@@ -76,18 +76,32 @@ public class MqttConfig {
    @ServiceActivator(inputChannel = "chatingInboundChannel")
    public MessageHandler inboundMessageHandler1() {
        return message -> {
-           mqttMessageService.receiveChat((String) message.getPayload());
+           mqttMessageService.receiveChat((String) message.getPayload(), message.getHeaders());
        };
    }
 
-    @Bean("mqttOutboundChannel")
+    @Bean("waitingOutboundChannel")
     public MessageChannel mqttOutboundChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    @ServiceActivator(inputChannel = "mqttOutboundChannel")
-    public MessageHandler mqttOutbound(DefaultMqttPahoClientFactory clientFactory) {
+    @ServiceActivator(inputChannel = "waitingOutboundChannel")
+    public MessageHandler waitingOutbound(DefaultMqttPahoClientFactory clientFactory) {
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
+        messageHandler.setAsync(true);
+        messageHandler.setDefaultQos(1);
+        return messageHandler;
+    }
+    
+    @Bean("chatOutboundChannel")
+    public MessageChannel chatOutboundChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    @ServiceActivator(inputChannel = "chatOutboundChannel")
+    public MessageHandler chatOutbound(DefaultMqttPahoClientFactory clientFactory) {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
