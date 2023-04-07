@@ -39,7 +39,8 @@ public class ResourceServerSecurityConfig extends ResourceServerConfigurerAdapte
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/**").authenticated();
-}
+                .mvcMatchers("/api/admin/getimage/**").permitAll()
+                .mvcMatchers("/api/**").authenticated();
+    }
 }
 
