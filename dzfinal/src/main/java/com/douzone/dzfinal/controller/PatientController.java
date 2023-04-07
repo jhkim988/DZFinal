@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.controller;
 
+import com.douzone.dzfinal.dto.PatientDTO;
 import com.douzone.dzfinal.entity.Patient;
 import com.douzone.dzfinal.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class PatientController {
 	private PatientService patientService;
 
 	@PostMapping
-	public Map<String,Object> insertPatient(@RequestBody Patient patient) throws Exception{
+	public Map<String,Object> insertPatient(@RequestBody PatientDTO.UpdateDailyReservationList patient) throws Exception{
 		Map<String,Object> map = new HashMap<>();
 		
 		if(patient != null) {

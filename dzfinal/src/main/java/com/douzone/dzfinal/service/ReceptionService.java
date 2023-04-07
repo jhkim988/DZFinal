@@ -48,6 +48,10 @@ public class ReceptionService {
 		receptionRepository.updateTodayReservationState(reception);
 	}
 
+	public void deleteReception(Reception reception) {
+		receptionRepository.deleteReception(reception);
+	}
+	
 	public ReceptionDTO.Detail detail(int reception_id) {
 		return receptionRepository.detail(reception_id);
 	}

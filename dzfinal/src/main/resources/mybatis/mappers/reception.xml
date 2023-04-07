@@ -5,8 +5,16 @@
 	<update id = "updateTodayReservationState">
 		UPDATE Reservation
 		SET
-		state = "완료"
+			state = "완료"
 		WHERE reservation_id = #{reservation_id}
+	</update>
+	
+	<update id="deleteReception">
+		UPDATE Reception
+		SET
+			is_deleted="1"
+		WHERE reception_id=#{reception_id}
+		AND state="진료대기"
 	</update>
 	
 	<select id="receptionList" resultType="com.douzone.dzfinal.entity.Reception">

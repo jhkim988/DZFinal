@@ -1,5 +1,6 @@
 package com.douzone.dzfinal.repository;
 
+import com.douzone.dzfinal.dto.PatientDTO;
 import com.douzone.dzfinal.dto.ReceptionDTO;
 import com.douzone.dzfinal.dto.ReservationDTO;
 import com.douzone.dzfinal.entity.Reservation;
@@ -18,6 +19,7 @@ public interface ReservationRepository {
     Optional<Reservation> findOneById(int reservation_id);
     int save(Reservation reservation);
     void update(Reservation reservation);
+    void updateTodayReservationPatientId(PatientDTO.UpdateDailyReservationList patient);
     List<String> impossibleDay(@Param("doctor") int doctor, @Param("year") int year, @Param("month") int month);
     List<String> impossibleTime(@Param("doctor") int doctor, @Param("date") String date);
     

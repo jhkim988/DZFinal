@@ -43,6 +43,10 @@ public class ReservationService {
     public ReceptionDTO.DetailTodayReservationList detailTodayReservationList(int reservation_id) {
     	return reservationRepository.detailTodayReservationList(reservation_id).orElseThrow(IllegalArgumentException::new);
     }
+    
+    public void updateTodayReservationPatientId(PatientDTO.UpdateDailyReservationList patient) {
+    	reservationRepository.updateTodayReservationPatientId(patient);
+    }
 
     public int save(Reservation reservation) {
         reservationRepository.save(reservation);

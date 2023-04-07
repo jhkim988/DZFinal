@@ -18,8 +18,8 @@ import org.springframework.messaging.MessageHandler;
 @Configuration
 public class MqttConfig {
 
-    private String mqttURL = "tcp://192.168.0.132:1883";
-//    private String mqttURL = "tcp://127.0.0.1:1883";
+    //private String mqttURL = "tcp://192.168.0.132:1883";
+    private String mqttURL = "tcp://127.0.0.1:1883";
 
     @Autowired
     private MqttMessageService mqttMessageService;

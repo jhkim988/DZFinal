@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ReservationRepository">
 
-	
-
 	<select id="todayReservationList" resultType="com.douzone.dzfinal.dto.ReceptionDTO$TodayReservationList">
 		SELECT
             P.patient_id,
@@ -49,6 +47,13 @@
 		INNER JOIN Employee E ON R.doctor = E.employ_id
 		WHERE R.reservation_id=#{reservation_id}
 	</select>
+	
+	<update id="updateTodayReservationPatientId">
+		UPDATE Reservation
+		SET
+			patient_id = #{patient_id}
+		WHERE reservation_id = #{reservation_id}
+	</update>
 	
     <select id="monthList" resultType="com.douzone.dzfinal.dto.ReservationDTO$Month">
         select

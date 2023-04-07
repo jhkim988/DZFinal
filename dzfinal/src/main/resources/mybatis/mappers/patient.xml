@@ -8,7 +8,7 @@
             and phone_number3=#{phone_number3}
     </select>
     
-    <insert id="insertPatient" parameterType="com.douzone.dzfinal.entity.Patient" useGeneratedKeys="true" keyProperty="patient_id"> 
+    <insert id="insertPatient" parameterType="com.douzone.dzfinal.dto.PatientDTO$UpdateDailyReservationList" useGeneratedKeys="true" keyProperty="patient_id"> 
 		INSERT INTO Patient (
 			patient_name,
 			phone_number1,
