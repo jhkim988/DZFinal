@@ -37,7 +37,7 @@ public class DidViewController {
 	@GetMapping("/getDidVideo")
 	public ResponseEntity<byte[]> getDidVideo() throws IOException {
 		String videoName = didService.getVideoName();
-		String videoPath = "/Users/yoonz/Desktop/video/";
+		String videoPath = "C:\\upload\\didVideo\\";
 		
 		System.out.println("videoName: " + videoName);
 	    
