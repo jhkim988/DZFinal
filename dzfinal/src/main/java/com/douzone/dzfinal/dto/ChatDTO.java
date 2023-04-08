@@ -30,4 +30,20 @@ public class ChatDTO {
 	    private String message;
 	    private String created_at;
 	}
+	
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class ChatRoomStatus {
+		private int participants_id;
+		private int chatroom_id;
+	}
+	
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class MessageCount {
+		private int chatroom_id;
+		private int message_count;
+	}
 }

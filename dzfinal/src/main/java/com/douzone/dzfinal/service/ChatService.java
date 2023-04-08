@@ -21,5 +21,17 @@ public class ChatService {
 	public List<ChatDTO.Message> getChatRoomMessages(int chatroom_id) {
 		return chatRepository.getChatRoomMessages(chatroom_id);
 	}
+
+	public List<ChatDTO.MessageCount> getMessageCount(int participants_id) {
+	    return chatRepository.getMessageCount(participants_id);
+	}
+	
+	public void updateLastReadTime(ChatDTO.ChatRoomStatus status) {
+		chatRepository.updateLastReadTime(status);
+	}
+
+	public void is_Close(ChatDTO.ChatRoomStatus status) {
+		chatRepository.is_Close(status);
+	}
 }
 

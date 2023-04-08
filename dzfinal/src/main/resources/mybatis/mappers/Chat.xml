@@ -22,13 +22,40 @@
 	  GROUP BY cr.chatroom_id, cr.chatroom_name;
 	</select>
 	
+	<insert id="insert">
+		INSERT INTO Chat(chatroom_id, message, created_at, `from`) VALUES (#{chatroom_id}, #{message}, now(), #{from});
+	</insert>
+	
 	<select id="getChatRoomMessages" resultType="com.douzone.dzfinal.dto.ChatDTO$Message">
 		SELECT chatroom_id, message, created_at, c.from, employee_name, thumbnail_image
 		FROM Chat c INNER JOIN Employee e on c.from = e.employ_id
 		WHERE chatroom_id = #{chatroom_id}
 	</select>
 	
-	<insert id="insert">
-		INSERT INTO Chat(chatroom_id, message, created_at, `from`) VALUES (#{chatroom_id}, #{message}, now(), #{from});
-	</insert>
+	<select id="getMessageCount" resultType="com.douzone.dzfinal.dto.ChatDTO$MessageCount">
+		SELECT Chat.chatroom_id, COUNT(Chat.chat_id) AS message_count
+		FROM ChatRoom_Participants
+		JOIN Chat ON Chat.chatroom_id = ChatRoom_Participants.chatroom_id
+		WHERE ChatRoom_Participants.participants_id = 1
+		  AND Chat.created_at > ChatRoom_Participants.last_entered_time
+		GROUP BY Chat.chatroom_id;
+	</select>
+	
+	<select id="getNotificationTargetIds" resultType="java.lang.Integer">
+		SELECT crp.participants_id
+		FROM ChatRoom cr INNER JOIN ChatRoom_Participants crp ON cr.chatroom_id = crp.chatroom_id
+		WHERE cr.chatroom_id = #{chatroom_id} AND crp.participants_id != #{participants_id}
+	</select>
+	
+	<update id="updateLastReadTime">
+		UPDATE ChatRoom_Participants
+		SET last_entered_time = NOW(), is_entry = 1
+		WHERE participants_id = #{participants_id} AND chatroom_id = #{chatroom_id}
+	</update>
+	
+	<update id="is_Close">
+		UPDATE ChatRoom_Participants
+		SET is_entry = 0
+		WHERE participants_id = #{participants_id} AND chatroom_id = #{chatroom_id}
+	</update>
 </mapper>

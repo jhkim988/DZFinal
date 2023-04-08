@@ -7,6 +7,9 @@ import com.douzone.dzfinal.repository.ChatRepository;
 import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
@@ -60,12 +63,39 @@ public class MqttMessageService {
     
     public void receiveChat(String message, MessageHeaders messageHeaders) {
     	System.out.println(message);
+    	
     	try {
         	ChatDTO.Message chatMessage = mapper.readValue(message, ChatDTO.Message.class);
         	chatRepository.insert(chatMessage);
-//        	gateway.sendToChat("", "notification/1", 1);
+        	
+        	String topic = messageHeaders.get("mqtt_receivedTopic").toString();
+        	int chatroom_id = Integer.parseInt(topic.substring(topic.indexOf("chat/") + "chat/".length())); // chatroom_id 값 얻기
+        	int participants_id = chatMessage.getFrom(); // 보낸사람
+        	
+        	List<Integer> notificationTargetIds = chatRepository.getNotificationTargetIds(chatroom_id, participants_id);
+        	for (Integer targetId : notificationTargetIds) {
+        	    gateway.sendToChat("", "notification/"+targetId, 1);
+        	    System.out.println("targetId : " + targetId);
+        	}
     	} catch (JsonProcessingException e) {
-    		
+    		throw new IllegalArgumentException();
     	}
+//    	try {
+//        	ChatDTO.Message chatMessage = mapper.readValue(message, ChatDTO.Message.class);
+//        	chatRepository.insert(chatMessage);
+//        	
+//        	String topic = messageHeaders.get("mqtt_receivedTopic").toString();
+//        	int chatroom_id = Integer.parseInt(topic.substring(topic.indexOf("chat/") + "chat/".length())); // chatroom_id 값 얻기
+//        	int participants_id = chatMessage.getFrom(); // 보낸사람
+//        	
+//        	List<Integer> notificationTargetIds = chatRepository.getNotificationTargetIds(chatroom_id, participants_id);
+//        	for (Integer targetId : notificationTargetIds) {
+//        		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(participants_id);
+//        	    gateway.sendToChat(mapper.writeValueAsString(chatDTO), "notification/"+targetId, 1);
+//        	    System.out.println("targetId : " + targetId);
+//        	}
+//    	} catch (JsonProcessingException e) {
+//    		throw new IllegalArgumentException();
+//    	}
     }
 }
