@@ -7,6 +7,7 @@ import com.douzone.dzfinal.repository.ChatRepository;
 import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -74,8 +75,10 @@ public class MqttMessageService {
         	
         	List<Integer> notificationTargetIds = chatRepository.getNotificationTargetIds(chatroom_id, participants_id);
         	for (Integer targetId : notificationTargetIds) {
-        	    gateway.sendToChat("", "notification/"+targetId, 1);
-        	    System.out.println("targetId : " + targetId);
+        		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(targetId);
+        		Gson gson = new Gson();
+        		String json = gson.toJson(chatDTO);
+        		gateway.sendToChat(json, "notification/"+targetId, 1);
         	}
     	} catch (JsonProcessingException e) {
     		throw new IllegalArgumentException();

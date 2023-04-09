@@ -33,8 +33,8 @@ public class ChatController {
 	}
 	
 	@GetMapping("/getchatroommessages")
-	public List<ChatDTO.Message> getChatRoomMessages(@RequestParam("chatroom_id") int chatroom_id) {
-		return chatService.getChatRoomMessages(chatroom_id);
+	public List<ChatDTO.Message> getChatRoomMessages(@RequestParam("chatroom_id") int chatroom_id, @RequestParam("page") int page) {
+		return chatService.getChatRoomMessages(chatroom_id, page);
 	}
 	
 	@GetMapping("/getthumbnail")

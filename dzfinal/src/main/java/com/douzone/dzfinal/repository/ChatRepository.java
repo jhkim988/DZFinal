@@ -13,7 +13,7 @@ import com.douzone.dzfinal.dto.ChatDTO;
 public interface ChatRepository {
 	List<ChatDTO.ChatRoom> chatRoomList(int participants_id);
 	void insert(ChatDTO.Message chatMessage);
-	List<ChatDTO.Message> getChatRoomMessages(int chatroom_id);
+	List<ChatDTO.Message> getChatRoomMessages(@Param("chatroom_id") int participants_id, @Param("page") int page);
 	List<ChatDTO.MessageCount> getMessageCount(int participants_id);
 	List<Integer> getNotificationTargetIds(@Param("chatroom_id") int chatroom_id, @Param("participants_id") int participants_id);
 	void updateLastReadTime(ChatDTO.ChatRoomStatus status);

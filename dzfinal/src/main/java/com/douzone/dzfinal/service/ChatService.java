@@ -18,8 +18,8 @@ public class ChatService {
 		return chatRepository.chatRoomList(participants_id); 
 	}
 	
-	public List<ChatDTO.Message> getChatRoomMessages(int chatroom_id) {
-		return chatRepository.getChatRoomMessages(chatroom_id);
+	public List<ChatDTO.Message> getChatRoomMessages(int chatroom_id, int page) {
+		return chatRepository.getChatRoomMessages(chatroom_id, page);
 	}
 
 	public List<ChatDTO.MessageCount> getMessageCount(int participants_id) {
