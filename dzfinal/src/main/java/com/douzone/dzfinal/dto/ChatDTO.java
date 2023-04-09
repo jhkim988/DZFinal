@@ -15,6 +15,7 @@ public class ChatDTO {
 		private int chatroom_id;
 		private String chatroom_name;
 		private List<String> employee_names;
+		private List<String> thumbnail_images;
 	}
 	
 	@Data
