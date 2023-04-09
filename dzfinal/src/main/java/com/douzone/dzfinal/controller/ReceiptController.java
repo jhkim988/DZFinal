@@ -79,8 +79,8 @@ public class ReceiptController {
 	
 	
 	// DTO-수납완료내역
-	@PostMapping("/getReceiptList")
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestBody HashMap<String,Object> params) {
+	@GetMapping("/getReceiptList")
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestParam HashMap<String,Object> params) {
 		//System.out.println(type + searchText + start_date + end_date);
 		System.out.println("params: "+params);
 	    System.out.println(receiptService.getReceiptList(params));
