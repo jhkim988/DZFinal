@@ -35,9 +35,22 @@
 			#{insurance}
 		)
 	</insert>
+	
+	<update id="updatePatientInfo" parameterType="com.douzone.dzfinal.entity.Patient">
+		UPDATE Patient
+		SET
+			phone_number1 = #{phone_number1},
+			phone_number2 = #{phone_number2},
+			phone_number3 = #{phone_number3},
+			insurance= #{insurance},
+			zip_code = #{zip_code},
+			address = #{address},
+			detail_address = #{detail_address}
+		WHERE patient_id = #{patient_id}
+	</update>
 
 	<select id="searchPatient" resultType="com.douzone.dzfinal.entity.Patient">
-		SELECT patient_id,patient_name, front_registration_number, phone_number3
+		SELECT patient_id,patient_name, front_registration_number, phone_number3, insurance
 		FROM Patient
 		WHERE patient_name LIKE CONCAT(#{patient_name},'%')
 	</select>

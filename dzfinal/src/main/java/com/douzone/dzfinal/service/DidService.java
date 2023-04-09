@@ -50,9 +50,7 @@ public class DidService {
 		didRepository.did_Setting(type, video_name, video_real_name);
 	}
 
-
-
-
-
-
+	public void deleteMessgae(int id) {
+		didRepository.deleteMessgae(id);
+	}
 }

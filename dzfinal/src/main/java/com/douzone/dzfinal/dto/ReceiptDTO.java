@@ -100,6 +100,7 @@ public class ReceiptDTO {
 		// (Reception)접수
 		private int reception_id;
 		private int doctor;
+		private String state;
 
 		// (Patient)환자
 		private int patient_id;
