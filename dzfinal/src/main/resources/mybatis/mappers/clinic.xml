@@ -160,8 +160,7 @@
 		SELECT
 			Disease.disease_id disease_id,
 			Disease.disease_code disease_code,
-			Disease.disease_name disease_name,
-			r.reception_id reception_id
+			Disease.disease_name disease_name
 		FROM Diagnosis d
 			INNER JOIN Reception r ON d.reception_id = r.reception_id
 			INNER JOIN Disease ON d.disease_id = Disease.disease_id
@@ -172,8 +171,7 @@
 		SELECT
 			d.drug_id,
 			d.drug_code,
-			d.drug_name,
-			r.reception_id reception_id
+			d.drug_name
 		FROM Prescription p
 			INNER JOIN Reception r ON p.reception_id = r.reception_id
 			INNER JOIN Drug d ON p.drug_id = d.drug_id

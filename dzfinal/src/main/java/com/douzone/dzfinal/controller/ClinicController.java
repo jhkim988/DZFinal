@@ -84,6 +84,8 @@ public class ClinicController {
 		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(currentPage, amount, total);
 		ClinicResponse.MriPage mriPage = new ClinicResponse.MriPage(clinicService.getMriList(patient_id, pagination), pagination);
 		
+		System.out.println(mriPage);
+		
 	  return mriPage;
 	}
 	
@@ -101,6 +103,7 @@ public class ClinicController {
 	
 	@GetMapping("/medicalinfo/{reception_id}")
 	public ClinicResponse.MedicalInfo getMedicalInfo(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {
+		System.out.println(clinicService.getMedicalInfo(reception_id));
 		return clinicService.getMedicalInfo(reception_id);
 	}
 }
