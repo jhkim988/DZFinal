@@ -5,22 +5,25 @@ import java.util.List;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
+import com.douzone.dzfinal.dto.WaitingDTO;
+import com.douzone.dzfinal.repository.ReceiptRepository;
+import com.douzone.dzfinal.repository.ReceptionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
 import com.douzone.dzfinal.repository.ClinicRepository;
 
 @Service
 public class ClinicService {
 	private final ClinicRepository clinicRepository;
 	private final MqttMessageService mqttMessageService;
-
-	public ClinicService(ClinicRepository clinicRepository, MqttMessageService mqttMessageService) {
+	private final ReceptionRepository receptionRepository;
+	public ClinicService(ClinicRepository clinicRepository, MqttMessageService mqttMessageService, ReceptionRepository receptionRepository) {
 		this.clinicRepository = clinicRepository;
 		this.mqttMessageService = mqttMessageService;
+		this.receptionRepository = receptionRepository;;
 	}
 	
 	public ClinicResponse.PatientInfo getPatientInfo(int reception_id) {
@@ -68,7 +71,16 @@ public class ClinicService {
 		if (drug_ids != null && !drug_ids.isEmpty()) {
 			clinicRepository.insertPrescription(reception_id, drug_ids);
 		}
-		mqttMessageService.sendToWaiting("PUT", reception_id, "수납대기");
+
+		WaitingDTO.WaitingData waitingData = receptionRepository
+				.findReceptionInfoById(reception_id)
+				.orElseThrow(IllegalArgumentException::new);
+		waitingData.setState("수납대기");
+		WaitingDTO waitingDTO = WaitingDTO.builder()
+				.method("PUT")
+				.data(waitingData)
+				.build();
+		mqttMessageService.sendToWaiting(waitingDTO);
 	}
 
 	@Transactional

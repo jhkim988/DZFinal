@@ -18,6 +18,10 @@ public class PatientService {
 		return patient_id;
 	}
 	
+	public void updatePatientInfo(Patient patient) {
+		patientRepository.updatePatientInfo(patient);
+	}
+	
 	public int getPatientId(Patient patient) {
 		return patientRepository.getPatientId(patient);
 	}

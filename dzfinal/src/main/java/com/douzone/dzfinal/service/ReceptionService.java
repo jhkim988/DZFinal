@@ -19,16 +19,29 @@ public class ReceptionService {
 	public List<Reception> receptionList() {
 		return receptionRepository.receptionList();
 	}
-
+	
+	public void updateReceptionInfo(Reception reception) {
+		receptionRepository.updateReceptionInfo(reception);
+	}
+	
 	public List<WaitingDTO.WaitingData> todayList() {
 		return receptionRepository.todayList();
 	}
 
 	public int insertReception(Reception reception) {
 		receptionRepository.insertReception(reception);
-		int reception_id = reception.getReception_id();
-		mqttMessageService.sendToWaiting("PUT", reception_id, "진료대기");
-		return reception_id;
+
+		WaitingDTO.WaitingData waitingData = receptionRepository
+				.findReceptionInfoById(reception.getReception_id())
+				.orElseThrow(() -> new IllegalArgumentException("No reception_id"));
+		waitingData.setState("진료대기");
+
+		mqttMessageService.sendToWaiting(WaitingDTO.builder()
+				.method("ADD")
+				.data(waitingData)
+				.build());
+
+		return reception.getReception_id();
 	}
 
 	public ReceptionDTO.Detail detail(int reception_id) {
