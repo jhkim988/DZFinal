@@ -3,11 +3,11 @@ package com.douzone.dzfinal.config;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@Configuration
-@EnableSwagger2
-@EnableAutoConfiguration
+//@Configuration
+//@EnableSwagger2
+//@EnableAutoConfiguration
 public class SwaggerConfig {
 
 //    private final String version = "V1";

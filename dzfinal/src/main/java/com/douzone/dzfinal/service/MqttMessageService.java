@@ -7,7 +7,6 @@ import com.douzone.dzfinal.repository.ChatRepository;
 import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -26,31 +25,23 @@ public class MqttMessageService {
     @Autowired
     private ChatRepository chatRepository;
 
-    public void sendToWaiting(String method, int reception_id, String state) {
-        WaitingDTO waitingDTO = WaitingDTO.builder()
-                .method(method)
-                .data(WaitingDTO.WaitingData.builder()
-                        .reception_id(reception_id)
-                        .state(state)
-                        .build())
+    public void sendToWaiting(WaitingDTO waitingDTO) {
+        try {
+            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("Need WaitingDTO");
+        }
+    }
+
+    public void updateWaitingState(int reception_id, String state) {
+        WaitingDTO waitingDTO = WaitingDTO.builder().method("PUT").data(WaitingDTO.WaitingData.builder()
+                .reception_id(reception_id)
+                .state(state)
+                .build())
                 .build();
-        try {
-            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        sendToWaiting(waitingDTO);
     }
-
-    public void sendToWaitingAdd(WaitingDTO waitingDTO, String state) {
-        try {
-            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void updateReception(String message) {
-        System.out.println("Update Reception");
         try {
             WaitingDTO dto = mapper.readValue(message, WaitingDTO.class);
             WaitingDTO.WaitingData data = dto.getData();
@@ -76,9 +67,7 @@ public class MqttMessageService {
         	List<Integer> notificationTargetIds = chatRepository.getNotificationTargetIds(chatroom_id, participants_id);
         	for (Integer targetId : notificationTargetIds) {
         		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(targetId);
-        		Gson gson = new Gson();
-        		String json = gson.toJson(chatDTO);
-        		gateway.sendToChat(json, "notification/"+targetId, 1);
+        		gateway.sendToChat("", "notification/"+targetId, 1);
         	}
     	} catch (JsonProcessingException e) {
     		throw new IllegalArgumentException();
@@ -93,9 +82,10 @@ public class MqttMessageService {
 //        	
 //        	List<Integer> notificationTargetIds = chatRepository.getNotificationTargetIds(chatroom_id, participants_id);
 //        	for (Integer targetId : notificationTargetIds) {
-//        		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(participants_id);
-//        	    gateway.sendToChat(mapper.writeValueAsString(chatDTO), "notification/"+targetId, 1);
-//        	    System.out.println("targetId : " + targetId);
+//        		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(targetId);
+//        		Gson gson = new Gson();
+//        		String json = gson.toJson(chatDTO);
+//        		gateway.sendToChat(json, "notification/"+targetId, 1);
 //        	}
 //    	} catch (JsonProcessingException e) {
 //    		throw new IllegalArgumentException();

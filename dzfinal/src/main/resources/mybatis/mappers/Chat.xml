@@ -72,7 +72,7 @@
 	
 	<update id="is_Close">
 		UPDATE ChatRoom_Participants
-		SET is_entry = 0
+		SET last_entered_time = NOW(), is_entry = 0
 		WHERE participants_id = #{participants_id} AND chatroom_id = #{chatroom_id}
 	</update>
 </mapper>
