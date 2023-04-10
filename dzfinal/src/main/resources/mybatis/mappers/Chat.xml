@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ChatRepository">
-	<select id="chatRoomList" resultType="com.douzone.dzfinal.entity.Chat">
-		SELECT * FROM ChatRoom
+
+
+	<select id="chatRoomList" resultType="com.douzone.dzfinal.dto.ChatDTO$chatList">
+		SELECT cr.chatroom_id, cr.chatroom_name, e.employee_name
+		FROM ChatRoom_Participants crp
+		INNER JOIN ChatRoom cr ON crp.chatroom_id = cr.chatroom_id
+		INNER JOIN Employee e  ON e.employ_id = crp.participants_id AND crp.participants_id != 1
+		WHERE crp.chatroom_id IN (
+			SELECT chatroom_id
+			FROM ChatRoom_Participants
+			WHERE participants_id = 1
+		)
+		GROUP BY cr.chatroom_id , cr.chatroom_name
 	</select>
+
+
+
 </mapper>
