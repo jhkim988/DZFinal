@@ -7,7 +7,6 @@ import com.douzone.dzfinal.repository.ChatRepository;
 import com.douzone.dzfinal.repository.ReceptionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 import java.util.List;
 
