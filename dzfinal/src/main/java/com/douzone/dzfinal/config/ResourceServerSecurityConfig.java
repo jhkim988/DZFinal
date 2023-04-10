@@ -47,7 +47,7 @@ public class ResourceServerSecurityConfig extends ResourceServerConfigurerAdapte
                 .mvcMatchers(HttpMethod.GET, "/api/clinic/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/receipt/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/employee/**").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/api/chat/**").permitAll()
+                .mvcMatchers("/api/chat/**").permitAll()
                 .mvcMatchers("/api/admin/**").hasAuthority("ADMIN")
                 .mvcMatchers("/api/employee/**").hasAuthority("ADMIN")
                 .mvcMatchers("/api/reservation/**").hasAnyAuthority("KLPN", "RN", "DOCTOR")
