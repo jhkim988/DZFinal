@@ -26,24 +26,29 @@ public class DidController {
 	DidService didService;
 	
 	@GetMapping("/did_subtitle")
-	public List<DidDTO> getDidMessage() {
+	public List<DidDTO.DID_Message> getDidMessage() {
 		return didService.getDidMessage();
 	}
 	
 	@PostMapping("/did_subtitle")
-	public int insertDidMessage(@RequestBody DidDTO.DID_subtitle message) {
+	public int insertDidMessage(@RequestBody DidDTO.DID_Message message) {
 		return didService.insertDidMessage(message);
 	}
 	
 	@PutMapping("/did_subtitle")
-	public boolean toggleActive(@RequestBody DidDTO.DID_subtitle paramData) {
+	public boolean toggleActive(@RequestBody DidDTO.DID_Message paramData) {
 		didService.toggleActive(paramData);
 		return true;
 	}
 	
 	@PutMapping("/updatemessage")
-	public void updateMessage(@RequestBody DidDTO.DID_subtitle paramData) {
+	public void updateMessage(@RequestBody DidDTO.DID_Message paramData) {
 		didService.updateMessage(paramData);
+	}
+	
+	@DeleteMapping("/did_subtitle")
+	public void deleteMessage(@RequestParam("id") int id) {
+		didService.deleteMessgae(id);
 	}
 	
 	@PostMapping("/did_setting")
@@ -63,8 +68,8 @@ public class DidController {
 		return message;
 	}
 	
-	@DeleteMapping("/did_subtitle")
-	public void deleteMessage(@RequestParam("id") int id) {
-		didService.deleteMessgae(id);
+	@GetMapping("/did_video")
+	public List<DidDTO.DID_Video> getVideoList() {
+		return didService.getVideoList();
 	}
 }
