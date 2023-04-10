@@ -76,9 +76,7 @@ public class MqttMessageService {
         	List<Integer> notificationTargetIds = chatRepository.getNotificationTargetIds(chatroom_id, participants_id);
         	for (Integer targetId : notificationTargetIds) {
         		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(targetId);
-        		Gson gson = new Gson();
-        		String json = gson.toJson(chatDTO);
-        		gateway.sendToChat(json, "notification/"+targetId, 1);
+        		gateway.sendToChat("", "notification/"+targetId, 1);
         	}
     	} catch (JsonProcessingException e) {
     		throw new IllegalArgumentException();
@@ -93,9 +91,10 @@ public class MqttMessageService {
 //        	
 //        	List<Integer> notificationTargetIds = chatRepository.getNotificationTargetIds(chatroom_id, participants_id);
 //        	for (Integer targetId : notificationTargetIds) {
-//        		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(participants_id);
-//        	    gateway.sendToChat(mapper.writeValueAsString(chatDTO), "notification/"+targetId, 1);
-//        	    System.out.println("targetId : " + targetId);
+//        		List<ChatDTO.MessageCount> chatDTO = chatRepository.getMessageCount(targetId);
+//        		Gson gson = new Gson();
+//        		String json = gson.toJson(chatDTO);
+//        		gateway.sendToChat(json, "notification/"+targetId, 1);
 //        	}
 //    	} catch (JsonProcessingException e) {
 //    		throw new IllegalArgumentException();
