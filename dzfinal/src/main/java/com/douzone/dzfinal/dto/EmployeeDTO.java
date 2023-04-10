@@ -16,6 +16,7 @@ public class EmployeeDTO {
         private long employ_id;
         private String employee_name;
         private String real_image;
-        private List<String> authority;
+//        private List<String> authority;
+        private String authority;
     }
 }
