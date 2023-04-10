@@ -1,13 +1,17 @@
 package com.douzone.dzfinal.controller;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
@@ -65,9 +71,19 @@ public class ClinicController {
 		clinicService.deleteDrugTaking(patient_id, drug_id);
 	}
 	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+		System.out.println("메시지 : " + ex.getMessage());
+	    return new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@PostMapping("/clinic")
 	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		clinicService.insertClinic(paramData);
+		try {
+			clinicService.insertClinic(paramData);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("중복진료");
+		}
 	}
 	
 	@PutMapping("/clinic")
@@ -84,14 +100,11 @@ public class ClinicController {
 		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(currentPage, amount, total);
 		ClinicResponse.MriPage mriPage = new ClinicResponse.MriPage(clinicService.getMriList(patient_id, pagination), pagination);
 		
-		System.out.println(mriPage);
-		
 	  return mriPage;
 	}
 	
 	@PostMapping("/mri/search")
 	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
-		System.out.println(paramData);
 		int amount = 10;
 		
 		int total = clinicService.getSearchTotal(paramData);
@@ -103,7 +116,6 @@ public class ClinicController {
 	
 	@GetMapping("/medicalinfo/{reception_id}")
 	public ClinicResponse.MedicalInfo getMedicalInfo(@PathVariable("reception_id") @Digits(integer = 8, fraction = 0) @Min(1) int reception_id) {
-		System.out.println(clinicService.getMedicalInfo(reception_id));
 		return clinicService.getMedicalInfo(reception_id);
 	}
 }
