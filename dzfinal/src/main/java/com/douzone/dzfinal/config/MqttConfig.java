@@ -32,8 +32,9 @@ public class MqttConfig {
         clientFactory.setConnectionOptions(options);
         return clientFactory;
     }
+    
     @Bean
-    public MessageProducer waitingInboundAdapter() {
+	public MessageProducer waitingInboundAdapter() {
         MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Waiting_inbound","waiting");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
@@ -54,16 +55,54 @@ public class MqttConfig {
             mqttMessageService.updateReception((String) message.getPayload());
         };
     }
+    
+    // 채팅
+    @Bean
+   	public MessageProducer chatingInboundAdapter() {
+           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Chating_inbound","chat/+");
+           adapter.setCompletionTimeout(5000);
+           adapter.setConverter(new DefaultPahoMessageConverter());
+           adapter.setQos(1);
+           adapter.setOutputChannel(chatingInboundChannel());
+           return adapter;
+       }
 
-    @Bean("mqttOutboundChannel")
+   @Bean
+   public MessageChannel chatingInboundChannel() {
+       return new DirectChannel();
+   }
+
+   @Bean
+   @ServiceActivator(inputChannel = "chatingInboundChannel")
+   public MessageHandler inboundMessageHandler1() {
+       return message -> {
+           mqttMessageService.receiveChat((String) message.getPayload(), message.getHeaders());
+       };
+   }
+
+    @Bean("waitingOutboundChannel")
     public MessageChannel mqttOutboundChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    @ServiceActivator(inputChannel = "mqttOutboundChannel")
-    public MessageHandler mqttOutbound(DefaultMqttPahoClientFactory clientFactory) {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot#Waiting_outbound", clientFactory);
+    @ServiceActivator(inputChannel = "waitingOutboundChannel")
+    public MessageHandler waitingOutbound(DefaultMqttPahoClientFactory clientFactory) {
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
+        messageHandler.setAsync(true);
+        messageHandler.setDefaultQos(1);
+        return messageHandler;
+    }
+    
+    @Bean("chatOutboundChannel")
+    public MessageChannel chatOutboundChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    @ServiceActivator(inputChannel = "chatOutboundChannel")
+    public MessageHandler chatOutbound(DefaultMqttPahoClientFactory clientFactory) {
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
         return messageHandler;

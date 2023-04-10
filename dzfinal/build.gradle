@@ -64,6 +64,9 @@ dependencies {
     implementation 'io.springfox:springfox-swagger2:2.9.2'
 
 	// util
+	// MqttOutboundGateway에서 patload의 chatDTO가 리스트라서 필요함.
+	// chatingInboundAdapter에서 adapter.setConverter(new DefaultPahoMessageConverter()); 이거는 gson을 안쓰면 String, byte[]만 보내준다.
+	// implementation 'com.google.code.gson:gson:2.8.9'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

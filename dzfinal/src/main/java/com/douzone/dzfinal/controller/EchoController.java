@@ -24,6 +24,6 @@ public class EchoController {
 						.build())
 				.build();
 		ObjectMapper mapper = new ObjectMapper();
-		gateway.sendToMqtt(mapper.writeValueAsString(waitingDTO), "waiting", 1);
+		gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
 	}
 }
