@@ -26,31 +26,23 @@ public class MqttMessageService {
     @Autowired
     private ChatRepository chatRepository;
 
-    public void sendToWaiting(String method, int reception_id, String state) {
-        WaitingDTO waitingDTO = WaitingDTO.builder()
-                .method(method)
-                .data(WaitingDTO.WaitingData.builder()
-                        .reception_id(reception_id)
-                        .state(state)
-                        .build())
+    public void sendToWaiting(WaitingDTO waitingDTO) {
+        try {
+            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("Need WaitingDTO");
+        }
+    }
+
+    public void updateWaitingState(int reception_id, String state) {
+        WaitingDTO waitingDTO = WaitingDTO.builder().method("PUT").data(WaitingDTO.WaitingData.builder()
+                .reception_id(reception_id)
+                .state(state)
+                .build())
                 .build();
-        try {
-            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        sendToWaiting(waitingDTO);
     }
-
-    public void sendToWaitingAdd(WaitingDTO waitingDTO, String state) {
-        try {
-            gateway.sendToWaiting(mapper.writeValueAsString(waitingDTO), "waiting", 1);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void updateReception(String message) {
-        System.out.println("Update Reception");
         try {
             WaitingDTO dto = mapper.readValue(message, WaitingDTO.class);
             WaitingDTO.WaitingData data = dto.getData();
