@@ -30,7 +30,7 @@
     </select>
     
     <select id="selectEmployeeInfo" resultType="com.douzone.dzfinal.dto.EmployeeDTO$EmployeeInfo">
-    	SELECT birth, employee_email
+    	SELECT *
 		FROM Employee
 		WHERE user_id = #{user_id}
     </select>

@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.controller;
 
 import com.douzone.dzfinal.dto.EmployeeDTO;
+import com.douzone.dzfinal.entity.TokenPayload;
 import com.douzone.dzfinal.service.EmployeeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,8 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/by_token")
-	public EmployeeDTO.EmployeeInfo selectEmployeeInfo(Authentication auth){
-		System.out.println(auth);
-		OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) auth.getDetails();
-		System.out.println(details.getDecodedDetails());
-		return employeeService.selectEmployeeInfo("");
+	public EmployeeDTO.EmployeeInfo selectEmployeeInfo(Authentication auth) {
+		TokenPayload token = (TokenPayload) auth.getPrincipal();
+		return employeeService.selectEmployeeInfo(token.getUser_name());
 	}
 }
