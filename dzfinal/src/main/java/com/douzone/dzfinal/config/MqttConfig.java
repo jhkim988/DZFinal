@@ -3,6 +3,7 @@ package com.douzone.dzfinal.config;
 import com.douzone.dzfinal.service.MqttMessageService;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -18,8 +19,20 @@ import org.springframework.messaging.MessageHandler;
 @Configuration
 public class MqttConfig {
 
-    private String mqttURL = "tcp://192.168.0.132:1883";
-//    private String mqttURL = "tcp://127.0.0.1:1883";
+    @Value("${mqtt.url}")
+    private String mqttURL;
+
+    @Value("${waitingInbound}")
+    private String waitingInbound;
+
+    @Value("${waitingOutbound}")
+    private String waitingOutbound;
+
+    @Value("${chatInbound}")
+    private String chatingInbound;
+
+    @Value("${chatOutbound}")
+    private String chatingOutbound;
 
     @Autowired
     private MqttMessageService mqttMessageService;
@@ -35,7 +48,7 @@ public class MqttConfig {
     
     @Bean
 	public MessageProducer waitingInboundAdapter() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Waiting_inbound","waiting");
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,waitingInbound,"waiting");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -59,7 +72,7 @@ public class MqttConfig {
     // 채팅
     @Bean
    	public MessageProducer chatingInboundAdapter() {
-           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Chating_inbound","chat/+");
+           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,chatingInbound,"chat/+");
            adapter.setCompletionTimeout(5000);
            adapter.setConverter(new DefaultPahoMessageConverter());
            adapter.setQos(1);
@@ -88,7 +101,7 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "waitingOutboundChannel")
     public MessageHandler waitingOutbound(DefaultMqttPahoClientFactory clientFactory) {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(waitingOutbound, clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
         return messageHandler;
@@ -102,7 +115,7 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "chatOutboundChannel")
     public MessageHandler chatOutbound(DefaultMqttPahoClientFactory clientFactory) {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(chatingOutbound, clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
         return messageHandler;
