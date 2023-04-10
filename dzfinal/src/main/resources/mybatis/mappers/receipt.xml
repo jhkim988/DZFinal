@@ -94,8 +94,37 @@
 
 
 
+
+	<!-- 질병정보 가져오기 -->
+	<select id="getDisease" resultType="com.douzone.dzfinal.dto.ReceiptDTO$GetDisease">
+		SELECT
+			ds.disease_code 				disease_code,
+			ds.disease_name 				disease_name
+		FROM 		Reception r
+		INNER JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id 
+		WHERE 		r.reception_id = #{reception_id};
+	</select>
+	
+	<!-- 약정보 가져오기 -->
+	<select id="getDrug" resultType="com.douzone.dzfinal.dto.ReceiptDTO$GetDrug">
+		SELECT 
+		    dr.drug_code        AS drug_code,
+		    dr.drug_name        AS drug_name
+		FROM Reception r
+		INNER JOIN Prescription pr ON r.reception_id = pr.reception_id
+		INNER JOIN Drug dr         ON pr.drug_id = dr.drug_id
+		WHERE r.reception_id = #{reception_id};
+	</select>
+	
+	
+	
+	
+
+
+
 	<!-- 처방전 정보 가져오기! -->
-	<select id="getTreatmentInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$TreatmentInfo">
+<!-- 	<select id="getTreatmentInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$TreatmentInfo">
 		SELECT 
 			ds.disease_code 				disease_code,
 			ds.disease_name 				disease_name,
@@ -110,10 +139,10 @@
 		INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
 		WHERE 		r.reception_id = #{reception_id};
-	</select>
+	</select> -->
 	
 	
-	<select id="getTreatment" resultType="hashmap">
+<!-- 	<select id="getTreatment" resultType="hashmap">
 		SELECT 
 			ds.disease_code 				disease_code,
 			ds.disease_name 				disease_name,
@@ -128,17 +157,31 @@
 		INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
 		WHERE 		r.reception_id = #{reception_id};
-	</select>
-	
-	
-	
-	
+	</select> -->
 	
 	
 	
 	
 	<!-- 진료의뢰서 정보 가져오기! -->
-	<select id="getClinicRequestInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$ClinicRequestInfo">
+<!-- 	<select id="getClinicRequestInfo" resultType="com.douzone.dzfinal.dto.ReceiptDTO$ClinicRequestInfo">
+		SELECT 
+			ds.disease_code 				disease_code,
+			ds.disease_name 				disease_name,
+			
+			dr.drug_code 					drug_code,
+			dr.drug_name 					drug_name,
+			
+			d.created_at 					created_at
+		FROM 		Reception r
+		INNER JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
+		INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id 
+		INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
+		INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
+		WHERE 		r.reception_id = #{reception_id};
+	</select> -->
+	
+	
+<!-- 	<select id="getClinicRequest" resultType="hashmap">
 		SELECT 
 			ds.disease_code 				disease_code,
 			ds.disease_name 				disease_name,
@@ -153,25 +196,7 @@
 		INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
 		INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
 		WHERE 		r.patient_id = #{patient_id};
-	</select>
-	
-	
-	<select id="getClinicRequest" resultType="hashmap">
-		SELECT 
-			ds.disease_code 				disease_code,
-			ds.disease_name 				disease_name,
-			
-			dr.drug_code 					drug_code,
-			dr.drug_name 					drug_name,
-			
-			d.created_at 					created_at
-		FROM 		Reception r
-		INNER JOIN 	Diagnosis d 	  ON r.reception_id = d.reception_id
-		INNER JOIN 	Disease ds 		  ON d.disease_id = ds.disease_id 
-		INNER JOIN 	Prescription pr   ON r.reception_id = pr.reception_id
-		INNER JOIN 	Drug dr 		  ON pr.drug_id =dr.drug_id
-		WHERE 		r.patient_id = #{patient_id};
-	</select>
+	</select> -->
 
 
 	

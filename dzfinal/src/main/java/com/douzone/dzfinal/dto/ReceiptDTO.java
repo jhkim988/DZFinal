@@ -39,55 +39,102 @@ public class ReceiptDTO {
 		private boolean has_prescription;
 	}
 	
+	
+	
+	
+	
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
+	public static class GetDisease {
 
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Builder
-	public static class TreatmentInfo {
+		// (Reception)진료
+		private int reception_id;
+
+		// (Diagnosis)진단
+		int diagnosis_id;
 		
 		// (Disease)질병
+		private int disease_id;
 		private String disease_code;
 		private String disease_name;
 		
-		// (Drug)약품
-		private String drug_code;
-		private String drug_name;
-		
-		// (Diagnosis)진단
-		private Timestamp created_at;
-		
 	}
+	
 	
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Builder
-	public static class ClinicRequestInfo {
-		// (Disease)질병
-		private String disease_code;
-		private String disease_name;
+	public static class GetDrug {
+		
+		// (Reception)진료
+		private int reception_id;
+		
+		// (Prescription)처방
+		private int prescription_id;
 		
 		// (Drug)약품
+		private int drug_id;
 		private String drug_code;
 		private String drug_name;
 		
-		// (Diagnosis)진단
-		private Timestamp created_at;
+		
 	}
 	
+
+//	@Data
+//	@NoArgsConstructor
+//	@AllArgsConstructor
+//	@Builder
+//	public static class TreatmentInfo {
+//		
+//		// (Disease)질병
+//		private String disease_code;
+//		private String disease_name;
+//		
+//		// (Drug)약품
+//		private String drug_code;
+//		private String drug_name;
+//		
+//		// (Diagnosis)진단
+//		private Timestamp created_at;
+//		
+//	}
+//	
+//
+//	@Data
+//	@NoArgsConstructor
+//	@AllArgsConstructor
+//	@Builder
+//	public static class ClinicRequestInfo {
+//		// (Disease)질병
+//		private String disease_code;
+//		private String disease_name;
+//		
+//		// (Drug)약품
+//		private String drug_code;
+//		private String drug_name;
+//		
+//		// (Diagnosis)진단
+//		private Timestamp created_at;
+//	}
 	
-	@AllArgsConstructor
-	@NoArgsConstructor
+	
 	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
 	public static class Diagnosis {
 		private int disease_id;
 		private String disease_name;
 	}
 	
-	@AllArgsConstructor
-	@NoArgsConstructor
 	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
 	public static class Prescription {
 		private int drug_id;
 		private String drug_name;
