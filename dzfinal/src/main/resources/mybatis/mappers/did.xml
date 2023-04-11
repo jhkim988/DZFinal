@@ -2,44 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.DidRepository">
 	
-	
+	<!-- 윤지 -->
 	<select id="getDidVideo" resultType="com.douzone.dzfinal.dto.DidDTO$getDidVideo">
-		select * from DID_type dt;
+		select * from DID_video dv;
 	</select>
 	
 	<select id="getDidSubtitle" resultType="com.douzone.dzfinal.dto.DidDTO$getDidSubtitle">
 		SELECT 
 			*
-		FROM 	DID_subtitle ds
-		WHERE   ds.active = 1;
+		FROM 	DID_message dm
+		WHERE   dm.active = 1;
 	</select>
 	
 	<select id="getVideoName" resultType="String">
-		SELECT video_real_name FROM DID_type;
+		SELECT video_real_name FROM DID_video;
 	</select>
 	
-	
-	<select id="getDidMessage" resultType="com.douzone.dzfinal.dto.DidDTO$DID_subtitle">
-		SELECT * FROM DID_subtitle
+	<!-- 정주 -->
+	<select id="getDidMessage" resultType="com.douzone.dzfinal.dto.DidDTO$DID_Message">
+		SELECT * FROM DID_message
 	</select>
 	
 	<insert id="insertDidMessage" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO DID_subtitle(`message`, `active`) VALUES (#{message}, #{active})
-	</insert>
-	
-	<insert id="did_Setting">
-		INSERT INTO DID_type(`type`, `video_name`, `video_real_name`, `size`) VALUES (#{type}, #{video_name}, #{video_real_name}, #{size})
+		INSERT INTO DID_message(`message`, `active`) VALUES (#{message}, #{active})
 	</insert>
 	
 	<update id="toggleActive">
-		UPDATE DID_subtitle SET active = #{active} WHERE id = #{id}
+		UPDATE DID_message SET active = #{active} WHERE id = #{id}
 	</update>
 	
 	<update id="updateMessage">
-		UPDATE DID_subtitle SET message = #{message} WHERE id = #{id}
+		UPDATE DID_message SET message = #{message} WHERE id = #{id}
 	</update>
 	
 	<delete id="deleteMessgae">
-		DELETE FROM DID_subtitle WHERE id = #{id}
+		DELETE FROM DID_message WHERE id = #{id}
+	</delete>
+	
+	<select id="getVideoList" resultType="com.douzone.dzfinal.dto.DidDTO$DID_Video">
+		SELECT `id`, `video_name`, `active` FROM DID_video
+	</select>
+	
+	<insert id="insertVideo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO DID_video(video_name, video_real_name, size, active) VALUES (#{video_name}, #{video_real_name}, #{size}, #{active})
+	</insert>
+	
+	<update id="toggleVideo">
+		UPDATE DID_video SET active = #{active} WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteVideo">
+		DELETE FROM DID_video WHERE id = #{id}
 	</delete>
 </mapper>

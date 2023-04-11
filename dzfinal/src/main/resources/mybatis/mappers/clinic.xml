@@ -151,7 +151,7 @@
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
 		WHERE r.patient_id = #{patient_id}
-			AND (r.state="수납중" OR r.state = "수납완료")
+			AND (r.state="수납대기" OR r.state="수납중" OR r.state = "수납완료")
 		ORDER BY r.created_at DESC
     	LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
 	</select>
@@ -160,8 +160,7 @@
 		SELECT
 			Disease.disease_id disease_id,
 			Disease.disease_code disease_code,
-			Disease.disease_name disease_name,
-			r.reception_id reception_id
+			Disease.disease_name disease_name
 		FROM Diagnosis d
 			INNER JOIN Reception r ON d.reception_id = r.reception_id
 			INNER JOIN Disease ON d.disease_id = Disease.disease_id
@@ -172,8 +171,7 @@
 		SELECT
 			d.drug_id,
 			d.drug_code,
-			d.drug_name,
-			r.reception_id reception_id
+			d.drug_name
 		FROM Prescription p
 			INNER JOIN Reception r ON p.reception_id = r.reception_id
 			INNER JOIN Drug d ON p.drug_id = d.drug_id
@@ -197,7 +195,7 @@
 	  <if test="searchInfo.start != '' and searchInfo.end != ''">
 	    AND DATE(r.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
 	  </if>
-	    AND (r.state="수납중" OR r.state = "수납완료")
+	    AND (r.state="수납대기" OR r.state="수납중" OR r.state = "수납완료")
 	    ORDER BY r.created_at DESC
 	    LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount}
 	</select>
@@ -231,7 +229,7 @@
 			INNER JOIN Patient p ON r.patient_id = p.patient_id
 			INNER JOIN Employee e ON r.doctor = e.employ_id
 		WHERE r.patient_id = #{patient_id}
-			AND (r.state="수납중" OR r.state = "수납완료")
+			AND (r.state="수납대기" OR r.state="수납중" OR r.state = "수납완료")
 	</select>
 	
 	<select id="getSearchTotal" resultType="int">
@@ -249,7 +247,7 @@
 	  <if test="start != '' and end != ''">
 	    AND DATE(re.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
 	  </if>
-	    AND (r.state="수납중" OR r.state = "수납완료")
+	    AND (r.state="수납대기" OR r.state="수납중" OR r.state = "수납완료")
 	</select>
 	
 	<select id="findOneByReceptionId" resultType="com.douzone.dzfinal.entity.Clinic">

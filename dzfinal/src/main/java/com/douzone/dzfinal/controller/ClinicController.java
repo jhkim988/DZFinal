@@ -6,8 +6,11 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,9 +68,18 @@ public class ClinicController {
 		clinicService.deleteDrugTaking(patient_id, drug_id);
 	}
 	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+	    return new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@PostMapping("/clinic")
 	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		clinicService.insertClinic(paramData);
+		try {
+			clinicService.insertClinic(paramData);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("중복진료");
+		}
 	}
 	
 	@PutMapping("/clinic")
@@ -89,7 +101,6 @@ public class ClinicController {
 	
 	@PostMapping("/mri/search")
 	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
-		System.out.println(paramData);
 		int amount = 10;
 		
 		int total = clinicService.getSearchTotal(paramData);
