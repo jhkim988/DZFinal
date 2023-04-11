@@ -37,8 +37,12 @@ public class DidController {
 	
 	@PutMapping("/did_subtitle")
 	public boolean toggleActive(@RequestBody DidDTO.DID_Message paramData) {
-		didService.toggleActive(paramData);
-		return true;
+		try {
+			didService.toggleActive(paramData);
+			return true;	
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	@PutMapping("/updatemessage")
@@ -51,25 +55,41 @@ public class DidController {
 		didService.deleteMessgae(id);
 	}
 	
-	@PostMapping("/did_setting")
-	public boolean did_Setting(@RequestParam("file") MultipartFile file, @RequestParam("type") String type) {
-		String video_real_name = "upload" + System.currentTimeMillis();
-		File saveFile = new File("/Users/yoonz/Desktop/video/" + video_real_name);
-		boolean message = false;
-		
-		try (OutputStream os = new FileOutputStream(saveFile)) {
-			os.write(file.getBytes());
-			didService.did_Setting(type, file.getOriginalFilename(), video_real_name, file.getSize());
-			message = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return message;
-	}
-	
 	@GetMapping("/did_video")
 	public List<DidDTO.DID_Video> getVideoList() {
 		return didService.getVideoList();
+	}
+	
+	@PostMapping("/did_video")
+	public int insertVideo(@RequestParam("file") MultipartFile file) {
+		DidDTO.DID_Video video = DidDTO.DID_Video.builder()
+				.video_real_name("upload" + System.currentTimeMillis())
+				.video_name(file.getOriginalFilename())
+				.size(file.getSize())
+				.active(false).build();
+		File saveFile = new File("C:\\upload\\didVideo\\" + video.getVideo_real_name());
+		
+		try (OutputStream os = new FileOutputStream(saveFile)) {
+			os.write(file.getBytes());
+			return didService.insertVideo(video);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	@PutMapping("/did_video")
+	public boolean toggleVideo(@RequestBody DidDTO.DID_Video paramData) {
+		try {
+			didService.toggleVideo(paramData);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	@DeleteMapping("/did_video")
+	public void deleteVideo(@RequestParam("id") int id) {
+		didService.deleteVideo(id);
 	}
 }

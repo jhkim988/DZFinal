@@ -24,6 +24,8 @@ public interface DidRepository {
 	void toggleActive(DidDTO.DID_Message paramData);
 	void updateMessage(DidDTO.DID_Message paramData);
 	void deleteMessgae(int id);
-	void did_Setting(@Param("type") String type, @Param("video_name") String video_name, @Param("video_real_name") String video_real_name, @Param("size") long size);
 	List<DidDTO.DID_Video> getVideoList();
+	int insertVideo(DidDTO.DID_Video video);
+	void toggleVideo(DidDTO.DID_Video paramData);
+	void deleteVideo(int id);
 }

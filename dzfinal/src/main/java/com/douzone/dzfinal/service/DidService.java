@@ -46,10 +46,6 @@ public class DidService {
 	public void updateMessage(DidDTO.DID_Message paramData) {
 		didRepository.updateMessage(paramData);
 	}
-	
-	public void did_Setting(String type, String video_name, String video_real_name, long size) {
-		didRepository.did_Setting(type, video_name, video_real_name, size);
-	}
 
 	public void deleteMessgae(int id) {
 		didRepository.deleteMessgae(id);
@@ -57,5 +53,18 @@ public class DidService {
 
 	public List<DidDTO.DID_Video> getVideoList() {
 		return didRepository.getVideoList();
+	}
+
+	public int insertVideo(DidDTO.DID_Video video) {
+		didRepository.insertVideo(video);
+		return video.getId();
+	}
+
+	public void toggleVideo(DidDTO.DID_Video paramData) {
+		didRepository.toggleVideo(paramData);
+	}
+
+	public void deleteVideo(int id) {
+		didRepository.deleteVideo(id);
 	}
 }

@@ -27,10 +27,6 @@
 		INSERT INTO DID_message(`message`, `active`) VALUES (#{message}, #{active})
 	</insert>
 	
-	<insert id="did_Setting">
-		INSERT INTO DID_video(`video_name`, `video_real_name`, `size`) VALUES (#{video_name}, #{video_real_name}, #{size})
-	</insert>
-	
 	<update id="toggleActive">
 		UPDATE DID_message SET active = #{active} WHERE id = #{id}
 	</update>
@@ -46,4 +42,16 @@
 	<select id="getVideoList" resultType="com.douzone.dzfinal.dto.DidDTO$DID_Video">
 		SELECT `id`, `video_name`, `active` FROM DID_video
 	</select>
+	
+	<insert id="insertVideo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO DID_video(video_name, video_real_name, size, active) VALUES (#{video_name}, #{video_real_name}, #{size}, #{active})
+	</insert>
+	
+	<update id="toggleVideo">
+		UPDATE DID_video SET active = #{active} WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteVideo">
+		DELETE FROM DID_video WHERE id = #{id}
+	</delete>
 </mapper>

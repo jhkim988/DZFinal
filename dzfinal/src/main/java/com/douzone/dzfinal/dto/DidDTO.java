@@ -18,11 +18,12 @@ public class DidDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Data
+	@Builder
 	public static class DID_Video {
 		private int id;
 		private String video_name;
 		private String video_real_name;
-		private int size;
+		private long size;
 		private boolean active;
 	}
 	
