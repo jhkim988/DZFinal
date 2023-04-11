@@ -18,4 +18,6 @@ public interface PatientRepository {
 	public List<Patient> searchPatient(String patient_name);
 	
 	public Optional<Patient> searchPatientInfo(int patient_id);
+	
+	public void updatePatientInfo(Patient patient);
 }

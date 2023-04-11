@@ -10,16 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
+import com.douzone.dzfinal.dto.WaitingDTO;
 import com.douzone.dzfinal.repository.ClinicRepository;
+import com.douzone.dzfinal.repository.ReceptionRepository;
 
 @Service
 public class ClinicService {
 	private final ClinicRepository clinicRepository;
 	private final MqttMessageService mqttMessageService;
-
-	public ClinicService(ClinicRepository clinicRepository, MqttMessageService mqttMessageService) {
+	private final ReceptionRepository receptionRepository;
+	public ClinicService(ClinicRepository clinicRepository, MqttMessageService mqttMessageService, ReceptionRepository receptionRepository) {
 		this.clinicRepository = clinicRepository;
 		this.mqttMessageService = mqttMessageService;
+		this.receptionRepository = receptionRepository;;
 	}
 	
 	public ClinicResponse.PatientInfo getPatientInfo(int reception_id) {
@@ -51,7 +54,7 @@ public class ClinicService {
 	}
 	
 	@Transactional
-	public void insertClinic(ClinicResponse.Clinic paramData) {
+	public void insertClinic(ClinicResponse.Clinic paramData) throws Exception {
 		int reception_id = paramData.getReception_id();
 		String symptom = paramData.getSymptom();
 		boolean treatment = paramData.isTreatment();
@@ -67,7 +70,16 @@ public class ClinicService {
 		if (drug_ids != null && !drug_ids.isEmpty()) {
 			clinicRepository.insertPrescription(reception_id, drug_ids);
 		}
-		mqttMessageService.sendToWaiting("PUT", reception_id, "수납대기");
+		
+		WaitingDTO.WaitingData waitingData = receptionRepository
+				.findReceptionInfoById(reception_id)
+				.orElseThrow(IllegalArgumentException::new);
+		waitingData.setState("수납대기");
+		WaitingDTO waitingDTO = WaitingDTO.builder()
+				.method("PUT")
+				.data(waitingData)
+				.build();
+		mqttMessageService.sendToWaiting(waitingDTO);
 	}
 
 	@Transactional
@@ -95,8 +107,8 @@ public class ClinicService {
 		return clinicRepository.getMriList(patient_id, pagination);
 	}
 	
-	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo paramData) {
-		return clinicRepository.getSearchMriList(paramData);
+	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo paramData, ClinicResponse.Pagination pagination) {
+		return clinicRepository.getSearchMriList(paramData, pagination);
 	}
 
 	public ClinicResponse.MedicalInfo getMedicalInfo(int reception_id) {
@@ -105,5 +117,9 @@ public class ClinicService {
 
 	public int getTotal(@Digits(integer = 8, fraction = 0) @Min(1) int patient_id) {
 		return clinicRepository.getTotal(patient_id);
+	}
+
+	public int getSearchTotal(ClinicResponse.SearchInfo paramData) {
+		return clinicRepository.getSearchTotal(paramData);
 	}
 }

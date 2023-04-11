@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,40 +26,70 @@ public class DidController {
 	DidService didService;
 	
 	@GetMapping("/did_subtitle")
-	public List<DidDTO> getDidMessage() {
+	public List<DidDTO.DID_Message> getDidMessage() {
 		return didService.getDidMessage();
 	}
 	
 	@PostMapping("/did_subtitle")
-	public int insertDidMessage(@RequestBody DidDTO.DID_subtitle message) {
+	public int insertDidMessage(@RequestBody DidDTO.DID_Message message) {
 		return didService.insertDidMessage(message);
 	}
 	
 	@PutMapping("/did_subtitle")
-	public boolean toggleActive(@RequestBody DidDTO.DID_subtitle paramData) {
-		didService.toggleActive(paramData);
-		return true;
+	public boolean toggleActive(@RequestBody DidDTO.DID_Message paramData) {
+		try {
+			didService.toggleActive(paramData);
+			return true;	
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	@PutMapping("/updatemessage")
-	public void updateMessage(@RequestBody DidDTO.DID_subtitle paramData) {
+	public void updateMessage(@RequestBody DidDTO.DID_Message paramData) {
 		didService.updateMessage(paramData);
 	}
 	
-	@PostMapping("/did_setting")
-	public boolean did_Setting(@RequestParam("file") MultipartFile file, @RequestParam("type") String type) {
-		String video_real_name = "upload" + System.currentTimeMillis();
-		File saveFile = new File("c:\\upload\\didVideo\\" + video_real_name);
-		boolean message = false;
+	@DeleteMapping("/did_subtitle")
+	public void deleteMessage(@RequestParam("id") int id) {
+		didService.deleteMessgae(id);
+	}
+	
+	@GetMapping("/did_video")
+	public List<DidDTO.DID_Video> getVideoList() {
+		return didService.getVideoList();
+	}
+	
+	@PostMapping("/did_video")
+	public int insertVideo(@RequestParam("file") MultipartFile file) {
+		DidDTO.DID_Video video = DidDTO.DID_Video.builder()
+				.video_real_name("upload" + System.currentTimeMillis())
+				.video_name(file.getOriginalFilename())
+				.size(file.getSize())
+				.active(false).build();
+		File saveFile = new File("C:\\upload\\didVideo\\" + video.getVideo_real_name());
 		
 		try (OutputStream os = new FileOutputStream(saveFile)) {
 			os.write(file.getBytes());
-			didService.did_Setting(type, file.getOriginalFilename(), video_real_name);
-			message = true;
+			return didService.insertVideo(video);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return 0;
 		}
-		
-		return message;
+	}
+	
+	@PutMapping("/did_video")
+	public boolean toggleVideo(@RequestBody DidDTO.DID_Video paramData) {
+		try {
+			didService.toggleVideo(paramData);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	@DeleteMapping("/did_video")
+	public void deleteVideo(@RequestParam("id") int id) {
+		didService.deleteVideo(id);
 	}
 }

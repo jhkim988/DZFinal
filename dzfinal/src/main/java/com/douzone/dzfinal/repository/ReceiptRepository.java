@@ -17,7 +17,9 @@ import java.util.Optional;
 public interface ReceiptRepository {
 	// 수납
 	public void insertReceipt(Receipt receipt);
-	// DTO-수납할 사람들 정보 가져오
+	// 수납수정
+	public void updateReceipt(Receipt receipt);
+	// DTO-수납할 사람들 정보 가져오기
 	public Optional<ReceiptDTO.ReceptionInfo> findOneByReception(int reception_id);
 	// MAP-수납할 사람들 정보 가져오기
 	public Map<String, Object> selectReceiptDetail(String reception_id);
@@ -40,4 +42,9 @@ public interface ReceiptRepository {
 	public List<Map<String, Object>> getReceipt(String patient_id);
 
 	List<GetReceiptList> getReceiptList(HashMap<String, Object> params);	
+	
+	
+	// MAP-수납목록 중 선택한 데이터 하나 가져오기
+	public Map<String, Object> selectedOneReceipt(String reception_id);
+
 }

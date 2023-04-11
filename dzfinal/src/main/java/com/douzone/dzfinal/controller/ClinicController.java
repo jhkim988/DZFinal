@@ -6,8 +6,11 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,34 +68,46 @@ public class ClinicController {
 		clinicService.deleteDrugTaking(patient_id, drug_id);
 	}
 	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+	    return new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@PostMapping("/clinic")
 	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		System.out.println("insert : " + paramData);
-		clinicService.insertClinic(paramData);
+		try {
+			clinicService.insertClinic(paramData);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("중복진료");
+		}
 	}
 	
 	@PutMapping("/clinic")
 	public void updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		System.out.println("update : " + paramData);
 		clinicService.updateClinic(paramData);
 	}
 	
 	@GetMapping("/mri/{patient_id}/{currentPage}")
 	public ClinicResponse.MriPage getMriList(
-	    @PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id, @PathVariable("currentPage") int currentPage) {
+	    @PathVariable("patient_id") @Digits(integer = 8, fraction = 0) @Min(1) int patient_id, @PathVariable("currentPage") int currentPage) {		
 		int amount = 10;
 		
 		int total = clinicService.getTotal(patient_id);
 		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(currentPage, amount, total);
-		
 		ClinicResponse.MriPage mriPage = new ClinicResponse.MriPage(clinicService.getMriList(patient_id, pagination), pagination);
 		
 	  return mriPage;
 	}
 	
 	@PostMapping("/mri/search")
-	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
-	    return clinicService.getSearchMriList(paramData);
+	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
+		int amount = 10;
+		
+		int total = clinicService.getSearchTotal(paramData);
+		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(paramData.getCurrentPage(), amount, total);
+		ClinicResponse.MriPage searchPage = new ClinicResponse.MriPage(clinicService.getSearchMriList(paramData, pagination), pagination);
+
+	    return searchPage;
 	}
 	
 	@GetMapping("/medicalinfo/{reception_id}")

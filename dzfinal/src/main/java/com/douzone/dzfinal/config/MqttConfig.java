@@ -3,6 +3,7 @@ package com.douzone.dzfinal.config;
 import com.douzone.dzfinal.service.MqttMessageService;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -18,8 +19,20 @@ import org.springframework.messaging.MessageHandler;
 @Configuration
 public class MqttConfig {
 
-    private String mqttURL = "tcp://192.168.0.132:1883";
-//    private String mqttURL = "tcp://127.0.0.1:1883";
+    @Value("${mqtt.url}")
+    private String mqttURL;
+
+    @Value("${waitingInbound}")
+    private String waitingInbound;
+
+    @Value("${waitingOutbound}")
+    private String waitingOutbound;
+
+    @Value("${chatInbound}")
+    private String chatingInbound;
+
+    @Value("${chatOutbound}")
+    private String chatingOutbound;
 
     @Autowired
     private MqttMessageService mqttMessageService;
@@ -32,9 +45,10 @@ public class MqttConfig {
         clientFactory.setConnectionOptions(options);
         return clientFactory;
     }
+    
     @Bean
-    public MessageProducer waitingInboundAdapter() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,"springBoot#Waiting_inbound","waiting");
+	public MessageProducer waitingInboundAdapter() {
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,waitingInbound,"waiting");
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -54,16 +68,54 @@ public class MqttConfig {
             mqttMessageService.updateReception((String) message.getPayload());
         };
     }
+    
+    // 채팅
+    @Bean
+   	public MessageProducer chatingInboundAdapter() {
+           MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(mqttURL,chatingInbound,"chat/+");
+           adapter.setCompletionTimeout(5000);
+           adapter.setConverter(new DefaultPahoMessageConverter());
+           adapter.setQos(1);
+           adapter.setOutputChannel(chatingInboundChannel());
+           return adapter;
+       }
 
-    @Bean("mqttOutboundChannel")
+   @Bean
+   public MessageChannel chatingInboundChannel() {
+       return new DirectChannel();
+   }
+
+   @Bean
+   @ServiceActivator(inputChannel = "chatingInboundChannel")
+   public MessageHandler inboundMessageHandler1() {
+       return message -> {
+           mqttMessageService.receiveChat((String) message.getPayload(), message.getHeaders());
+       };
+   }
+
+    @Bean("waitingOutboundChannel")
     public MessageChannel mqttOutboundChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    @ServiceActivator(inputChannel = "mqttOutboundChannel")
-    public MessageHandler mqttOutbound(DefaultMqttPahoClientFactory clientFactory) {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("springBoot2", clientFactory);
+    @ServiceActivator(inputChannel = "waitingOutboundChannel")
+    public MessageHandler waitingOutbound(DefaultMqttPahoClientFactory clientFactory) {
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(waitingOutbound, clientFactory);
+        messageHandler.setAsync(true);
+        messageHandler.setDefaultQos(1);
+        return messageHandler;
+    }
+    
+    @Bean("chatOutboundChannel")
+    public MessageChannel chatOutboundChannel() {
+        return new DirectChannel();
+    }
+
+    @Bean
+    @ServiceActivator(inputChannel = "chatOutboundChannel")
+    public MessageHandler chatOutbound(DefaultMqttPahoClientFactory clientFactory) {
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(chatingOutbound, clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultQos(1);
         return messageHandler;

@@ -1,7 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.ChatRepository">
-	<select id="chatRoomList" resultType="com.douzone.dzfinal.entity.Chat">
-		SELECT * FROM ChatRoom
+	<resultMap id="chatListMap" type="com.douzone.dzfinal.dto.ChatDTO$ChatRoom">
+	  <id property="chatroom_id" column="chatroom_id"/>
+	  <result property="chatroom_name" column="chatroom_name"/>
+	  <collection property="employee_names" ofType="java.lang.String">
+	    <result column="employee_names"/>
+	  </collection>
+	  <collection property="thumbnail_images" ofType="java.lang.String">
+	  	<result column="thumbnail_images"/>
+	  </collection>
+	</resultMap>
+	
+	<select id="chatRoomList" resultMap="chatListMap">
+		SELECT cr.chatroom_id, cr.chatroom_name, GROUP_CONCAT(e.employee_name SEPARATOR ', ') as employee_names, GROUP_CONCAT(e.thumbnail_image SEPARATOR ', ') as thumbnail_images
+		FROM ChatRoom_Participants crp
+		  	JOIN ChatRoom cr ON crp.chatroom_id = cr.chatroom_id
+		  	JOIN Employee e ON crp.participants_id = e.employ_id AND crp.participants_id != #{participants_id}
+		WHERE crp.chatroom_id IN (
+			SELECT chatroom_id 
+		    FROM ChatRoom_Participants 
+		    WHERE participants_id = #{participants_id}
+		)
+		GROUP BY cr.chatroom_id, cr.chatroom_name
+	  
+	  <!-- SELECT cr.chatroom_id, cr.chatroom_name, GROUP_CONCAT(e.employee_name SEPARATOR ', ') as employee_names
+	  FROM ChatRoom_Participants crp
+	  	JOIN ChatRoom cr ON crp.chatroom_id = cr.chatroom_id
+	  	JOIN Employee e ON crp.participants_id = e.employ_id AND crp.participants_id != #{participants_id}
+	  WHERE crp.chatroom_id IN (
+	      SELECT chatroom_id 
+	      FROM ChatRoom_Participants 
+	      WHERE participants_id = #{participants_id}
+	  )
+	  GROUP BY cr.chatroom_id, cr.chatroom_name -->
 	</select>
+	
+	<insert id="insert">
+		INSERT INTO Chat(chatroom_id, message, created_at, `from`) VALUES (#{chatroom_id}, #{message}, now(), #{from});
+	</insert>
+	
+	<select id="getChatRoomMessages" resultType="com.douzone.dzfinal.dto.ChatDTO$Message">
+		SELECT chatroom_id, message, created_at, c.from, employee_name, thumbnail_image
+		FROM Chat c INNER JOIN Employee e on c.from = e.employ_id
+		WHERE chatroom_id = #{chatroom_id}
+		ORDER BY created_at DESC
+		LIMIT 100 OFFSET ${(page-1) * 100}
+	</select>
+	
+	<select id="getMessageCount" resultType="com.douzone.dzfinal.dto.ChatDTO$MessageCount">
+		SELECT c.chatroom_id, COUNT(c.chat_id) AS message_count
+		FROM ChatRoom_Participants crp
+		JOIN Chat c ON c.chatroom_id = crp.chatroom_id
+		WHERE crp.participants_id = #{participants_id}
+		  AND c.created_at > crp.last_entered_time
+		  AND crp.is_entry != 1
+		GROUP BY c.chatroom_id
+	</select>
+	
+	<select id="getNotificationTargetIds" resultType="java.lang.Integer">
+		SELECT crp.participants_id
+		FROM ChatRoom cr INNER JOIN ChatRoom_Participants crp ON cr.chatroom_id = crp.chatroom_id
+		WHERE cr.chatroom_id = #{chatroom_id} AND crp.participants_id != #{participants_id}
+	</select>
+	
+	<update id="updateLastReadTime">
+		UPDATE ChatRoom_Participants
+		SET last_entered_time = NOW(), is_entry = 1
+		WHERE participants_id = #{participants_id} AND chatroom_id = #{chatroom_id}
+	</update>
+	
+	<update id="is_Close">
+		UPDATE ChatRoom_Participants
+		SET last_entered_time = NOW(), is_entry = 0
+		WHERE participants_id = #{participants_id} AND chatroom_id = #{chatroom_id}
+	</update>
 </mapper>

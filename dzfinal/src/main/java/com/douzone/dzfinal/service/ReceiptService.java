@@ -1,6 +1,7 @@
 package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
+import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.repository.ReceiptRepository;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,18 @@ public class ReceiptService {
 	// 수납
 	public void insertReceipt(Receipt receipt) {
 		receiptRepository.insertReceipt(receipt);
-		mqttMessageService.sendToWaiting("PUT", receipt.getReceipt_id(), "수납완료");
+		mqttMessageService.updateWaitingState(receipt.getReception_id(), "수납완료");
 	}
+	
+	
+	
+	public void updateReceipt(Receipt receipt) {
+		receiptRepository.updateReceipt(receipt);
+		
+	}
+	
+	
+	
 
 	// DTO-수납할 사람들 정보 가져오기
 	public ReceiptDTO.ReceptionInfo getReceipt(int reception_id) {
@@ -60,12 +71,21 @@ public class ReceiptService {
 //	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText, String start_date, String end_date) {
 //		return receiptRepository.getReceiptList(type, searchText, start_date, end_date);
 //	}
+	public List<GetReceiptList> getReceiptList(HashMap<String, Object> params) {
+		return receiptRepository.getReceiptList(params);
+	}
 	// MAP-수납완료내역
 	public List<Map<String, Object>> getReceipt(String patient_id) throws Exception {
 		return receiptRepository.getReceipt(patient_id);
 	}
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(HashMap<String, Object> params) {
-		// TODO Auto-generated method stub
-		return receiptRepository.getReceiptList(params);
+
+	
+	
+	
+	// MAP-수납목록 중 선택한 데이터 하나 가져오기
+	public Map<String, Object> selectedOneReceipt(String reception_id) throws Exception {
+		return receiptRepository.selectedOneReceipt(reception_id);
 	}
+
+
 }

@@ -22,4 +22,7 @@ public interface ReceptionRepository {
 	void update(WaitingDTO.WaitingData data);
 	Optional<Reception> findOneById(int reception_id);
 	ReceptionDTO.Detail detail(int reception_id);
+	
+	public void updateReceptionInfo(Reception reception);
+	Optional<WaitingDTO.WaitingData> findReceptionInfoById(int reception_id);
 }
