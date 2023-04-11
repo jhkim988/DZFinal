@@ -21,17 +21,24 @@ public class PatientController {
 	public Map<String,Object> insertPatient(@RequestBody PatientDTO.UpdateDailyReservationList patient) throws Exception{
 		Map<String,Object> map = new HashMap<>();
 		
-		if(patient != null) {
+		if(patient.getFront_registration_number().length()==6 
+			&& patient.getBack_registration_number().length()==7
+			&& patient.getPhone_number1().length() == 3
+			&& patient.getPhone_number2().length() == 4
+			&& patient.getPhone_number3().length() == 4
+			&& patient.getGender() != null
+			&& !patient.getGender().isEmpty()
+			) {
 			patientService.insertPatient(patient);
 			int patient_id = patientService.getPatientId(patient);
 			System.out.println(patient_id);
 			map.put("status", "true");
-			map.put("message", "회원등록 성공");
+			map.put("message", "환자 등록에 성공하였습니다. ");
 			map.put("patient_id", patient_id);
 			/* map.put("url", ""); */
 		}else {
 			map.put("status", "false");
-			map.put("message", "회원등록 실패");
+			map.put("message", "환자 등록에 실패하였습니다. 입력값을 확인하세요.");
 		}
 		return map;
 		
