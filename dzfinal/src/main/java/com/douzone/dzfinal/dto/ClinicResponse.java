@@ -89,7 +89,6 @@ public class ClinicResponse {
 	}
 	
 	@AllArgsConstructor
-	@NoArgsConstructor
 	@Data
 	public static class Diagnosis {
 		private int disease_id;
@@ -98,7 +97,6 @@ public class ClinicResponse {
 	}
 	
 	@AllArgsConstructor
-	@NoArgsConstructor
 	@Data
 	public static class Prescription {
 		private int drug_id;

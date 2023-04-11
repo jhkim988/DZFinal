@@ -29,28 +29,40 @@
 		SELECT * FROM DID_type;
 	</select>
 	
-	
-	<select id="getDidMessage" resultType="com.douzone.dzfinal.dto.DidDTO$DID_subtitle">
-		SELECT * FROM DID_subtitle
+	<!-- 정주 -->
+	<select id="getDidMessage" resultType="com.douzone.dzfinal.dto.DidDTO$DID_Message">
+		SELECT * FROM DID_message
 	</select>
 	
 	<insert id="insertDidMessage" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO DID_subtitle(`message`, `active`) VALUES (#{message}, #{active})
-	</insert>
-	
-	<insert id="did_Setting">
-		INSERT INTO DID_type(`type`, `video_name`, `video_real_name`, `size`) VALUES (#{type}, #{video_name}, #{video_real_name}, #{size})
+		INSERT INTO DID_message(`message`, `active`) VALUES (#{message}, #{active})
 	</insert>
 	
 	<update id="toggleActive">
-		UPDATE DID_subtitle SET active = #{active} WHERE id = #{id}
+		UPDATE DID_message SET active = #{active} WHERE id = #{id}
 	</update>
 	
 	<update id="updateMessage">
-		UPDATE DID_subtitle SET message = #{message} WHERE id = #{id}
+		UPDATE DID_message SET message = #{message} WHERE id = #{id}
 	</update>
 	
 	<delete id="deleteMessgae">
-		DELETE FROM DID_subtitle WHERE id = #{id}
+		DELETE FROM DID_message WHERE id = #{id}
+	</delete>
+	
+	<select id="getVideoList" resultType="com.douzone.dzfinal.dto.DidDTO$DID_Video">
+		SELECT `id`, `video_name`, `active` FROM DID_video
+	</select>
+	
+	<insert id="insertVideo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO DID_video(video_name, video_real_name, size, active) VALUES (#{video_name}, #{video_real_name}, #{size}, #{active})
+	</insert>
+	
+	<update id="toggleVideo">
+		UPDATE DID_video SET active = #{active} WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteVideo">
+		DELETE FROM DID_video WHERE id = #{id}
 	</delete>
 </mapper>

@@ -5,16 +5,14 @@ import java.util.List;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
-import com.douzone.dzfinal.dto.WaitingDTO;
-import com.douzone.dzfinal.repository.ReceiptRepository;
-import com.douzone.dzfinal.repository.ReceptionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
-import com.douzone.dzfinal.dto.ClinicResponse.SearchInfo;
+import com.douzone.dzfinal.dto.WaitingDTO;
 import com.douzone.dzfinal.repository.ClinicRepository;
+import com.douzone.dzfinal.repository.ReceptionRepository;
 
 @Service
 public class ClinicService {
@@ -56,7 +54,7 @@ public class ClinicService {
 	}
 	
 	@Transactional
-	public void insertClinic(ClinicResponse.Clinic paramData) {
+	public void insertClinic(ClinicResponse.Clinic paramData) throws Exception {
 		int reception_id = paramData.getReception_id();
 		String symptom = paramData.getSymptom();
 		boolean treatment = paramData.isTreatment();
@@ -72,7 +70,7 @@ public class ClinicService {
 		if (drug_ids != null && !drug_ids.isEmpty()) {
 			clinicRepository.insertPrescription(reception_id, drug_ids);
 		}
-
+		
 		WaitingDTO.WaitingData waitingData = receptionRepository
 				.findReceptionInfoById(reception_id)
 				.orElseThrow(IllegalArgumentException::new);

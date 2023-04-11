@@ -26,6 +26,16 @@ repositories {
 	maven { url 'https://repo.spring.io/snapshot' }
 }
 
+ext {
+	set('springCloudVersion', "2021.0.1")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -42,15 +52,21 @@ dependencies {
 	implementation 'net.coobird:thumbnailator:0.4.1'
 
 	// security
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-//	runtimeOnly 'com.nimbusds:oauth2-oidc-sdk:10.7'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
 	// swagger 세팅
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-	implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
 
 	// util
+	// MqttOutboundGateway에서 patload의 chatDTO가 리스트라서 필요함.
+	// chatingInboundAdapter에서 adapter.setConverter(new DefaultPahoMessageConverter()); 이거는 gson을 안쓰면 String, byte[]만 보내준다.
+	// implementation 'com.google.code.gson:gson:2.8.9'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.dzfinal.dto.DidDTO;
-import com.douzone.dzfinal.dto.DidDTO.DID_subtitle;
 
 @Repository
 @Mapper
@@ -21,10 +20,13 @@ public interface DidRepository {
 	
 	
 	// DID-SETTING(정주)
-	List<DidDTO> getDidMessage();
-	int insertDidMessage(DidDTO.DID_subtitle message);
-	void did_Setting(@Param("type") String type, @Param("video_name") String video_name, @Param("video_real_name") String video_real_name, @Param("size") long size);
-	void toggleActive(DidDTO.DID_subtitle paramData);
-	void updateMessage(DidDTO.DID_subtitle paramData);
+	List<DidDTO.DID_Message> getDidMessage();
+	int insertDidMessage(DidDTO.DID_Message message);
+	void toggleActive(DidDTO.DID_Message paramData);
+	void updateMessage(DidDTO.DID_Message paramData);
 	void deleteMessgae(int id);
+	List<DidDTO.DID_Video> getVideoList();
+	int insertVideo(DidDTO.DID_Video video);
+	void toggleVideo(DidDTO.DID_Video paramData);
+	void deleteVideo(int id);
 }

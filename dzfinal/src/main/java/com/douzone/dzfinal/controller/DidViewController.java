@@ -43,6 +43,9 @@ public class DidViewController {
 	@GetMapping("/getDidVideo")
 	public ResponseEntity<byte[]> getDidVideo() throws IOException {
 		String videoName = didService.getVideoName();
+//		String videoPath = "C:\\upload\\didVideo\\";
+		
+		System.out.println("videoName: " + videoName);
 		String videoPath = "/Users/yoonz/Desktop/video/";
 	    
 		// 동영상 파일을 byte 배열로 읽어옴
