@@ -12,6 +12,7 @@ import com.douzone.dzfinal.dto.ChatDTO;
 @Mapper
 public interface ChatRepository {
 	List<ChatDTO.ChatRoom> chatRoomList(int participants_id);
+	List<ChatDTO.Thumbnail> getThumbnail();
 	void insert(ChatDTO.Message chatMessage);
 	List<ChatDTO.Message> getChatRoomMessages(@Param("chatroom_id") int participants_id, @Param("page") int page);
 	List<ChatDTO.MessageCount> getMessageCount(int participants_id);
