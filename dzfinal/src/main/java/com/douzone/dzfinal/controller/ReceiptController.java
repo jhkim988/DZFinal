@@ -99,6 +99,7 @@ public class ReceiptController {
 	@GetMapping("/getReceiptList")
 	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestParam HashMap<String,Object> params) {
 		//System.out.println(type + searchText + start_date + end_date);
+		params.put("currentPage", Integer.parseInt((String) params.get("currentPage")));
 		System.out.println("params: "+params);
 //	    System.out.println(receiptService.getReceiptList(params));
 		return receiptService.getReceiptList(params);
