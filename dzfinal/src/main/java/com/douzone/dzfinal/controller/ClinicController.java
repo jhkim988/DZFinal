@@ -1,6 +1,5 @@
 package com.douzone.dzfinal.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.validation.constraints.Digits;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douzone.dzfinal.dto.ClinicResponse;
@@ -73,7 +70,6 @@ public class ClinicController {
 	
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-		System.out.println("메시지 : " + ex.getMessage());
 	    return new ResponseEntity<String>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
