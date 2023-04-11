@@ -2,10 +2,10 @@ package com.douzone.dzfinal.service;
 
 import java.util.List;
 
+import com.douzone.dzfinal.entity.Employee;
 import org.springframework.stereotype.Service;
 
 import com.douzone.dzfinal.dto.AdminDTO;
-import com.douzone.dzfinal.dto.AdminDTO.Employee;
 import com.douzone.dzfinal.dto.AdminDTO.EmployeeInfo;
 import com.douzone.dzfinal.repository.AdminRepository;
 
@@ -21,8 +21,12 @@ public class AdminService {
 		adminRepository.register(employee);
 	}
 
-	public List<Employee> getEmployee() {
+	public List<AdminDTO.Employee> getEmployee() {
 		return adminRepository.getEmployee();
+	}
+
+	public Employee getEmployee(int employ_id) {
+		return adminRepository.findOneById(employ_id).orElseThrow(IllegalArgumentException::new);
 	}
 
 	public void updateEmployee(EmployeeInfo employee) {

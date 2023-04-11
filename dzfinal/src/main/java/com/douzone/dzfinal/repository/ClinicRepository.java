@@ -32,8 +32,6 @@ public interface ClinicRepository {
 	void insertDiagnosis(@Param("reception_id") int reception_id, @Param("disease_ids") List<Integer> disease_ids, @Param("creator") int creator);
 	void insertPrescription(@Param("reception_id") int reception_id, @Param("drug_ids") List<Integer> drug_ids);
 	void updateClinic(@Param("reception_id") int reception_id, @Param("symptom") String symptom, @Param("treatment") boolean treatment, @Param("clinic_request") boolean clinic_request, @Param("updator") int updator);
-//	void updateDiagnosis(@Param("reception_id") int reception_id, @Param("disease_ids") List<Integer> disease_ids, @Param("creator") int creator);
-//	void updatePrescription(@Param("reception_id") int reception_id, @Param("drug_ids") List<Integer> drug_ids);
 	void deleteDiagnosis(@Param("reception_id") int reception_id);
 	void deletePrescription(@Param("reception_id") int reception_id);
 	
