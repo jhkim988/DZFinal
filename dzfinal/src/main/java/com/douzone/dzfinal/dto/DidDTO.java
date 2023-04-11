@@ -9,7 +9,7 @@ public class DidDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Data
-	public static class DID_subtitle {
+	public static class DID_Message {
 		private int id;
 		private String message;
 		private boolean active;
@@ -18,11 +18,13 @@ public class DidDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Data
-	public static class DID_type {
+	@Builder
+	public static class DID_Video {
 		private int id;
-		private String type;
 		private String video_name;
 		private String video_real_name;
+		private long size;
+		private boolean active;
 	}
 	
 	
