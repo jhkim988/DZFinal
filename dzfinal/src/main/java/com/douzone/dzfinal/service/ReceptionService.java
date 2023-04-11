@@ -43,7 +43,17 @@ public class ReceptionService {
 
 		return reception.getReception_id();
 	}
+	
+	public void updateTodayReservationState(Reception reception) {
+		receptionRepository.updateTodayReservationState(reception);
+	}
 
+	public void deleteReception(Reception reception) {
+		System.out.println(reception);
+		receptionRepository.deleteReception(reception);
+		mqttMessageService.deleteWaitingState(reception.getReception_id());
+	}
+	
 	public ReceptionDTO.Detail detail(int reception_id) {
 		return receptionRepository.detail(reception_id);
 	}

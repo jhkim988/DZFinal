@@ -26,6 +26,35 @@
 		AND R.state="예약중"
 	</select>
 	
+	<select id="detailTodayReservationList" resultType="com.douzone.dzfinal.dto.ReceptionDTO$DetailTodayReservationList">
+		SELECT R.reservation_id,
+			R.patient_id,
+			R.patient_name,
+			R.phone_number1,
+			R.phone_number2,
+			R.phone_number3,
+			R.doctor,
+			E.employee_name,
+			P.front_registration_number,
+			P.back_registration_number,
+			P.zip_code,
+			P.address,
+			P.detail_address,
+			P.gender,
+			R.treatment_reason
+		FROM Reservation R 
+		LEFT OUTER JOIN  Patient P ON R.patient_id = P.patient_id
+		INNER JOIN Employee E ON R.doctor = E.employ_id
+		WHERE R.reservation_id=#{reservation_id}
+	</select>
+	
+	<update id="updateTodayReservationPatientId">
+		UPDATE Reservation
+		SET
+			patient_id = #{patient_id}
+		WHERE reservation_id = #{reservation_id}
+	</update>
+	
     <select id="monthList" resultType="com.douzone.dzfinal.dto.ReservationDTO$Month">
         select
             `reservation_id`,

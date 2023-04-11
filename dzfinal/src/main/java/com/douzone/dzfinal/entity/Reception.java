@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Reception {
 	private int reception_id;
+	public int reservation_id;
 	private int doctor;
 	private String treatment_reason;
 	private int patient_id;

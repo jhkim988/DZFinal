@@ -12,7 +12,7 @@ import com.douzone.dzfinal.repository.ChatRepository;
 public class ChatService {
 	
 	@Autowired
-	ChatRepository chatRepository;
+	private ChatRepository chatRepository;
 	
 	public List<ChatDTO.ChatRoom> chatRoomList(int participants_id){
 		return chatRepository.chatRoomList(participants_id); 

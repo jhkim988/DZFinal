@@ -28,15 +28,36 @@ public class ReceptionController {
 		//수정
 		if(reception != null) {
 			receptionService.insertReception(reception);
+			receptionService.updateTodayReservationState(reception);
 			map.put("status", "true");
 			map.put("message", "접수등록 성공");
 		}else {
 			map.put("status", "false");
-			map.put("message", "접수등록 실패");
+			map.put("message", "접수 실패");
 		}
 
 		return map;
 	}
+	 
+	@PostMapping("/delete")
+	public Map<String, Object> deleteReceptionInfo(@RequestBody Reception reception){
+		Map<String, Object> map = new HashMap<>();
+		
+		String state = reception.getState();
+		System.out.println(state);
+		if(state.equals("진료대기")) {
+			receptionService.deleteReception(reception);
+			map.put("status", "true");
+			map.put("message", "접수가 취소되었습니다.");
+		}else {
+			map.put("status", "false");
+			map.put("message", "진료대기환자인 경우만 접수 취소가 가능합니다.");
+		}
+		return map;
+	}
+//	public void deleteReceptionInfo(@RequestBody Reception reception) {
+//		receptionService.deleteReception(reception);
+//	}
 
 	@GetMapping("/today")
 	public List<WaitingDTO.WaitingData> todayList() {

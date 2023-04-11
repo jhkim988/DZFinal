@@ -18,7 +18,10 @@ public interface ReceptionRepository {
 	List<WaitingDTO.WaitingData> todayList();
 	
 	public int insertReception(Reception reception);
-
+	
+	public void updateTodayReservationState(Reception reception);
+	public void deleteReception(Reception reception);
+	
 	void update(WaitingDTO.WaitingData data);
 	Optional<Reception> findOneById(int reception_id);
 	ReceptionDTO.Detail detail(int reception_id);

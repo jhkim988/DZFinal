@@ -28,4 +28,10 @@
         FROM Employee e
         WHERE e.user_id = #{user_id}
     </select>
+    
+    <select id="selectEmployeeInfo" resultType="com.douzone.dzfinal.dto.EmployeeDTO$EmployeeInfo">
+    	SELECT *
+		FROM Employee
+		WHERE user_id = #{user_id}
+    </select>
 </mapper>

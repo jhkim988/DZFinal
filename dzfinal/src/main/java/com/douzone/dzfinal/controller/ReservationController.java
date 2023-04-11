@@ -1,15 +1,26 @@
 package com.douzone.dzfinal.controller;
 
-import com.douzone.dzfinal.dto.ReservationDTO;
-import com.douzone.dzfinal.entity.Reservation;
-import com.douzone.dzfinal.service.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.douzone.dzfinal.dto.ReceptionDTO;
+import com.douzone.dzfinal.dto.ReceptionDTO.DetailTodayReservationList;
+import com.douzone.dzfinal.dto.ReservationDTO;
+import com.douzone.dzfinal.entity.Reservation;
+import com.douzone.dzfinal.service.ReservationService;
 
 @Validated
 @RestController
@@ -24,7 +35,7 @@ public class ReservationController {
     }
     
     @GetMapping
-	public List<Reservation> todayReservationList(){
+	public List<ReceptionDTO.TodayReservationList> todayReservationList(){
 		return reservationService.todayReservationList();
 	}
 
@@ -46,6 +57,12 @@ public class ReservationController {
     @GetMapping("/{reservation_id}")
     public Reservation detail(@PathVariable("reservation_id") @Digits(integer = 8, fraction = 0) @Min(0) int reservation_id) {
         Reservation reservation = reservationService.details(reservation_id);
+        return reservation;
+    }
+    
+    @GetMapping("/detail/{reservation_id}")
+    public ReceptionDTO.DetailTodayReservationList detailTodayReservationList(@PathVariable("reservation_id") @Digits(integer = 8, fraction = 0) @Min(0) int reservation_id) {
+    	DetailTodayReservationList reservation = reservationService.detailTodayReservationList(reservation_id);
         return reservation;
     }
 

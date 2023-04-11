@@ -10,4 +10,6 @@ import java.util.Optional;
 @Mapper
 public interface EmployeeRepository {
     Optional<EmployeeDTO.EmployeeLoginInfo> getEmployee(String user_id);
+    
+    Optional<EmployeeDTO.EmployeeInfo> selectEmployeeInfo(String user_id);
 }
