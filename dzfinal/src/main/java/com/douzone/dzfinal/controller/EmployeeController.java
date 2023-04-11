@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.server.resource.authentication.JwtBearerTokenAuthenticationConverter;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -30,5 +32,10 @@ public class EmployeeController {
 	public EmployeeDTO.EmployeeInfo selectEmployeeInfo(Authentication auth) {
 		TokenPayload token = (TokenPayload) auth.getPrincipal();
 		return employeeService.selectEmployeeInfo(token.getUser_name());
+	}
+
+	@GetMapping("/doctor/list")
+	public List<EmployeeDTO.Doctor> getDoctorList() {
+		return employeeService.getDoctorList();
 	}
 }

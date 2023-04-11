@@ -35,4 +35,14 @@ public class EmployeeDTO {
 		private String real_image;
 		private String employee_email;
 	}
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Doctor {
+        private long employ_id;
+        private String employee_name;
+        private String color;
+    }
 }
