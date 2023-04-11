@@ -1,6 +1,5 @@
 package com.douzone.dzfinal.service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.validation.constraints.Digits;
