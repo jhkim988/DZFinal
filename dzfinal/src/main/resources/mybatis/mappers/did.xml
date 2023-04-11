@@ -3,21 +3,28 @@
 <mapper namespace="com.douzone.dzfinal.repository.DidRepository">
 	
 	
+	<!-- 윤지 -->
 	<select id="getDidVideo" resultType="com.douzone.dzfinal.dto.DidDTO$getDidVideo">
-		select * from DID_type dt;
+		select * from DID_video dv
+		where active = 1;
 	</select>
 	
 	<select id="getDidSubtitle" resultType="com.douzone.dzfinal.dto.DidDTO$getDidSubtitle">
 		SELECT 
 			*
-		FROM 	DID_subtitle ds
-		WHERE   ds.active = 1;
+		FROM 	DID_message dm
+		WHERE   dm.active = 1;
 	</select>
 	
-	<select id="getVideoName" resultType="String">
-		SELECT video_real_name FROM DID_type;
-	</select>
+ 	<select id="getVideoName" resultType="String">
+		SELECT video_real_name FROM DID_video
+		where active = 1;
+	</select> 
 	
+	
+	
+	
+	<!-- 정주 -->
 	<select id="findOneDidVideo" resultType="com.douzone.dzfinal.dto.DidDTO$findOneDidVideo">
 		SELECT * FROM DID_type;
 	</select>

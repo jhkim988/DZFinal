@@ -1,7 +1,5 @@
 package com.douzone.dzfinal.dto;
 
-import com.douzone.dzfinal.dto.ClinicResponse.MedicalRecordInquiry;
-import com.douzone.dzfinal.dto.ClinicResponse.Pagination;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
+
 
 public class ReceiptDTO {
 	@Data
@@ -79,6 +79,8 @@ public class ReceiptDTO {
 		private int drug_id;
 		private String drug_code;
 		private String drug_name;
+		private String drug_standard;
+		private String drug_unit;
 		
 		
 	}
@@ -141,6 +143,9 @@ public class ReceiptDTO {
 	}
 
 	
+	
+	
+	
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
@@ -184,55 +189,10 @@ public class ReceiptDTO {
 		private int disease_count;
 		private int prescription_count;
 		
+		private int currentPage;
 		
-		// 페이징처리
-		private int page;
-		private int recordSize;
-		private int pageSize;
 	}
-	
-	
-	
-	
-	
-	
-//	@Data
-//	@NoArgsConstructor
-//	@AllArgsConstructor
-//	public static class Pagination {
-//		private int startPage; // 시작 페이지 번호
-//		private int endPage; // 종료 페이지 번호
-//		private int currentPage; // 현재 페이지 번호
-//		private int amount;
-//		private int total; // 전체 글의 행의 수
-//		private boolean prev;
-//		private boolean next;
-//
-//		public Pagination(int currentPage, int amount, int total) {
-//			this.currentPage = currentPage;
-//			this.amount = amount;
-//			this.total = total;
-//			this.endPage = (int)Math.ceil(this.currentPage * 0.1) * 10;
-//			this.startPage = this.endPage - 10 + 1;
-//			int realEnd = (int)Math.ceil(this.total / (double)this.amount);
-//			
-//			if(this.endPage > realEnd) {
-//				this.endPage = realEnd;
-//			}
-//			if(this.currentPage > realEnd) {
-//				this.currentPage = 1;
-//			}
-//			this.prev = this.startPage > 1;
-//			this.next = this.endPage < realEnd;
-//		}
-//	}
-//	
-//	@AllArgsConstructor
-//	@NoArgsConstructor
-//	@Data
-//	public static class ㄲPage {
-//		private List<MedicalRecordInquiry> mri;
-//		private Pagination pagination;
-//	}
+
+
 
 }

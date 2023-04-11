@@ -5,6 +5,9 @@ import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.dto.ReceiptDTO.ReceptionInfo;
 import com.douzone.dzfinal.entity.Receipt;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -39,14 +42,11 @@ public interface ReceiptRepository {
 	
 	Optional<Receipt> findOneByReceptionId(int reception_id);
 
-//	// DTO-수납완료내역
-//	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText,
-//														  String start_type, String end_date);
-//	public List<ReceiptDTO.GetReceiptList> getReceiptList(int receipt_id);
+	// DTO-수납완료내역
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(HashMap<String, Object> params);
 	// MAP-수납완료내역
 	public List<Map<String, Object>> getReceipt(String patient_id);
 
-	List<GetReceiptList> getReceiptList(HashMap<String, Object> params);	
 	
 	
 	// MAP-수납목록 중 선택한 데이터 하나 가져오기

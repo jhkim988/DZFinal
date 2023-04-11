@@ -110,7 +110,9 @@
 	<select id="getDrug" resultType="com.douzone.dzfinal.dto.ReceiptDTO$GetDrug">
 		SELECT 
 		    dr.drug_code        AS drug_code,
-		    dr.drug_name        AS drug_name
+		    dr.drug_name        AS drug_name,
+		    dr.drug_standard	AS drug_standard,
+		    dr.drug_unit		AS drug_unit
 		FROM Reception r
 		INNER JOIN Prescription pr ON r.reception_id = pr.reception_id
 		INNER JOIN Drug dr         ON pr.drug_id = dr.drug_id
@@ -239,11 +241,8 @@
 		    <if test='type == "patient_name"'> 	AND 	p.patient_name LIKE CONCAT(#{searchText}, '%') </if>
 		    <if test='type == "reception_id"'> 	AND 	r.reception_id = #{searchText} </if>
 		GROUP BY 	rt.reception_id
-		<!-- HAVING 		r.reception_id = #{searchText} OR p.patient_name = #{searchText} -->
-		ORDER BY 	rt.created_at DESC;
-		<!-- LIMIT #{pagination.amount} OFFSET ${(pagination.currentPage-1) * pagination.amount} -->
-
-
+		ORDER BY 	rt.created_at DESC
+		LIMIT 5 OFFSET ${((currentPage - 1) * 5)}
 	</select>
 	
 	<select id="getReceipt" resultType="hashmap">

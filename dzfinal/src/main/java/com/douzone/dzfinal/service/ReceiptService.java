@@ -6,6 +6,9 @@ import com.douzone.dzfinal.dto.ReceiptDTO.GetDrug;
 import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.repository.ReceiptRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -29,6 +32,7 @@ public class ReceiptService {
 	
 	
 	
+	// 수납 수정
 	public void updateReceipt(Receipt receipt) {
 		receiptRepository.updateReceipt(receipt);
 		
@@ -85,7 +89,7 @@ public class ReceiptService {
 //	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText, String start_date, String end_date) {
 //		return receiptRepository.getReceiptList(type, searchText, start_date, end_date);
 //	}
-	public List<GetReceiptList> getReceiptList(HashMap<String, Object> params) {
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(HashMap<String, Object> params) {
 		return receiptRepository.getReceiptList(params);
 	}
 	// MAP-수납완료내역
@@ -93,7 +97,7 @@ public class ReceiptService {
 		return receiptRepository.getReceipt(patient_id);
 	}
 
-	
+
 	
 	
 	// MAP-수납목록 중 선택한 데이터 하나 가져오기

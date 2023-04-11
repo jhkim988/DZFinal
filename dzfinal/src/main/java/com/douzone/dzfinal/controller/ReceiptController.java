@@ -4,7 +4,14 @@ import com.douzone.dzfinal.dto.ReceiptDTO;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.service.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,9 +98,8 @@ public class ReceiptController {
 	// DTO-수납완료내역
 	@PostMapping("/getReceiptList")
 	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestBody HashMap<String,Object> params) {
-		//System.out.println(type + searchText + start_date + end_date);
 		System.out.println("params: "+params);
-	    System.out.println(receiptService.getReceiptList(params));
+//	    System.out.println(receiptService.getReceiptList(params));
 		return receiptService.getReceiptList(params);
 	}
 	// MAP-수납완료내역
@@ -104,6 +110,9 @@ public class ReceiptController {
 	}
 	
 	
+
+	
+	
 	
 	// MAP-수납목록 중 선택한 데이터 하나 가져오기
 	@GetMapping("/selectedOneReceipt")
@@ -111,5 +120,10 @@ public class ReceiptController {
 		System.out.println(receiptService.selectedOneReceipt(reception_id));
 		return receiptService.selectedOneReceipt(reception_id);
 	}
+	
+	
+	
+	
+
 
 }
