@@ -41,6 +41,13 @@ public class MqttMessageService {
                 .build();
         sendToWaiting(waitingDTO);
     }
+    
+    //진료 대기열 삭제(접수취소)
+    public void deleteWaitingState(int reception_id) {
+    	WaitingDTO waitingDTO = WaitingDTO.builder().method("DELETE").data(WaitingDTO.WaitingData.builder().reception_id(reception_id).build()).build();
+    	sendToWaiting(waitingDTO);
+    }
+    
     public void updateReception(String message) {
         try {
             WaitingDTO dto = mapper.readValue(message, WaitingDTO.class);

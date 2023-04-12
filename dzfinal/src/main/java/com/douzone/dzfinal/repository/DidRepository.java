@@ -13,6 +13,7 @@ import com.douzone.dzfinal.dto.DidDTO;
 public interface DidRepository {
 	
 	// DID(윤지)
+	List<DidDTO.findOneDidVideo> findOneDidVideo();
 	List<DidDTO.getDidVideo> getDidVideo();
 	List<DidDTO.getDidSubtitle> getDidSubtitle();
 	String getVideoName();

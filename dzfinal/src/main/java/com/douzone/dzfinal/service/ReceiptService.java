@@ -1,9 +1,14 @@
 package com.douzone.dzfinal.service;
 
 import com.douzone.dzfinal.dto.ReceiptDTO;
+import com.douzone.dzfinal.dto.ReceiptDTO.GetDisease;
+import com.douzone.dzfinal.dto.ReceiptDTO.GetDrug;
 import com.douzone.dzfinal.dto.ReceiptDTO.GetReceiptList;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.repository.ReceiptRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -27,6 +32,7 @@ public class ReceiptService {
 	
 	
 	
+	// 수납 수정
 	public void updateReceipt(Receipt receipt) {
 		receiptRepository.updateReceipt(receipt);
 		
@@ -47,31 +53,43 @@ public class ReceiptService {
 
 
 
-	// DTO-처방전 출력 정보 가져오기
-	public ReceiptDTO.TreatmentInfo getTreatmentInfo(int reception_id) {
-		return receiptRepository.getTreatmentInfo(reception_id).orElseThrow(IllegalArgumentException::new);
+	// DTO-약정보 가져오기 
+	public List<ReceiptDTO.GetDrug> getDrug(int reception_id) {
+		return receiptRepository.getDrug(reception_id);
 	}
-	// MAP-처방전 출력 정보 가져오기
-	public Map<String, Object> getTreatment(String reception_id) throws Exception {
-		return receiptRepository.getTreatment(reception_id);
+	// DTO-질병정보 가져오기 
+	public List<ReceiptDTO.GetDisease> getDisease(int reception_id) {
+		return receiptRepository.getDisease(reception_id);
 	}
-
-
-	// DTO-진료의뢰서 출력 정보 가져오기
-	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(int patient_id) {
-		return receiptRepository.getClinicRequestInfo(patient_id);
-	}
-	// MAP-진료의뢰서 출력 정보 가져오기
-	public List<Map<String, Object>> getClinicRequest(String patient_id) throws Exception {
-		return receiptRepository.getClinicRequest(patient_id);
-	}
+	
+	
+	
+	
+//	// DTO-처방전 출력 정보 가져오기
+//	public ReceiptDTO.TreatmentInfo getTreatmentInfo(int reception_id) {
+//		return receiptRepository.getTreatmentInfo(reception_id).orElseThrow(IllegalArgumentException::new);
+//	}
+//	// MAP-처방전 출력 정보 가져오기
+//	public Map<String, Object> getTreatment(String reception_id) throws Exception {
+//		return receiptRepository.getTreatment(reception_id);
+//	}
+//
+//
+//	// DTO-진료의뢰서 출력 정보 가져오기
+//	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(int patient_id) {
+//		return receiptRepository.getClinicRequestInfo(patient_id);
+//	}
+//	// MAP-진료의뢰서 출력 정보 가져오기
+//	public List<Map<String, Object>> getClinicRequest(String patient_id) throws Exception {
+//		return receiptRepository.getClinicRequest(patient_id);
+//	}
 
 
 	// DTO-수납완료내역
 //	public List<ReceiptDTO.GetReceiptList> getReceiptList(String type, String searchText, String start_date, String end_date) {
 //		return receiptRepository.getReceiptList(type, searchText, start_date, end_date);
 //	}
-	public List<GetReceiptList> getReceiptList(HashMap<String, Object> params) {
+	public List<ReceiptDTO.GetReceiptList> getReceiptList(HashMap<String, Object> params) {
 		return receiptRepository.getReceiptList(params);
 	}
 	// MAP-수납완료내역
@@ -79,13 +97,15 @@ public class ReceiptService {
 		return receiptRepository.getReceipt(patient_id);
 	}
 
-	
+
 	
 	
 	// MAP-수납목록 중 선택한 데이터 하나 가져오기
 	public Map<String, Object> selectedOneReceipt(String reception_id) throws Exception {
 		return receiptRepository.selectedOneReceipt(reception_id);
 	}
+
+
 
 
 }
