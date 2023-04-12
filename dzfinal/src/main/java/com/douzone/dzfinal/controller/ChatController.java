@@ -32,6 +32,11 @@ public class ChatController {
 		return chatService.chatRoomList(participants_id);
 	}
 	
+	@GetMapping("/getthumbnaillist")
+	public List<ChatDTO.Thumbnail> getThumbnailList() {
+		return chatService.getThumbnail();
+	}
+	
 	@GetMapping("/getchatroommessages")
 	public List<ChatDTO.Message> getChatRoomMessages(@RequestParam("chatroom_id") int chatroom_id, @RequestParam("page") int page) {
 		return chatService.getChatRoomMessages(chatroom_id, page);
