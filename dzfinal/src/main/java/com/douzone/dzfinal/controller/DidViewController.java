@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,10 +23,10 @@ import com.douzone.dzfinal.service.DidService;
 public class DidViewController {
 	@Autowired
 	DidService didService;
+
+	@Value("${did.video.path}")
+	private String videoPath;
 	
-	
-	
-    
 	// 자막출력
 	@GetMapping("/getDidSubtitle")
 	public List<DidDTO.getDidSubtitle> getDidSubtitle() {
@@ -43,11 +44,7 @@ public class DidViewController {
 	@GetMapping("/getDidVideo")
 	public ResponseEntity<byte[]> getDidVideo() throws IOException {
 		String videoName = didService.getVideoName();
-//		String videoPath = "C:\\upload\\didVideo\\";
-		
-		System.out.println("videoName: " + videoName);
-		String videoPath = "/Users/yoonz/Desktop/video/";
-	    
+
 		// 동영상 파일을 byte 배열로 읽어옴
 	    byte[] videoBytes = getVideoBytes(videoPath, videoName);
 
