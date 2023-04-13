@@ -100,12 +100,12 @@ public class ClinicController {
 	}
 	
 	@PostMapping("/mri/search")
-	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
+	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo searchInfo) {
 		int amount = 10;
 		
-		int total = clinicService.getSearchTotal(paramData);
-		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(paramData.getCurrentPage(), amount, total);
-		ClinicResponse.MriPage searchPage = new ClinicResponse.MriPage(clinicService.getSearchMriList(paramData, pagination), pagination);
+		int total = clinicService.getSearchTotal(searchInfo);
+		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(searchInfo.getCurrentPage(), amount, total);
+		ClinicResponse.MriPage searchPage = new ClinicResponse.MriPage(clinicService.getSearchMriList(searchInfo, pagination), pagination);
 
 	    return searchPage;
 	}
