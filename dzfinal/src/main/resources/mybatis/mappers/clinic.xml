@@ -245,7 +245,7 @@
 	    <otherwise></otherwise>
 	  </choose>
 	  <if test="start != '' and end != ''">
-	    AND DATE(re.created_at) BETWEEN #{searchInfo.start} AND #{searchInfo.end}
+	    AND DATE(r.created_at) BETWEEN #{start} AND #{end}
 	  </if>
 	    AND (r.state="수납대기" OR r.state="수납중" OR r.state = "수납완료")
 	</select>
