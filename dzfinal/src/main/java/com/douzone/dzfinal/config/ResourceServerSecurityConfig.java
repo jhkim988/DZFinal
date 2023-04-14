@@ -40,6 +40,7 @@ public class ResourceServerSecurityConfig extends ResourceServerConfigurerAdapte
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .mvcMatchers("/api/test/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/admin/getimage/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/view/**").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/reservation/**").authenticated()
