@@ -9,14 +9,20 @@
 	<select id="getEmployee" resultType="com.douzone.dzfinal.dto.AdminDTO$Employee">
 		SELECT employ_id, user_id, employee_name, birth, role, real_image, employee_email
 		FROM Employee
-		WHERE is_deleted = 0 AND role != "admin"
+		WHERE is_deleted = 0
 	</select>
 	
 	<!-- 구현중 -->
 	<update id="updateEmployee">
 		UPDATE Employee
-		SET user_id = #{user_id}, employee_name = #{employee_name}, birth = #{birth}, role = #{role}, image_name = #{image_name},
-			real_image = #{real_image}, employee_email = #{employee_email}
+		SET user_id = #{user_id}
+		, employee_name = #{employee_name}
+		, birth = #{birth}
+		, role = #{role}
+		, image_name = #{image_name}
+		, real_image = #{real_image}
+		, employee_email = #{employee_email}
+
 		WHERE employ_id = #{employ_id}
 	</update>
 	
@@ -29,4 +35,7 @@
 	<update id="deleteEmployee">
 		UPDATE Employee SET is_deleted = 1 WHERE employ_id = #{employ_id}
 	</update>
+	<select id="findOneById" resultType="com.douzone.dzfinal.entity.Employee">
+		Select * from Employee where employ_id = #{employ_id}
+	</select>
 </mapper>

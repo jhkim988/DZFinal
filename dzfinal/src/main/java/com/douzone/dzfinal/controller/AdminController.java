@@ -7,20 +7,14 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import com.douzone.dzfinal.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.douzone.dzfinal.dto.AdminDTO;
@@ -51,12 +45,38 @@ public class AdminController {
 		
 		return message;
 	}
-	
+
+	@PutMapping("/employee/{employ_id}")
+	public void update(@PathVariable int employ_id, @Nullable @RequestParam("file") MultipartFile file, @RequestPart("employee") AdminDTO.EmployeeInfo employee) {
+		System.out.println("Put Mapping");
+		employee.setEmploy_id(employ_id);
+		if (file != null) {
+			System.out.println("file upload");
+			String real_image = "upload" + System.currentTimeMillis();
+			employee.setReal_image(real_image);
+			employee.setImage_name(file.getOriginalFilename());
+
+			File saveFile = new File("c:\\upload\\image\\" + real_image);
+
+			try (OutputStream os = new FileOutputStream(saveFile)) {
+				os.write(file.getBytes());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		adminService.updateEmployee(employee);
+	}
+
 	@GetMapping("/employee")
 	public List<AdminDTO.Employee> getEmployee() {
 		return adminService.getEmployee();
 	}
-	
+
+	@GetMapping("/employee/{employ_id}")
+	public Employee getEmployee(@PathVariable("employ_id") int employ_id) {
+		return adminService.getEmployee(employ_id);
+	}
+
 	@GetMapping("/getimage")
 	public ResponseEntity<byte[]> getImage(@RequestParam("real_image") String real_image) {
 		File file = new File("c:\\upload\\image\\" + real_image);
@@ -85,11 +105,6 @@ public class AdminController {
 	        e.printStackTrace();
 	        return new ResponseEntity<byte[]>(null, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
-	}
-	
-	@PutMapping("/employee")
-	public void updateEmployee(@RequestBody AdminDTO.EmployeeInfo employee) {
-		adminService.updateEmployee(employee);
 	}
 	
 	@DeleteMapping("/employee")

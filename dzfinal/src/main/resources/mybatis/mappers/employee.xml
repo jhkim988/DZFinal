@@ -28,4 +28,18 @@
         FROM Employee e
         WHERE e.user_id = #{user_id}
     </select>
+    <select id="getDoctorList" resultType="com.douzone.dzfinal.dto.EmployeeDTO$Doctor">
+        SELECT
+        employ_id,
+        employee_name,
+        color
+        FROM Employee
+        WHERE `role` = '의사' AND is_deleted = 0;
+    </select>
+    
+    <select id="selectEmployeeInfo" resultType="com.douzone.dzfinal.dto.EmployeeDTO$EmployeeInfo">
+    	SELECT *
+		FROM Employee
+		WHERE user_id = #{user_id}
+    </select>
 </mapper>

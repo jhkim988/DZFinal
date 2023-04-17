@@ -18,6 +18,14 @@ public class ChatDTO {
 		private List<String> thumbnail_images;
 	}
 	
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Data
+	public static class Thumbnail {
+		private int employ_id;
+		private String thumbnail_image;
+	}
+	
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor

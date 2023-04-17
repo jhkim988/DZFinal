@@ -1,7 +1,11 @@
 package com.douzone.dzfinal.service;
 
+import com.douzone.dzfinal.dto.PatientDTO;
 import com.douzone.dzfinal.entity.Patient;
+import com.douzone.dzfinal.entity.Reservation;
 import com.douzone.dzfinal.repository.PatientRepository;
+import com.douzone.dzfinal.repository.ReservationRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +15,24 @@ import java.util.List;
 public class PatientService {
 	
 	@Autowired
-	PatientRepository patientRepository;
+	private PatientRepository patientRepository;
 	
-	public int insertPatient(Patient patient) {
-		int patient_id =patientRepository.insertPatient(patient); 
+	@Autowired
+	private ReservationRepository reservationRepository;
+	
+	public int insertPatient(PatientDTO.UpdateDailyReservationList patient) {
+		int patient_id =patientRepository.insertPatient(patient);
+		int reservation_id = patient.getReservation_id();
+		
+		System.out.println(reservation_id);
+		
+		if (reservation_id != 0) {
+//			reservationRepository.update(Reservation.builder()
+//					.reservation_id(reservation_id)
+//					.patient_id(patient_id)
+//					.build());
+			reservationRepository.updateTodayReservationPatientId(patient);
+		}
 		return patient_id;
 	}
 	
@@ -22,7 +40,7 @@ public class PatientService {
 		patientRepository.updatePatientInfo(patient);
 	}
 	
-	public int getPatientId(Patient patient) {
+	public int getPatientId(PatientDTO.UpdateDailyReservationList patient) {
 		return patientRepository.getPatientId(patient);
 	}
 	

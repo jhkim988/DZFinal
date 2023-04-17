@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,14 +23,20 @@ import com.douzone.dzfinal.service.DidService;
 public class DidViewController {
 	@Autowired
 	DidService didService;
+
+	@Value("${did.video.path}")
+	private String videoPath;
 	
-	
-	
-    
 	// 자막출력
 	@GetMapping("/getDidSubtitle")
 	public List<DidDTO.getDidSubtitle> getDidSubtitle() {
 		return didService.getDidSubtitle();
+	}
+	
+	// 비디오 하나 찾기
+	@GetMapping("/findOneDidVideo")
+	public List<DidDTO.findOneDidVideo> findOneDidVideo() {
+		return didService.findOneDidVideo();
 	}
 
 	
@@ -37,23 +44,17 @@ public class DidViewController {
 	@GetMapping("/getDidVideo")
 	public ResponseEntity<byte[]> getDidVideo() throws IOException {
 		String videoName = didService.getVideoName();
-		String videoPath = "C:\\upload\\didVideo\\";
-		
-		System.out.println("videoName: " + videoName);
-	    
+
 		// 동영상 파일을 byte 배열로 읽어옴
 	    byte[] videoBytes = getVideoBytes(videoPath, videoName);
-	    System.out.println("videoBytes: " + videoBytes);
 
 	    // HTTP 응답의 헤더를 설정
 	    HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.parseMediaType("video/mp4")); // 동영상 파일의 MIME 타입
 	    headers.setContentLength(videoBytes.length); // 동영상 파일의 크기
-	    System.out.println("headers: "+ headers);
 
 	    // HTTP 응답의 바디에 byte 배열을 설정하여 ResponseEntity 객체 생성
 	    ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(videoBytes, headers, HttpStatus.OK);
-	    System.out.println("responseEntity: " + responseEntity);
 	    return responseEntity;
 	 }
 

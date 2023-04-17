@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.douzone.dzfinal.repository.PatientRepository">
-    <select id="findOneByPhone" resultType="Patient">
+    <select id="findOneByPhone" resultType="com.douzone.dzfinal.entity.Patient">
         select * from Patient where
             phone_number1=#{phone_number1}
             and phone_number2=#{phone_number2}
             and phone_number3=#{phone_number3}
     </select>
     
-    <insert id="insertPatient" parameterType="com.douzone.dzfinal.entity.Patient" useGeneratedKeys="true" keyProperty="patient_id"> 
+    <insert id="insertPatient" parameterType="com.douzone.dzfinal.dto.PatientDTO$UpdateDailyReservationList" useGeneratedKeys="true" keyProperty="patient_id"> 
 		INSERT INTO Patient (
 			patient_name,
 			phone_number1,

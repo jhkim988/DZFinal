@@ -11,9 +11,9 @@ public interface PatientRepository {
 	
     Optional<Patient> findOneByPhone(PatientDTO.PhoneNumbers phoneNumbers);
     
-	public int insertPatient(Patient patient);
+	public int insertPatient(PatientDTO.UpdateDailyReservationList patient);
 	
-	public int getPatientId(Patient patient);
+	public int getPatientId(PatientDTO.UpdateDailyReservationList patient);
 	
 	public List<Patient> searchPatient(String patient_name);
 	

@@ -4,7 +4,14 @@ import com.douzone.dzfinal.dto.ReceiptDTO;
 import com.douzone.dzfinal.entity.Receipt;
 import com.douzone.dzfinal.service.ReceiptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,33 +54,43 @@ public class ReceiptController {
 	
 	
 	
-	// DTO-처방전 출력 정보 가져오기
-	@GetMapping("/getTreatmentInfo/{reception_id}")
-	public ReceiptDTO.TreatmentInfo getTreatmentInfo(@PathVariable("reception_id") int reception_id) {
-		return receiptService.getTreatmentInfo(reception_id);
+	// DTO-약정보 출력 정보 가져오기
+	@GetMapping("/getDrug/{reception_id}")
+	public List<ReceiptDTO.GetDrug> getDrug(@PathVariable("reception_id") int reception_id) {
+		return receiptService.getDrug(reception_id);
 	}
-	// MAP-처방전 사람들 정보 가져오기
-	@GetMapping("/getTreatment")
-	public Map<String, Object> getTreatment(String reception_id) throws Exception {
-		System.out.println(receiptService.getTreatment(reception_id));
-		return receiptService.getTreatment(reception_id);
+	// DTO-질병정보 출력 정보 가져오기
+	@GetMapping("/getDisease/{reception_id}")
+	public List<ReceiptDTO.GetDisease> getDisease(@PathVariable("reception_id") int reception_id) {
+		return receiptService.getDisease(reception_id);
 	}
 	
 	
 	
 	
-	
-	// DTO-진료의뢰서 출력 정보 가져오기
-	@GetMapping("/getClinicRequestInfo/{patient_id}")
-	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(@PathVariable("patient_id") int patient_id) {
-		return receiptService.getClinicRequestInfo(patient_id);
-	}
-	// MAP-진료의뢰서 사람들 정보 가져오기
-	@GetMapping("/getClinicRequest")
-	public List<Map<String, Object>> getClinicRequest(String patient_id) throws Exception {
-		System.out.println(receiptService.getClinicRequest(patient_id));
-		return receiptService.getClinicRequest(patient_id);
-	}
+//	// DTO-처방전 출력 정보 가져오기
+//	@GetMapping("/getTreatmentInfo/{reception_id}")
+//	public ReceiptDTO.TreatmentInfo getTreatmentInfo(@PathVariable("reception_id") int reception_id) {
+//		return receiptService.getTreatmentInfo(reception_id);
+//	}
+//	// MAP-처방전 사람들 정보 가져오기
+//	@GetMapping("/getTreatment")
+//	public Map<String, Object> getTreatment(String reception_id) throws Exception {
+//		System.out.println(receiptService.getTreatment(reception_id));
+//		return receiptService.getTreatment(reception_id);
+//	}
+//	
+//	// DTO-진료의뢰서 출력 정보 가져오기
+//	@GetMapping("/getClinicRequestInfo/{patient_id}")
+//	public List<ReceiptDTO.ClinicRequestInfo> getClinicRequestInfo(@PathVariable("patient_id") int patient_id) {
+//		return receiptService.getClinicRequestInfo(patient_id);
+//	}
+//	// MAP-진료의뢰서 사람들 정보 가져오기
+//	@GetMapping("/getClinicRequest")
+//	public List<Map<String, Object>> getClinicRequest(String patient_id) throws Exception {
+//		System.out.println(receiptService.getClinicRequest(patient_id));
+//		return receiptService.getClinicRequest(patient_id);
+//	}
 	
 	
 	
@@ -82,8 +99,9 @@ public class ReceiptController {
 	@GetMapping("/getReceiptList")
 	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestParam HashMap<String,Object> params) {
 		//System.out.println(type + searchText + start_date + end_date);
+		params.put("currentPage", Integer.parseInt((String) params.get("currentPage")));
 		System.out.println("params: "+params);
-	    System.out.println(receiptService.getReceiptList(params));
+//	    System.out.println(receiptService.getReceiptList(params));
 		return receiptService.getReceiptList(params);
 	}
 	// MAP-수납완료내역
@@ -94,6 +112,9 @@ public class ReceiptController {
 	}
 	
 	
+
+	
+	
 	
 	// MAP-수납목록 중 선택한 데이터 하나 가져오기
 	@GetMapping("/selectedOneReceipt")
@@ -101,5 +122,10 @@ public class ReceiptController {
 		System.out.println(receiptService.selectedOneReceipt(reception_id));
 		return receiptService.selectedOneReceipt(reception_id);
 	}
+	
+	
+	
+	
+
 
 }
