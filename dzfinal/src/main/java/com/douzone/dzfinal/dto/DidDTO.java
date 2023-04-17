@@ -38,6 +38,7 @@ public class DidDTO {
 		private String video_name;
 		private String video_real_name;
 		private long size;
+		private boolean active;
 	}
 	
 	
