@@ -36,6 +36,12 @@
 	  GROUP BY cr.chatroom_id, cr.chatroom_name -->
 	</select>
 	
+	<select id="getThumbnail" resultType="com.douzone.dzfinal.dto.ChatDTO$Thumbnail">
+		SELECT employ_id, thumbnail_image
+		FROM Employee
+		WHERE thumbnail_image IS NOT NULL;
+	</select>
+	
 	<insert id="insert">
 		INSERT INTO Chat(chatroom_id, message, created_at, `from`) VALUES (#{chatroom_id}, #{message}, now(), #{from});
 	</insert>
