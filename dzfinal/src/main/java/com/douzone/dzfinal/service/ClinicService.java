@@ -94,12 +94,16 @@ public class ClinicService {
 		
 		clinicRepository.updateClinic(reception_id, symptom, treatment, clinic_request, creator);
 	    if (disease_ids != null && !disease_ids.isEmpty()) {
-	    	clinicRepository.deleteDiagnosis(reception_id);
-	    	clinicRepository.insertDiagnosis(reception_id, disease_ids, creator);
-	    }
+			clinicRepository.deleteDiagnosis(reception_id);
+			clinicRepository.insertDiagnosis(reception_id, disease_ids, creator);
+	    } else {
+			clinicRepository.deleteDiagnosis(reception_id);
+		}
 		if (drug_ids != null && !drug_ids.isEmpty()) {
 			clinicRepository.deletePrescription(reception_id);
 			clinicRepository.insertPrescription(reception_id, drug_ids);
+		} else {
+			clinicRepository.deletePrescription(reception_id);
 		}
 	}
 
