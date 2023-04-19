@@ -190,9 +190,16 @@ public class ReceiptDTO {
 		private int prescription_count;
 		
 		private int currentPage;
-		
+		private int totalCount;
 	}
 
-
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
+	public static class GetReceiptListRequest {
+		private List<GetReceiptList> list;
+		private int totalCount;
+	}
 
 }

@@ -44,6 +44,8 @@ public interface ReceiptRepository {
 
 	// DTO-수납완료내역
 	public List<ReceiptDTO.GetReceiptList> getReceiptList(HashMap<String, Object> params);
+	int getReceiptListTotalCount(HashMap<String, Object> params);
+
 	// MAP-수납완료내역
 	public List<Map<String, Object>> getReceipt(String patient_id);
 

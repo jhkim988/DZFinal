@@ -97,12 +97,14 @@ public class ReceiptController {
 	
 	// DTO-수납완료내역
 	@GetMapping("/getReceiptList")
-	public List<ReceiptDTO.GetReceiptList> getReceiptList(@RequestParam HashMap<String,Object> params) {
-		//System.out.println(type + searchText + start_date + end_date);
+	public ReceiptDTO.GetReceiptListRequest getReceiptList(@RequestParam HashMap<String,Object> params) {
 		params.put("currentPage", Integer.parseInt((String) params.get("currentPage")));
-		System.out.println("params: "+params);
-//	    System.out.println(receiptService.getReceiptList(params));
-		return receiptService.getReceiptList(params);
+		List<ReceiptDTO.GetReceiptList> list = receiptService.getReceiptList(params);
+		int totalCount = receiptService.getReceiptListTotalCount(params);
+		return ReceiptDTO.GetReceiptListRequest.builder()
+				.list(list)
+				.totalCount(totalCount)
+				.build();
 	}
 	// MAP-수납완료내역
 	@GetMapping("/getReceipt")
