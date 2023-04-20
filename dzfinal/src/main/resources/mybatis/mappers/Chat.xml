@@ -47,11 +47,12 @@
 	</insert>
 	
 	<select id="getChatRoomMessages" resultType="com.douzone.dzfinal.dto.ChatDTO$Message">
-		SELECT chatroom_id, message, created_at, c.from, employee_name, thumbnail_image
+		SELECT chat_id, chatroom_id, message, created_at, c.from, employee_name, thumbnail_image
 		FROM Chat c INNER JOIN Employee e on c.from = e.employ_id
 		WHERE chatroom_id = #{chatroom_id}
+		<if test="last != 0 and last != null"> and chat_id <![CDATA[<]]> #{last}</if>
 		ORDER BY created_at DESC
-		LIMIT 100 OFFSET ${(page-1) * 100}
+		LIMIT 100;
 	</select>
 	
 	<select id="getMessageCount" resultType="com.douzone.dzfinal.dto.ChatDTO$MessageCount">
