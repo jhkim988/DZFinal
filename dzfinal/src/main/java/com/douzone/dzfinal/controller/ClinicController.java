@@ -74,17 +74,24 @@ public class ClinicController {
 	}
 	
 	@PostMapping("/clinic")
-	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
+	public boolean insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
 		try {
 			clinicService.insertClinic(paramData);
+			return true;
 		} catch (Exception e) {
 			throw new IllegalArgumentException("중복진료");
 		}
 	}
 	
 	@PutMapping("/clinic")
-	public void updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		clinicService.updateClinic(paramData);
+	public boolean updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
+		try {
+			clinicService.updateClinic(paramData);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	@GetMapping("/mri/{patient_id}/{currentPage}")
@@ -100,12 +107,12 @@ public class ClinicController {
 	}
 	
 	@PostMapping("/mri/search")
-	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo paramData) {
+	public ClinicResponse.MriPage getSearchMriList(@RequestBody ClinicResponse.SearchInfo searchInfo) {
 		int amount = 10;
 		
-		int total = clinicService.getSearchTotal(paramData);
-		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(paramData.getCurrentPage(), amount, total);
-		ClinicResponse.MriPage searchPage = new ClinicResponse.MriPage(clinicService.getSearchMriList(paramData, pagination), pagination);
+		int total = clinicService.getSearchTotal(searchInfo);
+		ClinicResponse.Pagination pagination = new ClinicResponse.Pagination(searchInfo.getCurrentPage(), amount, total);
+		ClinicResponse.MriPage searchPage = new ClinicResponse.MriPage(clinicService.getSearchMriList(searchInfo, pagination), pagination);
 
 	    return searchPage;
 	}

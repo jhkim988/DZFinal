@@ -94,12 +94,16 @@ public class ClinicService {
 		
 		clinicRepository.updateClinic(reception_id, symptom, treatment, clinic_request, creator);
 	    if (disease_ids != null && !disease_ids.isEmpty()) {
-	    	clinicRepository.deleteDiagnosis(reception_id);
-	    	clinicRepository.insertDiagnosis(reception_id, disease_ids, creator);
-	    }
+			clinicRepository.deleteDiagnosis(reception_id);
+			clinicRepository.insertDiagnosis(reception_id, disease_ids, creator);
+	    } else {
+			clinicRepository.deleteDiagnosis(reception_id);
+		}
 		if (drug_ids != null && !drug_ids.isEmpty()) {
 			clinicRepository.deletePrescription(reception_id);
 			clinicRepository.insertPrescription(reception_id, drug_ids);
+		} else {
+			clinicRepository.deletePrescription(reception_id);
 		}
 	}
 
@@ -107,8 +111,8 @@ public class ClinicService {
 		return clinicRepository.getMriList(patient_id, pagination);
 	}
 	
-	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo paramData, ClinicResponse.Pagination pagination) {
-		return clinicRepository.getSearchMriList(paramData, pagination);
+	public List<ClinicResponse.MedicalRecordInquiry> getSearchMriList(ClinicResponse.SearchInfo searchInfo, ClinicResponse.Pagination pagination) {
+		return clinicRepository.getSearchMriList(searchInfo, pagination);
 	}
 
 	public ClinicResponse.MedicalInfo getMedicalInfo(int reception_id) {
@@ -119,7 +123,7 @@ public class ClinicService {
 		return clinicRepository.getTotal(patient_id);
 	}
 
-	public int getSearchTotal(ClinicResponse.SearchInfo paramData) {
-		return clinicRepository.getSearchTotal(paramData);
+	public int getSearchTotal(ClinicResponse.SearchInfo searchInfo) {
+		return clinicRepository.getSearchTotal(searchInfo);
 	}
 }

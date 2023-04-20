@@ -33,12 +33,12 @@ public class PatientController {
 			int patient_id = patientService.getPatientId(patient);
 			System.out.println(patient_id);
 			map.put("status", "true");
-			map.put("message", "환자 등록에 성공하였습니다. ");
+			map.put("message", "환자등록 성공");
 			map.put("patient_id", patient_id);
 			/* map.put("url", ""); */
 		}else {
 			map.put("status", "false");
-			map.put("message", "환자 등록에 실패하였습니다. 입력값을 확인하세요.");
+			map.put("message", "환자등록 실패");
 		}
 		return map;
 		

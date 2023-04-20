@@ -7,6 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService {
     @Autowired
@@ -16,8 +18,10 @@ public class EmployeeService {
     public EmployeeDTO.EmployeeLoginInfo getEmployee(String user_id) {
         return employeeRepository.getEmployee(user_id).orElseThrow(IllegalArgumentException::new);
     }
-    
 
+    public List<EmployeeDTO.Doctor> getDoctorList() {
+    	return employeeRepository.getDoctorList();
+    }
     public EmployeeDTO.EmployeeInfo selectEmployeeInfo(String user_id) {
         return employeeRepository.selectEmployeeInfo(user_id).orElseThrow(IllegalArgumentException::new);
     }
