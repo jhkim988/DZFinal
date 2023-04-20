@@ -22,8 +22,8 @@ public class ChatService {
 		return chatRepository.getThumbnail();
 	}
 
-	public List<ChatDTO.Message> getChatRoomMessages(int chatroom_id, int page) {
-		return chatRepository.getChatRoomMessages(chatroom_id, page);
+	public List<ChatDTO.Message> getChatRoomMessages(int chatroom_id, int lastChatId) {
+		return chatRepository.getChatRoomMessages(chatroom_id, lastChatId);
 	}
 
 	public List<ChatDTO.MessageCount> getMessageCount(int participants_id) {

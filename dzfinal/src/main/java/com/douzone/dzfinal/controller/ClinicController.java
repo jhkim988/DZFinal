@@ -74,17 +74,24 @@ public class ClinicController {
 	}
 	
 	@PostMapping("/clinic")
-	public void insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
+	public boolean insertClinic(@RequestBody ClinicResponse.Clinic paramData) {
 		try {
 			clinicService.insertClinic(paramData);
+			return true;
 		} catch (Exception e) {
 			throw new IllegalArgumentException("중복진료");
 		}
 	}
 	
 	@PutMapping("/clinic")
-	public void updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
-		clinicService.updateClinic(paramData);
+	public boolean updateClinic(@RequestBody ClinicResponse.Clinic paramData) {
+		try {
+			clinicService.updateClinic(paramData);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	@GetMapping("/mri/{patient_id}/{currentPage}")

@@ -31,6 +31,7 @@ public class ChatDTO {
 	@AllArgsConstructor
 	@Builder
 	public static class Message {
+		private int chat_id;
 	    private String mode;
 	    private int chatroom_id;
 	    private int from;
